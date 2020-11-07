@@ -4,8 +4,8 @@ Here we will study some good practices in software development, with the SOLID d
 
 - S: Single responsibility principle;
 - O: Open close principle;
-- L:
-- I:
+- L: Liskov substitution principle;
+- I: Interface segregation principle;
 - D:
 
 ## S : Single Responsibility Principle: Every module or class should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class, module or function. A class should have one, and only one, reason to change. (Robert C. Martin - UNCLE BOB)
@@ -18,6 +18,14 @@ This concept dictates that you should never destroy code that is already written
 
 ## L: Liskov Substitution Principle: The principle that subclasses should satisfy the expectation of clients assessing subclass objects through references of super-class type, not just as regards syntactic safety (such as absence of "method-not-found" errors) but also as regards behavioral correctness. (Barbara Liskov)
 
-This principle concerns inheritance. When a class is inherited in other class, the subclass must conform with all methods and types that exists in the master class. This means that. It must accept all methods, even if such functionality don't apply to the given subclass (But this is a indicator that such subclass shouldn't be in the class. And a new master class should be implemented to this subclass).
+This principle concerns inheritance. When a class is inherited in other class, the subclass must conform with all methods and types that exists in the master class. This means that. It must accept all methods, even if such functionality don't apply to the given subclass (But this is a indicator that such subclass shouldn't be in the class. And a new master class should be implemented to this subclass). This can be exemplified with a new company looking to innovate in the car business with an acceleration pedal in the wrong place, like, in the left. When people take a car (class) they expect this pedal to be on the right position, but the car (subclass) from this company has it on the wrong place, this can cause problems for people causing crashes (both on real life and on the program kk). So when creating a car you must conform in all ways to the definitions of the class "car". The Solution would be create a new class for such unusual implementation. In a programming perspective there are some rules for guiding one on the good path:
+
+- Preconditions (conditions that must be met by the input in order to enable the program execution) shouldn't be strengtened, that is, the subclass should not restrain more concerning the input data, that is, it should not be more demanding than the parental class.
+- Postconditions (condition that must be met by the output in order to enable the program execution) shouldn't be weakened, that is, the subclass should not output data that wouldn't pass the parental class postconditions.
+
+Aways think about polymorphic replacement with the base class when inheriting. Like, if a object ia a class S, and it is child of a class T, the objects of type T may be replaced with objects of class S.
 
 
+## I: Interface Segregation Principle: Clients should not be forced to depend upon interfaces that they do not use. (Robert D. Martin).
+
+When a program became too big it's normal to people to start making poor design decisions in the software development cycle. This results in unnecessary complexity, poor performance and bigger probabilities of error. So the right thing to do is to aways keep thinking and rethinking about the abstractions that are present in the program. An example of this is your smart phone. On there there are apps that are not used and there as some that were never used. Now, lets pretend that on the android there weren't options of customizing UI, like replacing icons and stuff. This would be a nightmare, like, you would be obligated to keep seeing those apps that you never use and you would have to keep scrolling through then to reach the desired app. This would cost you time, patience, and would increase the chances of you clicking in the wrong application. Shush bad reality wouldn't be conforming to the interface segregation principle. The solution is to give flexibility to the program and create the right abstractions in a way that only really needed code is executed when the program is used.
