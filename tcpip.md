@@ -46,7 +46,17 @@ Acessos sem fio podem ser pontos de acesso de wireless LAN, que podem ser 802.11
 
 Quando queremos enviar uma mensagem pela internet, pegamos nossa informação e dividimos em pacotes de tamanho L, e transmitimos esses pacotes a uma taxa R, assim, a velocidade de transmissão da informação depende diretamente da largura de banda e dessa taxa de transmissão de pacotes. (bits por segundo)
 
-Esses bits caminham pelo meio físico, onde os bits são propagados pelos pares emissor receptor através dos enlaces físicos que ficam entre eles. Esses enlaces podem ser via meio guiado (o sinal se propaga por meio sólido como cobre ou fibra), ou fia meio não guiado, que é pelo ar, via rádio. Um dos meios de se fazer essa conexão física é a partir dos cabos trançados. (TP) Estes são os famosos cabos azuis com vários fiozinhos. Eles podem ter de 3(telefones tradicionais) a 5(Ethernet) fios. Também há o cabo coaxial e o de fibra ótica. Esse último tem baixíssima taxa de erro por não sofrer de interferência eletromagnética. Na situação do rádio a informação é transmitida de forma eletromagnética onde não há fios no enlace. Há efeitos do ambiente de reflexão, obstrução e interferência. Há os modais de micro ondas, LAN, e 3G. Além destes há o canal via satélite em que há um certo 
+Esses bits caminham pelo meio físico, onde os bits são propagados pelos pares emissor receptor através dos enlaces físicos que ficam entre eles. Esses enlaces podem ser via meio guiado (o sinal se propaga por meio sólido como cobre ou fibra), ou fia meio não guiado, que é pelo ar, via rádio. Um dos meios de se fazer essa conexão física é a partir dos cabos trançados. (TP) Estes são os famosos cabos azuis com vários fiozinhos. Eles podem ter de 3(telefones tradicionais) a 5(Ethernet) fios. Também há o cabo coaxial e o de fibra ótica. Esse último tem baixíssima taxa de erro por não sofrer de interferência eletromagnética. Na situação do rádio a informação é transmitida de forma eletromagnética onde não há fios no enlace. Há efeitos do ambiente de reflexão, obstrução e interferência. Há os modais de micro ondas, LAN, e 3G. Além destes há o canal via satélite em que há um certo delay devido às altas distâncias que o sinal deve percorrer até a orbita do satélite.
+
+## O núcleo da rede consiste na infraestrutura de distribuição da informação.
+Ele consiste de uma malha de roteadores. Assim um componente da borda envia uma informação, que é dividida em pacotes e esses pacotes são enviados pela rede. Em dado momento pode ocorrer a comutação de circuitos onde mais de um pacote é passado pelo mesmo caminho ao mesmo tempo. Para isso ocorre as divisões em FDM e TDM que são respectivamente por divisão de tempo ou divisão de frequência. Ou seja, pode haver um revesamento da banda para os pacotes no tempo, ou a transmissão deles ao mesmo tempo, mas em diferentes frequências. Assim, se houver vários slots para conexão, mas nem todas forem utilizadas, a velocidade é diminuída.
+
+
+
+
+
+
+
 
 
 
