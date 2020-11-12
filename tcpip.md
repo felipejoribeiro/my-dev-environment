@@ -49,28 +49,90 @@ Quando queremos enviar uma mensagem pela internet, pegamos nossa informação e 
 Esses bits caminham pelo meio físico, onde os bits são propagados pelos pares emissor receptor através dos enlaces físicos que ficam entre eles. Esses enlaces podem ser via meio guiado (o sinal se propaga por meio sólido como cobre ou fibra), ou fia meio não guiado, que é pelo ar, via rádio. Um dos meios de se fazer essa conexão física é a partir dos cabos trançados. (TP) Estes são os famosos cabos azuis com vários fiozinhos. Eles podem ter de 3(telefones tradicionais) a 5(Ethernet) fios. Também há o cabo coaxial e o de fibra ótica. Esse último tem baixíssima taxa de erro por não sofrer de interferência eletromagnética. Na situação do rádio a informação é transmitida de forma eletromagnética onde não há fios no enlace. Há efeitos do ambiente de reflexão, obstrução e interferência. Há os modais de micro ondas, LAN, e 3G. Além destes há o canal via satélite em que há um certo delay devido às altas distâncias que o sinal deve percorrer até a orbita do satélite.
 
 ## O núcleo da rede consiste na infraestrutura de distribuição da informação.
-Ele consiste de uma malha de roteadores. Assim um componente da borda envia uma informação, que é dividida em pacotes e esses pacotes são enviados pela rede. Em dado momento pode ocorrer a comutação de circuitos onde mais de um pacote é passado pelo mesmo caminho ao mesmo tempo. Para isso ocorre as divisões em FDM e TDM que são respectivamente por divisão de tempo ou divisão de frequência. Ou seja, pode haver um revesamento da banda para os pacotes no tempo, ou a transmissão deles ao mesmo tempo, mas em diferentes frequências. Assim, se houver vários slots para conexão, mas nem todas forem utilizadas, a velocidade é diminuída.
+Ele consiste de uma malha de roteadores. Assim um componente da borda envia uma informação, que é dividida em pacotes e esses pacotes são enviados pela rede. Em dado momento pode ocorrer a comutação de circuitos onde mais de um pacote é passado pelo mesmo caminho ao mesmo tempo. Para isso ocorre as divisões em FDM e TDM que são respectivamente por divisão de tempo ou divisão de frequência. Ou seja, pode haver um revesamento da banda para os pacotes no tempo, ou a transmissão deles ao mesmo tempo, mas em diferentes frequências. Assim, se houver vários slots para conexão, mas nem todas forem utilizadas, a velocidade é diminuída. Isso se chama multiplexação de frequências ou por divisão do tempo. A comutação de pacotes é a separação de um informação em pacotes e esses são enviados por vários caminhos. É possível que alguns pacotes cheguem e outros não. Uma das formas em que se podem perder pactes é por enfileiramento, em que um enlace antes de um roteador é muito mais rápido que o posterior o que causa um acúmulo de dados neste nó. Se esse acúmulo ultrapassar a memória da máquina, ela começa a perder pacotes. Em cada roteador eu tenho uma tabela de roteamento, que diz para qual caminho se deve enviar um pacote baseado no endereço que consta em seu cabeçalho. A permutação de pacotes permite que mais pessoas possam usar a rede de computadores.
+- Comutação de pacotes permite a mais pessoas o acesso à rede uma vez que existe uma probabilidade delas estarem usando o enlace compartilhado ao mesmo tempo, e, normalmente, essa probabilidade é bem baixa. Assim, se um enlace tem 10 slots, mesmo assim, se 35 usuários usarem a rede simultaneamente, ainda assim, a probabilidade de mais de 10 estarem ativos ao mesmo tempo é menor que 0,004. A comutação de pacotes é ótima para dados em rajadas. É muito simples e tem recursos compartilhados. O problema é que pode ter congestionamento excessivo que resulta em atrasos e perda de dados.
+
+Exemplo humano: Em um prédio muito grande, 
+
+A estrutura da internet, que é a rede das redes, são ligadas entre si (ISP's) de muitas formas. Uma delas é um monte ligados entre si, ou pode haver uma aproximação hierárquica. A interconexão direta entre todos os IPS não é escalonável, pois necessita de O(N^2) enlaces. Sendo de aproximação hierárquica, várias redes locais se conectam com uma rede regional e alguns também conectam-se entre si. As redes regionais também por sua vez todas se conectam com a rede nacional e entre si. (podem haver muitas redes nacionais também). E as redes nacionais conectam-se entre si via cabos submarinos. Essa rede de hosts e clientes é a estrutura da internet.
+
+## Desempenho da rede:
+Como os pacotes vão se enfileirar quando o enlace de saída é mais lento que o de entrada, dados são perdidos ou atrasados. O atraso da passagem de informação no nó pode ser definida como : D_nodal = D_processamento + D_fila + D_transmissão + D_propagação.
+- D_processamento: verifica erros de bits que possam ter ocorrido no enlace de chegada, determina enlace de saída. Isso ocorre normalmente em micro-segundos.
+- D_fila: Tempo de espera para transmissão no enlace de saída. Isso depende do nível de enfileiramento (congestionamento) do roteador.
+- D_transmissão: Temos R=largura de banda do enlace (bps), L= tamanho do pacote(bits) e o tempo para enviar=L/R.
+- D_propagação: d= tamanho do enlace, s= vel. de propagação (~2x10^8 m/sec), atraso de propagação = d/s.
+
+Uma analogia com o mundo real é  da caravana de carros. Estes carros se propagam a 100 km/h, as cabines de pedágio levam 12 s para atender um carro(tempo de transmissão), temos que cada carro é um bit e cada caravana é um pacote. Assim, esses carros podem se acumular em alguma cabine, dependendo da velocidade de atendimento. Existe uma equação para medir isso: R= largura de banda(bps), L= tamanho do pacote(bits), a= taxa média de chegada de pacotes. Assim, a intensidade de tráfego pode ser medida com L*a/R. Se essa relação for próxima a zera, não há bloqueio e o atraso por enfileiramento é pequeno. Se for menor que 1, atrasos tornam=se brandes a medida que deixam o zero. Se for igual a 1 o atraso médio torna-se infinito e pacotes deixam de ser entregues no destino.
+
+Para resolver essa questão, tem-se o programa Traceroute que fornece medida do atraso da origem ao roteador ao longo do caminho de fim a fim da internet para o destino. Para todo i: - envia três pacotes que alcançarão roteador i no caminho para o destino. - roteador i retornará pacotes ao emissor. Emissor temporiza intervalo entre transmissão e resposta. Quando um nó perde pacote ele pode requisitar a retransmissão do nó anterior. 
+
+Vazão é a medida de bits/unidade de tempo de transmissão de dados no enlace. E essa medida média de todo o percurso dos dados é igual ao do enlace de menor performance. Esses enlaces são chamados de "enlace gargalo" pois eles que atrasam todo o processo.
 
 
+## Camadas de protocolo e modelos de serviços:
+Redes são complexas, pois temos muitas partes: Hospedeiros, roteadores, enlaces de vários meios físicos, aplicações, protocolos, hardware, software. Assim, organizamos tudo isso em uma estrutura em camadas. Cada camada oferece servições e ações para a camada superior. A modularização facilita a manutenção e a atualização do sistema.
 
+Assim, as camadas que temos são:
 
+- Camada de Aplicação: temos o suporte a aplicação de rede, com FTP, SMTP e HTTP.
+- Camada de transporte: temos a transferência de dados processo-processo com TCP e UDP.
+- Camada de rede: temos o roteamento de datagramas da origem ao destino com IP e protocolos de roteamento.
+- Camada de enlace: Temos a transferência de dados entre elementos vizinhos da rede, como PPP e Ethernet.
+- Camada física: São os bits nos fios, ou no ar.
 
+No modelo de referência ISO/OSI temos:
+- Camada de apresentação: permite que a aplicação interprete significado de dados com criptografia, compactação e conveções específicas da máquina.
+- Camada de sessão: Trata da sincronização, verificação e recuperação de dados. Ambas essas camadas não existem no protocolo TCP/IP, pois ambas estão dentro da camada de aplicação. Algumas aplicações necessitam ou não desses serviços e de diferentes rigores, assim é dada a liberdade ao programador de implementa-los conforme a necessidade e da forma que for necessária. 
 
+Entre essas camadas ocorrem encapsulamentos da informação. No hospedeiro ocorrem os seguintes encapsulamentos:
 
+MENSAGEM (gerada na camada da aplicação)|M|  >>  segmento (gerado na camada de transporte) |Ht|M|  >>  datagrama (gerado na camada de rede) |Hn|Ht|M|  >> quadro (gerado na camada de enlace) |HI|Hn|Ht|M| >> (na camada física tudo isso é passado em formato de bits sem adição de informações).
 
+Quando a mensagem chega em um comutador ele desencapsula os dados somente para checar o endereço de envio, e então encaminha para o próximo elemento da rede. Quando esses dados chegam em um roteador, mais uma vez, ele desencapsula os dados e analisa até a camada de rede. Encapsula novamente e envia para o próximo elemento da rede. Chegando no destino os dados são desencapsulados até a camada de aplicação. 
 
+É possível usar o wireshark para analisar esses pacotes até mesmo as camadas. Podemos ver da camada da aplicação até a camada física. Ele só cria cópias dos pacotes que estão entrando e saindo do computador e disponibiliza para análise.
+
+## Wireshark 
+Ele mostra o tempo, a fonte e o destino de cada pacote. Também mostra o protocolo (tcp, http), o tamanho e a informação que está sendo mandada ou recebida.
+Ele mostra a camada física, de enlace, de internet, de transporte e de aplicação (nessa ordem, na janela do maio, quando disponível). Todas as características nessas camadas serão exploradas no curso. 
+
+## Segurança 
+Precisamos defender as redes contra ataques. Assim é necessário se projetar arquiteturas resistentes a ataques. A internet foi criada a um primeiro momento sem preocupações de segurança. Ela foi pensada somente como uma forma de comunicação remota entre clientes confiáveis. No entanto, pessoas más podem colocar Malware (programas maliciosos) nos hospedeiros. Eles podem entrar através de um vírus, worm ou cavalo de Troia. O malware do tipo spyware pode registrar toques, teclas sites visitados na web e enviar as informações coletadas para um servidor. O hospedeiro infectado pode também ser alistado em uma botnet, que pode ser usada para spam e ataques DoS (de negação de serviço).
+O Malware normalmente é auto-replicável assim o hospedeiro infectado pode por sua vez passar o programa malicioso adiante.
+Temos:
+- Cavalo de Troia: Ele se aloja de forma oculta dentro de um software útil. Hoje em dia ele pode vir em uma página web(Active-X, plug-ins);
+- Vírus: Infecção ao receber objetos, como anexado a emails. Ele é auto-replicável e necessita ser executado ativamente.
+- Worm: Infecção recebendo passivamente objeto a ser executado. Também é auto-replicável.
+
+O ataque Dos (Denial of service) consiste na mobilização de um grande número de computadores ou agentes de borda da rede, e estes enviam pacotes para um servidor alvo que não é capaz de lidar com o tráfego exagerado de informações.
+Temos o farejamento de pacotes, em que há o meio broadcast (Ethernet compartilhada, sem fio) e um computador malicioso examina os pacotes que navegam por essa rede. (usando o wireshark, por exemplo). Assim, o meliante é capaz de ver senhas e outras informações.
+Temos também o IP spoofing, em que enviamos pacotes com endereço de origem falso. Assim é possível se modificar a carga útil para atividades espúrias.
+
+## História
+- 1961: Iniciou-se a comutação de pacotes.
+- 1967: Surgiu a arpanet, que foi concedida pela arpa, para instituições de pesquisa.
+- 1969: Primeiro nó operacional.
+- 1972: Demonstração pública da arpa com 15 nós. Primeiro protocolo (NCP) Escrita de aplicação para ambientes em rede. Primeiro programa de email.
+- 1976: Ethernet na xerox parc.
+- 1979: ARPAnet tem 200 nós. Nesse momento se pensou na neutralidade da rede.
+- 1983: Implantação do protocolo TCP/IP. DNS definido para tradução entre nome-endereço ip 
+- 1985: Protocolo ftp.
+- 1988: Controle de congestionamento tcp. 100000 de usuários.
+- 1990: a ARPAnet é aposentada.
+- 1990: início da Web, hipertexto, html, http.
+- 2007: 500 milhões de hospedeiros. voz e vídeo por ip. Aplicações p2p.
 
 ## Camada de enlace
 Hospedeiros e roteadores somos nós. Canais de comunicação que conectam a nós adjacentes pelo caminho de comunicação são **enlaces**. Existem enlaces com fio (cabos submarinos ou elétricos) e enlaces sem fio(Antenas de distribuição) e reses LAN(wifi).
 
-       
 <computador>----ethernet-----|roteador|------------------|roteador|---------------<acesspoint>
 
                (quadro 1)                  (quadro 2)                 (quadro 3)
 
 Em cada quadro há serviços, como por exemplo detecção e correção de erros. Em cada um desses a informação(datagrama) é codificada de forma diferente (quadro diferente). Assim o data grama é formatado de acordo com o protocolo do modal de transmissão. 
 
-Dentro da camada de enlace, o enquadramento é o serviço que me dá acesso à camada de enlace, o data grama é encapsulado e é adicionado um cabeçalho, com endereço, dentro da camada de enlace. Isso é diferente do IP. O IP é o endereço lógico, enquanto o MAC é o endereço físico. Além disso, pode haver serviços de checagem de erro ponto a ponto. 
+Dentro da camada de enlace, o enquadramento é o serviço que me dá acesso à camada de enlace, o data grama é encapsulado e é adicionado um cabeçalho, com endereço, dentro da camada de enlace. Isso é diferente do IP. O IP é o endereço lógico, enquanto o MAC é o endereço físico. Além disso, pode haver serviços de checagem de erro ponto a ponto. O endereço MAC assim está disponível no cabeçalho do quadro e muda conforme muda o enlace. A placa de internet é responsável por desenvolver o primeiro cabeçalho e endereço MAC ao enviar informações do computador. A partir dali essas informações são mudadas pelo roteador e assim por diante.
 
 Dentro da camada de enlace pode haver um controle de fluxo. Se algo está sobrecarregado, pode haver um controle de fluxo no enlace, onde os dois pontos se comunicam para diminuir o tráfego. Se a comunicação for full duplex, os dois pontos podem mandar informações um para o outro simultaneamente.
 
@@ -81,17 +143,42 @@ Aqui temos o código responsável pela detecção e correção de erro. Temos o 
 
 - Paridade de único bit: Detecta erros de único bit. Ele soma todos os nos dados e grava o resultado no EDC (se houver um número par de um's, o EDC é 0 e se for impar é 1). O problema desse método é que se houver dois bits invertidos isso pode gerar um falso negativo na análise de erro.
 - Paridade bidimensional: Cria uma matriz de bits com os dados e checa a soma dos bits coluna a coluna e linha a linha, gerando dois vetores de bits resultantes, que por suas vez também são somados.
+- Soma de verificação da internet: Também conhecido como checksum. Ao transmitir uma lista de números o remetente envia também a soma negativa destes números. Assim, no destino, o receptor soma todos os números e soma com o valor de checagem esperando um resultado nulo.
+- Existe também o método de verificação por redundância cíclica (crc): Ele cria bits adicionais de forma a criar uma redundância no sinal. Esse método de checagem é muito seguro e usado em modais pouco confiáveis como LANs.
 
 
-## 
+## Protocolos de acesso múltiplo 
+Existem dois tipos de "enlace", o ponto a ponto, que pode ser o PPP de acesso discado, ou o cabo Ethernet que conecta o comutador e o hospedeiro. E também há o broadcast, de fio ou meio compartilhado. O Ethernet a moda antiga,ou HFC e o LAN sem fio 802.11.
+Para o caso do broadcast devem haver métodos de gerenciar esse acesso múltiplo para que não hajam colisões e os dados se misturem. Pra isso existem os protocolos de acesso múltiplo. Assim, esses algoritmos determinam quando um nó pode transmitir. A comunicação responsável por coordenar isso deve ser feita pelo próprio enlace. Ou seja, nada de canais paralelos ponto a ponto para coordenar o enlace broadcast.
+Um canal de broadcast de velocidade R bps:
+- quando um nó quer transmitir, ele pode enviar na velocidade R.
+- quando M nós querem transmitir, cada um pode enviar na velocidade média de transmissão M/R.
+- é totalmente descentralizado, isso é, nenhum nó é especial para coordenar a transmissão e não há sincronia de clocks entre os agentes.
+- é simples.
+
+Há três classes de protocolo MAC:
+- Particionado em canais: divide o canal em "pedaços"(intervalos de tempo, frequência ou código), aloca pedaços ao nó para uso exclusivo.(FDMA e TDMA)
+	- TDMA: time division multiple access. Neste o acesso ao canal é dividido em rodadas. Cada estação recebe intervalo de tamanho fixo a cada rodada. Os intervalos não usados ficam ociosos. Um exemplo é a LAN.
+	- FDMA: Frequency division multiple access. Espectro do canal é dividido em bandas de frequência. Cada estação recebe banda de frequência fixa. Tempo de transmissão não usados nas bandas de frequência ficam ociosos.
+
+- Acesso aleatório: canal não dividido, permite colisões e ele se "recupera" de colisões.(ALOHA, CSMA, CSMA/CD, CSMA/CA). Todos os pacotes enviados podem usufruir da velocidade total de banda. Não há coordenação a priori, mesmo que haja mais de um nó transmitindo ao mesmo tempo. Ocorrem colisões. O protocolo MAC de acesso aleatório especifica como detectar colisões e recuperar o sinal. São exemplos de protocolo MAC de acesso aleatório os slotted ALOHA, ALOHA, CSMA, CSMA/CD, CSMA/CA:
+	- Slotted ALOHA: todos os quadros são do mesmo tamanho, o tempo é dividido em intervalos discretizados, o suficiente para transmitir um quadro. Os nós começas a transmitir somente no início destes intervalos discretizados de tempo. Assim os nós são sincronizados.Se dois ou mais nós transmitem no mesmo intervalo, todos os nós detectam a colisão. Detectada a colisão o nó tentará novamente na próxima rodada, mas um passo a frente. E isso se repete até conseguir. O lado ruim é que os emissores devem estar sincronizados e ocorrem muitas colisões. Na melhor das hipóteses o canal é utilizado para transmissões úteis em somente 37% do tempo. A probabilidade de sucesso pode ser calculada com Np(1-p)^(N-1).
+	- ALOHA puro: O tempo não é discretizado, ou seja, os canais não precisam estar sincronizados. A probabilidade de colisão aumenta. Pois uma informação pode começar a ser transmitida no meio da transmissão de outra.
+	- CSMA: Acesso múltiplo com sensoriamento da portadora. Ela consiste no princípio de se ouvir antes de falar. Ao se observar um canal ocioso, transmite o quadro inteiro. Se percebe canal ocupado adia transmissão. Mas mesmo assim dois canais podem acabar transmitindo ao mesmo tempo (dentro de uma janela de temo que não permita que eles se percebam). Nessa situação o tempo de transmissão do quadro inteiro é desperdiçado.
+	- CSMA/CD: O mesmo do anterior, mas com detecção de colisão. Quando se nota uma colisão os canais param evitando o desperdício de tempo. A detecção é facilmente implementada em LANS com fio, pois basta se medir a intensidade do sinal. Mas é complicado em redes sem fio.
+
+- Revezado: os nós se revezam, mas os nós com mais a enviar podem receber mais tempo.(Reservation, Polling, Token passing). Neste os nós se revezam. Se por um lado o particionado é bom para alta carga, com muitos nós, mas ineficaz para baixa carga, enquanto o de acesso aleatório é bom para baixa carga, ou seja, o contrário, o acesso revezado procura o melhor dos dois mundos.
+	- Polling (seleção): nó mestre convida nós escravos a alterarem a transmissão. Normalmente usado com dispositivos burros. Mas isso pode abrir margem para sobrecarga no processo de seleção, latência e no fato de haver somente o ponto de falha do mestre.
+	- Permissão: a permissão de controle é passada de um nó para o outro sequencialmente.
+
+## Sobre o endereçamento ARP(address resolution protocol):
+Endereço IP (internet protocol) é o endereço para a interface usado na camada de rede (internet). Enquanto o endereço MAC (Media Access Control)(ou LAN ou físico ou Ethernet) tem a função de levar um quadro de informação entre dois pontos de uma interface conectada fisicamente. O endereço MAC tem 48 bits para a maioria das LANs. Na ROM da NIC, às vezes também configurável por software. Exemplo: 1A-2F-BB-76-09-AD. Todo adaptador LAN tem um endereço exclusivo como o exemplificado. A alocação dessas identidades é feita pelo IEEE (institute of electrical engineers). Fabricantes compram parte do espaço de endereços MAC (para garantir exclusividade). Assim ele é imutável e único da sua máquina. O IP é diferente. Ele é atribuído com base da sub-rede ip a qual o nó está conectado. Uma analogia boa é que o MAC é a identidade enquanto o IP é o CEP. Cada nó IP possui uma tabela ARP que mapeia os endereços MAC em endereços IP. Ele pode mudar, o TTL (time to live) é o tempo após o qual o mapeamento de endereço será esquecido (normalmente 20 min). Assim essas tabelas são continuamente renovadas a todo momento. Quando o seu computador quer enviar dados para outro, ele envia o datagrama com o endereço ip de destino e MAC do roteador mais próximo, e esse mac vai sendo atualizado até chegar no IP requisitado.
 
 
+## Ethernet (IEEE 802.3)
+Tecnologia LAN com fio "dominante". Ela é barata e foi a primeira tecnologia LAN utilizada em larga escala. Ela é mais simples e barata que LANs de permissão e ATM. Ela foi capaz de acompanhar a corrida de velocidade 10mb/s até 10Gb/s. Antigamente também era usado para redes intra computadores, em que todos compartilhavam o mesmo barramento e colisões podiam ocorrer. Hoje em dia é organizado em formação em estrela, com um comutador central que organiza as mensagens. O quadro de Ethernet simplesmente acopla 8 byts à informação. 7 são com o padrão 10101010 e o último com o padrão 10101011. Isso é usado para sincronizar o clock do remetente e receptor. Endereços: 6bytes, se adaptador recebe quadro com endereço de destino combinado, ou com endereço de broadcast (p.e., pacote ARP), passa dados do quadro ao protocolo de camada de rede caso contrário, adaptador descarta o quadro. Então vem o tipo que indica o protocolo de camada mais alta (internet), ip, por exemplo. E, depois da carga útil, (46 - 1500 bytes) vem o CRC, que é o verificador de erros(4bytes).
 
-- Detecção e correção de erros:
 
-
-- Compartilhamento de um canal de broadcast
-- Endereçamento da camada de enlace
 
 
 
