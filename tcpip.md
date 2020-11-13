@@ -191,3 +191,16 @@ O hospedeiro de uma rede sem fio é um equipamento para meio não guiado. Ele n�
 Sempre tem uma estação base, que possui um relay, que liga o modal sem fio a uma rede guiada. Como torres de celulares, pontos de acesso 802.11. Temos também os enlaces sem fio, que permitem a comunicação entre os dispositivos móveis às estações base. Um protocolo de acesso múltiplo permite a conexão simultânea de vários hospedeiros. Existem padrões de largura de banda por método de conexão. Existem limites de abrangência (alcance) e banda para cada modal. Pode ser também uma red ad hoc, que não possui base. Seria uma conexão peer-peer, mas eles comunicam entre si informação.
 
 - No modo infraestrutura a comunicação é centralizada, ou seja, todos os hospedeiros se comunicam com a mesma entidade.
+
+
+
+## Camada de rede:
+Na camada de rede nós temos o endereço lógico. Temos sub-serviços também, como:
+- modelos de serviço da camada de rede;
+- repasse versus roteamento;
+- como funciona um reteador;
+- roteamento (seleção de caminho);
+- lidando com escala;
+- tópicos avançados: IPV6;
+
+Instanciação, implementação na internet. Ao invés de falarmos de quadro, falamos de datagrama.
