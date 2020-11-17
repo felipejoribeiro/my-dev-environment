@@ -28,7 +28,6 @@ For setting this up, the windows 10's 2004 build is necessary, alongside some ot
 - **brave** as the default web browser(Windows side of things);
 - **TreeSize** as a memory analysis solution (Windows side of things);
 
-
 ### Solving the graphicall application's problem:
 
 For this, it's necessary to install an X Window server for Windows 10, like Xming or X410. I installed X410, so i will show how to configure wsl2 to work with the software to solve both the graphical problem and the clipboard problem. 
