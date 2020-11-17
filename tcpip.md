@@ -204,3 +204,16 @@ Na camada de rede nós temos o endereço lógico. Temos sub-serviços também, c
 - tópicos avançados: IPV6;
 
 Instanciação, implementação na internet. Ao invés de falarmos de quadro, falamos de datagrama.
+
+
+
+
+
+
+## Endereçamento lógico 
+Falaremos do endereçamento da versão 4 (ipv4). Falaremos do endereçamento, sub-redes, endereçamento sem classe (CIDR- Classless inter-Domain), Falaremos de márcaras também.
+Primeiramente o endereço era divididos em classes. Tínhamos a classe A:
+7bits no primeiro octeto, e 24 bits representando os hospedeiros, como 10.X.X.X, que seria 00001010.xxxxxxxx.xxxxxxxx.xxxxxxxx, o campo de rede variava de 1 a 127, totalizando 127 redes classe A. Os campos de host variavam de 1 a 254. Endereço de rede 0 e endereço de broadcast 255. Isso totaliza 254 X 254 x 254 = 16772216 hosts. Na classe B teríamos 14 bits de rede, no host teríamos 16 bits, do tipo 172.68.x.x que seria 10101100.01000100.xxxxxxxx.xxxxxxxx. O primeiro campo de rede pode variar de 128 a 191, totalizando 16.320 redes de classe B. Os campos de host podem variar de 1 a 254, totalizando 64516. Na classe C, a rede tem 21 bits, o host tem 8 bits, do tipo 192.168.15.x, com 11000000.10101000.00001111.xxxxxxxx, o primeiro pode variar de 192 a 223, totalizando 2080800 redes classe c. 
+O 127 é reservado para loopback, ou seja, testar softwares de comunicação, ele é o tal do endereço localhost 127.0.0.1.
+A ideia de se usar subredes é reduzir o congestionamento, dar suporte a diferentes tecnologias e segurança.
+Indereço IP é constituído de 4 octetos, na versão ipv4, e ele era dividido em classes. Houve a expansão para uma rede ipv6 quando o número de hosts cresceu muito. O sistema de máscaras é utilizada na criação de sub-redes que foram uma forma de expandir o protocolo ipv4, aproveitando assim endereços que não eram aproveitados em redes. Posso segmentar redes que são grupos menores. Foi deixado um exercício. dois octetos já são reservados para a rede, e como temos um 8, bits já foram emprestados para se estar dentro de uma subrede. Assim, a primeira coisa é descobrir a qual subrede esta rede pertence. Nesse exercício eu pesso que vocês identifiquem o endereço de cada subrede.
