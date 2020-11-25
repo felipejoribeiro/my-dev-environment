@@ -41,7 +41,13 @@ For this, it's necessary to install an X Window server for Windows 10, like Xmin
 ### Some Tmux key configurations 
 
 ### Some Vim key configurations
+First of all, i install vim-nox with **sudo apt install vim-nox** to enable ruby support and multithreading in vim. Them i install the plugin manager that i must like which is vim-plug. I do so with the following commands:
 
+
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
+The .vimrc file is already prepared for this Plugin. It has the benefit of making use the vim's multithreading capabilities for faster package instalation and updates.
 
 
 
