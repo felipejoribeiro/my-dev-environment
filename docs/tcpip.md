@@ -205,6 +205,8 @@ Na camada de rede nós temos o endereço lógico. Temos sub-serviços também, c
 
 Instanciação, implementação na internet. Ao invés de falarmos de quadro, falamos de datagrama.
 
+## Funções da camada de rede
+Uma das funções da camada de rede é o roteamento. Nesse processo, o reteador em questão desencapsula a camada de rede e observa o endereçamento de origem e destino. O roteamento ocorre com a determinação do caminho de repasse dessa informação. Isso ocorre a partir de tabelas de roteamento. ão. Isso ocorre a partir de tabelas de roteamento. 
 
 
 
