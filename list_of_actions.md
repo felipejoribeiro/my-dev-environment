@@ -18,3 +18,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 sudo apt-get install xdg-utils --fix-missing
 
 # The configure files for the vim, zsh and tmux must be done. By copy and replace maybe
+
+# To clone the work
+- place the ssh key in ~/.ssh/ and make it ready only with the command "chmod 400 ~/.ssh/id_rsa".
+- than run the git clone programs. (this task was automated partially with the python script)
