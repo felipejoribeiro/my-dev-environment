@@ -14,3 +14,6 @@ chsh -s $(which zsh)
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 
+# To clone the work
+- place the ssh key in ~/.ssh/ and make it ready only with the command "chmod 400 ~/.ssh/id_rsa".
+- than run the git clone programs. (this task was automated partially with the python script)
