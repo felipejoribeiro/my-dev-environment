@@ -3,9 +3,13 @@ sudo apt update
 sudo apt upgrade
 
 # To be certain we have right version of vim and other important programs
-sudo apt install vim-nox
-sudo apt install tmux 
+sudo apt install python
+sudo apt install python3-pip
+sudo apt install python-dev python3-dev -yqq
 sudo apt install git
+sudo apt install tmux 
+sudo apt install vim-nox
+sudo apt install vim-gtk
 sudo apt install openssh-client
 sudo apt install curl
 sudo apt install gnupg
@@ -13,12 +17,10 @@ sudo apt install htop
 sudo apt install jq
 sudo apt install pass
 sudo apt install pwgen
-sudo apt install python3-pip
 sudo apt install ripgrep
 sudo apt install rsync
 sudo apt install shellcheck
 sudo apt install unzip
-sudo apt install vim-gtk
 sudo apt install fzf
 
 # To enhance the terminal experience (remember to install the recommended fonts)

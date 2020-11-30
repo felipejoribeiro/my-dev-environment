@@ -7,7 +7,7 @@ Vamos ver sobre desempenho, o que causa perda de pacotes, atraso e vazão.
 Vamos ver sobre segurança.
 Como funciona as camadas de protocolos e serviços.
 E veremos sobre a história da internet.
-
+"
 ## A internet é uma rede de computadores interconectados. Nesse contexto temos:
 - Hospedeiros: São os equipamentos que são os sistemas finais, os fins desse ramo que são os receptores e lançadores finais e primários das informações. São os dispositivos que estão rodando os aplicativos web que usam da infraestrutura de rede. Hoje em dia, com a internet das coisas, estes dispositivos vem se multiplicando exponencialmente, com todo tipo de comunicação e aplicação imaginável.
 - Enlaces: São equipamentos que estão conectados, via cabo de fibra, ou cobre, ou mesmo um meio não guiado como torres de rádio e satélite. Para cada tipo de enlace existe uma largura de banda dedicada que dita o tanto de informação que pode percorrer pelo enlace de forma simultânea.
@@ -196,6 +196,7 @@ Sempre tem uma estação base, que possui um relay, que liga o modal sem fio a u
 
 ## Camada de rede:
 Na camada de rede nós temos o endereço lógico. Temos sub-serviços também, como:
+Endereço lógico é diferente de endereço físico. O endereço físico é o MAC, enquanto o endereço lógico é o IP.
 - modelos de serviço da camada de rede;
 - repasse versus roteamento;
 - como funciona um reteador;
@@ -205,16 +206,185 @@ Na camada de rede nós temos o endereço lógico. Temos sub-serviços também, c
 
 Instanciação, implementação na internet. Ao invés de falarmos de quadro, falamos de datagrama.
 
+
 ## Funções da camada de rede
-Uma das funções da camada de rede é o roteamento. Nesse processo, o reteador em questão desencapsula a camada de rede e observa o endereçamento de origem e destino. O roteamento ocorre com a determinação do caminho de repasse dessa informação. Isso ocorre a partir de tabelas de roteamento. Isso ocorre a partir de tabelas de roteamento.
+Uma das funções da camada de rede é o roteamento. Nesse processo, o reteador em questão desencapsula a camada de rede e observa o endereçamento de origem e destino. O roteamento ocorre com a determinação do caminho de repasse dessa informação. Isso ocorre a partir de tabelas de roteamento. Existem algoritmos de roteamento para fazer essa determinação. 
+O repasse é passar por um cruzamento, e você ir para a via certa. O roteamento é o estabelecimento da rota. Sabendo-se as ruas pelas quais você ira passar. O roteador cria tabelas de roteamento com base em algoritmos de roteamento. Essa tabela diz, com base no endereço de destino, pra onde encaminhar a informação, isso ocorre em todo roteador. Também é possível a criação de caminhos virtuais, uma conexão virtual. 
+Existem serviços, na camada de rede, para determinadas necessidades de broadcast.
+
+Arquitetura  | modelo        |   Garantia de    | Garantia     |  Ordenação | Temporização | Indicação de 
+    rede     | de serviço    | largura de banda | contra perda |            |              | congestionamento
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Internet     | Menor esforço |    Nenhuma       |  Nenhuma     |  qualquer  | Não mantida  | Nenhuma
+ATM          |     CBR       | Taxa constante   |   sim        |  Na ordem  | Mantida      | previne
+ATM          |     CBR       | Mínima garantida |   sim        |  Na ordem  | Não mantida  | previne
+
+Dessa forma se observa que o protocolo ATM tem features ajustáveis. Existe um preço agregado dependendo das necessidades que existem dentro de uma camada de rede.
+Esses serviços são análogos aos que se encontram dentro da camada de transporte (no computador), mas eles ocorrem no núcleo, ou seja, entre roteadores, estabelecendo circuitos virtuais. 
+O comportamento do circuito virtual é parecido com um circuito telefônico. Deve existir uma chamada pra o estabelecimento do circuito virtual. Os pacotes não carregam o endereçamento, mas sim um identificador interno da rede virtual. A própria rede virtual já possui esse endereçamento. Pois ela fecha especificamente a conexão entre dois computadores.  
+Assim, esse circuito consiste em um caminho origem - destino. O pacote carrega o número do circuito virtual (existe um para cada camada de enlace, que seria o identificador de nó do circuito virtual, isso funciona como um conjunto de placas que direcionam os pacotes pela rede de enlaces.) Essa tabela de repasse é paralela á tabela de roteamento. Esses números são mantidos enquanto o circuito virtual for mantido.
+Outras tecnologias que fazem isso são frame raly e x25. Isso não é usado na internet.
 
 
+O formato padrão da internet é o de rede de datagramas. Nesse tipo não há o estabelecimento de uma chamada na camada de rede. Não há estado de conexão fim a fim. Não existe um conceito de conexão, cada pacote pode seguir seu próprio caminho pela rede. Passa-se o endereço de destino de cada pacote. 
+Nas tabelas de roteamento, o roteador configura intervalos de ips nos quais ele direciona cada qual para cada saída do roteador. Para isso, ele tem "IPs incompletos", isso é, ips sem os 4 octetos completos, e ele encaminha o pacote cujo ip de destino tem mais bits em comum com o designado para a porta.
+
+Desse forma temos as duas formas de serviço mais utilizadas, o da internet (baseado em datagramas), e o serviço de circuito virtual (CV), que é parecido com telefonia, mas capaz de transmitir todo tipo de pacote.
+O primeiro é um serviço elástico, sem requisitos de temporização estritos, podem se adaptar a mudanças na rede de transmissão a qualquer momento. A complexidade é muito baixa no núcleo, ela é concentrada na borda (computador cliente e servidor), e aceita muitos tipos de enlace. Já o segundo tem requisitos de temporização estritos e confiabilidade. A complexidade encontra-se dentro da rede.
 
 
-## Endereçamento lógico 
+## O que há dentro de um roteador?
+A principal função é executar os algoritmos de roteamento (RIP, OSPF, BGP) e repassar os datagramas para os endereços corretos. Primeiramente, ele recebe os bits da camada física (em bits), depois ele desencapsula os dados da camada de enlace, depois ele observa o endereçamento na camada de rede e envia baseado na tabela de roteamento. Se o processo de encaminhar demora mais que o de receber os dados, pode-se formar uma fila logo após o desencapsulamento da camada de enlace. 
+Roteadores de primeira geração são parecidos com computadores tradicionais. O controle de comutação de pacotes e de repasse é dependente da velocidade do processador. Além disso os pacotes devem ser copiados para a memória do sistema antes do repasse. Assim há duas travessias de barramento por datagrama.
+Também podem haver comutação por um barramento. O datagrama da memória da porta de entrada é passado diretamente para a memória da porta de saída. Isso é bem mais rápido, até para 32Gb/s.
+Existe ainda uma outra forma de roteamento que é via comutação por uma rede de interconexões. O datagrama é dividido em células de tamanho fixo e elas são passadas através de um elemento de comutação. As velocidades qui vão até 60 Gbps.
+Assim, podem ser dos tipos "Memória", "Barramento", "Crossbar". Em ordem de velocidade aumentando.
+Na porta de saída temos um Buffer, que é necessário quando a velocidade de transmissão dentro do roteador é maior que a de transmissão pelo enlace de saída. Depois disso ele é empacotado na camada de enlace e física e deixa o roteador. Se a quantidade de pacotes ultrapassa a capacidade do buffer, ocorre perda de pacotes. Existe uma regra para a determinação do tamanho desse buffer RTT (round trip time, tipo 250ms), C (capacidade do enlace  10Gps). Assim, Buffer = RTT * C. Recentemente também precisa se considerar N fluxos (TCP), com uma nova equação igual a RTT * c / sqrt(N).
+Assim, podem haver perdas tanto na entrada quanto na saída do roteador. Para isso, o dispositivo tem algoritmos de escalonamento de pacotes. Ele é bem simples, o primeiro a chegar é o primeiro a sair. Ele é chamado de FIFO(first in first out). Se o buffer chega ao fim ele destrói o fim da fila (exclui pacotes de vim de fila), ele pode também ser randômico, e pode excluir ser por prioridade. Pode se escolher isso na configuração do roteador. Para excluir por prioridade, deve haver uma informação para classificar pacotes. Isso é também configurável, como IPs de destino ou origem, etc. Também há o método RR(Round Robin), que ele também estabelece classes para os pacotes e manda um de cada de forma cíclica. Também há o método (wfq) que é o Round Robin generalizado. Onde cada fila é uma classe e ele circula entre essas filas de forma cíclica e diferentes estratégias de query podem ser estabelecidas para cada fila. 
+
+
+## What the fuck is IP
+Aqui existem as convenções de endereçamento. A determinação do formato do datagrama e as convenções de manuseio de pacotes. Tem-se um estrutura de dados que leva muitas informações de forma paralela aos dados que se envia. Assim, temos uma informação que pesa um pouquinho mais que os dados que se enviou. Outra coisa que pode ocorrer é a modificação do tamanho do datagrama, pois diferentes segmentos de enlace podem ter diferentes tamanhos máximos de pacote que se pode transferir. Assim, esse datagrama pode ser fragmentado sem problemas se for necessário no caminho. E no destino ele é reagrupado e desencapsulado. Assim, na estrutura de dados também ha o identificador dizendo que o datagrama foi fragmentado e como remontar a informação (em questão de ordem).
+
+## Como funciona o endereçamento do ipv4
 Falaremos do endereçamento da versão 4 (ipv4). Falaremos do endereçamento, sub-redes, endereçamento sem classe (CIDR- Classless inter-Domain), Falaremos de márcaras também.
+Inicialmente o endereçamento era dividido em classe, (A, B, C e D).
 Primeiramente o endereço era divididos em classes. Tínhamos a classe A:
 7bits no primeiro octeto, e 24 bits representando os hospedeiros, como 10.X.X.X, que seria 00001010.xxxxxxxx.xxxxxxxx.xxxxxxxx, o campo de rede variava de 1 a 127, totalizando 127 redes classe A. Os campos de host variavam de 1 a 254. Endereço de rede 0 e endereço de broadcast 255. Isso totaliza 254 X 254 x 254 = 16772216 hosts. Na classe B teríamos 14 bits de rede, no host teríamos 16 bits, do tipo 172.68.x.x que seria 10101100.01000100.xxxxxxxx.xxxxxxxx. O primeiro campo de rede pode variar de 128 a 191, totalizando 16.320 redes de classe B. Os campos de host podem variar de 1 a 254, totalizando 64516. Na classe C, a rede tem 21 bits, o host tem 8 bits, do tipo 192.168.15.x, com 11000000.10101000.00001111.xxxxxxxx, o primeiro pode variar de 192 a 223, totalizando 2080800 redes classe c. 
 O 127 é reservado para loopback, ou seja, testar softwares de comunicação, ele é o tal do endereço localhost 127.0.0.1.
 A ideia de se usar subredes é reduzir o congestionamento, dar suporte a diferentes tecnologias e segurança.
 Indereço IP é constituído de 4 octetos, na versão ipv4, e ele era dividido em classes. Houve a expansão para uma rede ipv6 quando o número de hosts cresceu muito. O sistema de máscaras é utilizada na criação de sub-redes que foram uma forma de expandir o protocolo ipv4, aproveitando assim endereços que não eram aproveitados em redes. Posso segmentar redes que são grupos menores. Foi deixado um exercício. dois octetos já são reservados para a rede, e como temos um 8, bits já foram emprestados para se estar dentro de uma subrede. Assim, a primeira coisa é descobrir a qual subrede esta rede pertence. Nesse exercício eu pesso que vocês identifiquem o endereço de cada subrede.
+O endereço 127 é reservado para "loopback", ou seja, é o endereço da própria máquina. 127.0.0.1 por exemplo. Pode ser usado para teste de aplicações web no próprio computador. Ele é o famigerado "localhost".
+
+## Sub rede.
+A sub rede é uma técnica que permite dividir um bloco de endereços IP atribuídos como rede em intervalos, em vários blocos de endereços menores, para um uso mais eficiente. Assim pode-se dar suporte a tecnologias e aumentar a segurança.
+Para trabalhar com sub rede normalmente trabalha-se com máscaras. Ela serve para separar as subredes. Assim podemos ter classes:
+
+- A = 255.0.0.0    - 11111111 00000000 00000000 00000000
+- B = 255.255.0.0  - 11111111 11111111 00000000 00000000
+- C = 255.255.255.0- 11111111 11111111 11111111 11111111
+
+Assim, essa máscara é usada no calculo do ip do computador de destino e no ip do computador de origem. Resultados idênticos denotam computadores na mesma rede (contato direto). Se o resultado for diferente então as redes estão em redes distintas. 
+Ela é criada posicionando-se TRUEs nas posições dos bits relativos à rede. Os bits da subrede são determinado com a adição dos bits tomados por empréstimo.
+exemplo:
+Na classe C temos: 255.255.255.0, onde o último octeto é reservado para hosts. Não só isso, mas ele pode perder bits para descrever a sub rede. Ou seja:
+
+255.255.255. -->  _ _ _ | _ _ _ _ _   (três bits do último octeto são usados para designar a sub rede).Nesse caso podemos criar 2^2 = 8 sub redes. (Considerando a regra que o primeiro é para endereço de rede e a última que é endereço de broadcast temos 6 endereços válidos). O número de hosts que podemos ter são 2^5 = 32 hosts.
+
+exemplo: 
+Dado o número de IP 143.107.1.45 e a máscara 255.255.0.0, com endereço de rede: 143.107.0.0 e endereço de broadcast: 143.107.255.255, quantos bits foram emprestados?
+143.107.00000000.00000000 ... 255.255.00000000.00000000
+143.107.00000001.00101101 ... 255.255.00000000.00000000
+143.107.11111111.11111111 ... 255.255.00000000.00000000
+Neste caso nem um bit foi emprestado.
+
+Para o caso de máscara 255.255.255.192
+143.107.0 0 0 0 0 0 0 1.0 0 0 0 0 0 0 0
+143.107.1 1 1 1 1 1 1 1.1 1 _ _ _ _ _ _ assim vemos que 10 bits foram emprestados para endereço de rede.
+143.107.0 0 0 0 0 0 0 1.0 0 1 1 1 1 1 1
+
+Se temos uma máscara de 255.255.255.240, temos:
+
+11111111.11111111.11111111.1111_ _ _ _ assim temos 4 emprestados para endereço de rede e 4 para endereço de host
+
+                           0000.0000     |
+                           até           |  para cada subrede temos 0000 até 1111 de hosts
+                           1111.0000     | 
+
+É importante ressaltar que a subrede 0 e a subrede 1 são as de rede e broadcast.
+
+# Sub-rede: CIDR 
+Hoje em dia não se trabalha mais com classes, mas sim o endereçamento Inter-Domain Routing - CIDR. Onde o endereço de subrede tem formato decimal com pontos de separação. A formatação é A.B.C.D/x, onde x é o número de bits na parte de rede do endereço.
+Assim, não existe mais classes, só uma parte para endereçamento de redes e outra para hosts.
+
+exemplo:
+                    |-------24 para redes----||-host--|
+200.23.16.0/24  --> 11001000 00010111 00010000 00000000
+
+exercício:
+
+Precisamos de 1000 hosts para atender a demanda dos usuários. Assim, crie as sub redes usando o endereço inicial de 172.1.8.0/16 fornecido pela companhia de telecomunicações e determine:
+- Endereço de cada subrede;
+- A máscara pra as subredes;
+- Total de subredes utilizadas;
+- Número máximo de hosts em cada subrede;
+- Endereço de broadcast das subredes;
+- Faixa de IPs que serão utilizados em cada sub rede.
+ 
+Observa-se que já estamos em uma subrede:
+172.1.00000 100 00000000 onde os dois últimos octetos são reservados pras sub redes e pros hosts.
+assim:
+
+00000 | 100 _ _ _ _ _ _ _ _  ---> está dentro de uma subrede onde há 3 bits emprestados para os hosts, e 5 para as subredes. Assim temos 2024 endereços de host, o que atende a requisição do cliente.
+O primeiro endereço dessa subrede é:
+
+(subrede 0)
+172.1.0.0    -> 172.1.000000|00.00000000
+até
+172.1.3.255  -> 172.1.000000|11.11111111
+
+Depois temos
+
+(subrede 1)
+172.1.4.0    -> 172.1.000001|00.00000000
+até
+172.1.7.255  -> 172.1.000001|11.11111111
+
+(subrede 2) -----------------> Seria nessa sub rede que a gente operaria
+
+172.1.8.0    -> 172.1.000010|00.00000000   -> endereço de rede.
+até                                        -> endereços válidos : 172.1.8.1 até 172.1.11.255
+172.1.11.255 -> 172.1.000011|11.11111111   -> endereço de broadcast.
+
+.
+. temos 64 sub redes cada uma com 2024 hosts. 1022 endereços válidos.
+.
+
+A mascara usada seria 255.255.252.0
+.
+Essa é a solução otimizada, mas seria possível também trabalhar com 3 bites emprestados para os bits de host.
+
+# Sub rede VLSM 
+Essa é a máscara de sub rede de comprimento variável. As máscaras de subrede são chamadas de prefixos. Os roteadores utilizam o prefixo de rede, ao invés dos bits do endereço de IP, para determinar o ponto de divisão entre o número de rede e o número de hosts. Como pode ocorrer ainda o desperdício de endereços IP para hosts dentro daquela sub rede surgiu o conceito de máscara de sub-rede com comprimento variável, chamada de VLSM.
+Essa técnica permite que mais de uma máscara seja definida para um dado endereço IP. O campo "prefixo de rede estendido" passa a poder ter diferentes tamanhos de máscara. Consegue-se assim um uso mais eficiente do espaço de endereço atribuído à organização. Permite também a agregação de rotas o que pode reduzir significativamente a quantidade de informação de roteamento no nível de backbone. 
+
+endereço ip:
+                                                                 rede          host
+130.5.0.0/22 (máscara de subrede 255.255.252.0) - 10000010.00000101.000000|00.00000000 
+
+Assim, tamos mais subredes usando por exemplo 130.5.0.0/26, onde elementos do quarto octeto são utilizados para determinação da aubrede. Muitos roteadores podem ter tabelas de roteamento com sub redes de várias camadas na mesma porta. Assim, ele anexa o prefixo de forma dinâmica e diferentes máscaras são aplicadas dependendo do endereçamento.
+
+atividade:
+
+Dado um endereço IP 130.10.0.0/16, e utilizando a VLSM, determine as seguintes sub-redes. Fique atento ao número de hosts e sub-redes de cada interface.
+
+
+           5 sub-redes         6 sub-redes          1 sub-rede
+           2000 hosts           254 hosts           15000 hosts
+           [roteador]          [roteador]           [roteador]
+               |                    |                    |
+               |                    |                    | 
+               |                    |                    |
+           [roteador]-----------[roteador]-----------[roteador]
+
+Para isso podemos começar as divisões. O endereço "root" é:
+130.10.00000000.00000000   ----    255.255.0.0
+
+Para a de 15000 precisamos de 2^14= 16384
+130.10.01|000000.00000000 (130.10.64.0) até 130.10.01|111111.11111111 (130.10.127.255)
+
+Na próxima camada colocaremos o particionamento da outra rede
+
+Para a de 2000  precisamos de 2^11= 2000    130.10.00000|000.00000000
+130.10.10|001|000.00000000 (130.10.136.0) até 130.10.10|001|111.11111111 (130.10.143.255)
+
+Para a de 254   precisamos de 2^8 = 256     130.10.00000000.|00000000
+
+255.255.254.0 --> 11111111.11111111.11111110.00000000
+              --> 11111111.11111111.11111111.11000000
+
+
+
+## Camada de transporte
+Já estamos pensando na programação. Pois isso ocorre dentro do pc. São os protocolos UDP e TCP. 
+
