@@ -15,7 +15,7 @@ E veremos sobre a história da internet.
 - Protocolos: É uma regra de controle de comunicação entre os dispositivos. Assim, as mensagens seguem regras de formatação que servem para tornar estes sinais legíveis nos dois pontos da comunicação. São exemplos: TCP, IP, HTTP, Skype, Ethernet, etc...
 - Internet: É a rede das redes, ou seja, tem-se uma rede local, que está conectada a uma rede regional que está conectada à rede global. Existe uma hierarquia vaga, assim, é necessário que se esteja conectado à rede local, para que se esteja conectado à regional, e assim por diante. Ela é algo público, mas existem as Intranets, que são privadas de empresas, mas usam os mesmos protocolos.
 - Padrões da internet: RFC - Request for Comment, e IETF - Internet Engineering task forces. São os responsáveis pela padronização que vemos neste curso.
-- Infra estrutura de comunicação: Ela observa os serviços que são requiridos e fornece Enlaces e roteadores capazes de suportar eles.Estes serviços podem ser Web, VoIP, e-mail, jogos, e-commerce, compartilhamento de arquivos.
+- Infra estrutura de comunicação: Ela observa os serviços que são requiridos e fornece Enlaces e roteadores capazes de suportar eles. Estes serviços podem ser Web, VoIP, e-mail, jogos, e-commerce, compartilhamento de arquivos.
 - Serviços de comunicação fornecidos à aplicação: Entrega de dados confiável ou não confiável. Existe uma comunicação entre as aplicações e o modal de transporte, de forma que a aplicação consegue dizer se a informação pode ser transportada com mais ou menor rigor ou confiabilidade. Isso oscila muito por exemplo entre o email e serviços de streaming como twitchTV. Existem protocolos para assegurar a informação, mas nem sempre a aplicação opta por usar ela.
 
 ## Um protocolo é uma forma de comunicação. A língua portuguesa é um protocolo de comunicação entre dois seres humanos.
@@ -27,8 +27,8 @@ Computador1: -Solicito http://www.google.com.
 Computador2: -<arquivos> (html, js, etc...)
 
 ## Borda da rede são os hospedeiros, a rede de acesso e o meio físico.
-Aqui rodam as aplicação e é onde ocorre a interação máquina-homem. Aqui é onde o desktop trabalha. Podem haver dois modelos de comunicação entre hospedeiros sendo eles:
-- peer-peer: Onde a estrutura é paralela e ambos os computadores são iguais na comunicação e os protocolos são simétricos. São exemplos o Skype e o BitTorrent.  
+Aqui rodam as aplicação e é onde ocorre a interação máquina homem. Aqui é onde o desktop trabalha. Podem haver dois modelos de comunicação entre hospedeiros sendo eles:
+- Peer-to-Peer: Onde a estrutura é paralela e ambos os computadores são iguais na comunicação e os protocolos são simétricos. São exemplos o Skype e o BitTorrent.  
 - cliente-servidor: Aqui há uma hierarquia, onde os protocolos de comunicação são assimétricos. O cliente faz a solicitação de pacotes e serviços e o servidor está o tempo todo ligado e ouvindo atento para atender aos pedidos. São exemplos serviços de email e hospedagem de websites.
 
 Para conectar computadores à internet é necessário provedores de acesso local. Estes podem ser de redes móveis, de redes residenciais ou de redes institucionais como escolas e empresas. Exemplos são a rede 4G, acessos wifi residenciais ou institucionais. A largura de banda (bits por segundo) varia muito entre cada modalidade. Além disso a rede pode ser dedicada ou compartilhada. O mais comum é ser compartilhada, ou seja, você usa a mesma infraestrutura de comunicação que muitas outras pessoas.
@@ -38,7 +38,7 @@ São exemplos de acesso:
 - DSL: Digital Subscriber Line: É usada na infraestrutura telefônica existente. Em que passa pela central DSLAM para separar o que é telefone do que é internet, possui largura de banda de até 1Mbps de upload e 8Mbps de download. Mas sendo bem menos atualmente. A linha física é dedicada até a central telefônica.
 - Hoje em dia é utilizado mais tecnologia a cabo que usa a tecnologia de tv a cabo para distribuir informação. Essa tecnologia é compartilhada, assim, as pessoas acessa o mesmo fio elétrico mas por diferença de frequência de comunicação cada um acessa uma parte da banda. Há também o sistema híbrido, onde a internet é a cabo até um sistema de distribuição a partir da qual passa a ser óptica, além de, é claro, a em fibra óptica completa, que vai até o seu roteador via fibra óptica. 
 
-Todas essas tecnologias chegam até o modem em sua casa, que possui o endereço IP real. Esse modem se conecta a um roteador, que distribui a conexão entre os dispositivos de final de curso dentro de sua casa via protocolo NAT, além disso normalmente ele possui Firewall. Esse roteador local também pode distribuir as informações via wifi ou cabo ethernet.
+Todas essas tecnologias chegam até o modem em sua casa, que possui o endereço IP real. Esse modem se conecta a um roteador, que distribui a conexão entre os dispositivos de final de curso dentro de sua casa via protocolo NAT, além disso normalmente ele possui Firewall. Esse roteador local também pode distribuir as informações via wifi ou cabo Ethernet.
 
 Outra forma é nas redes institucionais que podem ter Ethernet switches e roteadores ao lado de servidores e roteadores em toda uma infraestrutura interna de rede, mas claro, também ligada à internet externa via um roteador institucional que também pode ter firewalls e outras estruturas de segurança. Essa conexão com o mundo externo é feita a partir de um ISP (institutional link to internet).
 
@@ -76,7 +76,7 @@ Redes são complexas, pois temos muitas partes: Hospedeiros, roteadores, enlaces
 Assim, as camadas que temos são:
 
 - Camada de Aplicação: temos o suporte a aplicação de rede, com FTP, SMTP e HTTP.
-- Camada de transporte: temos a transferência de dados processo-processo com TCP e UDP.
+- Camada de transporte: temos a transferência de dados processo processo com TCP e UDP.
 - Camada de rede: temos o roteamento de datagramas da origem ao destino com IP e protocolos de roteamento.
 - Camada de enlace: Temos a transferência de dados entre elementos vizinhos da rede, como PPP e Ethernet.
 - Camada física: São os bits nos fios, ou no ar.
@@ -206,8 +206,7 @@ Na camada de rede nós temos o endereço lógico. Temos sub-serviços também, c
 Instanciação, implementação na internet. Ao invés de falarmos de quadro, falamos de datagrama.
 
 ## Funções da camada de rede
-Uma das funções da camada de rede é o roteamento. Nesse processo, o reteador em questão desencapsula a camada de rede e observa o endereçamento de origem e destino. O roteamento ocorre com a determinação do caminho de repasse dessa informação. Isso ocorre a partir de tabelas de roteamento. ão. Isso ocorre a partir de tabelas de roteamento. 
-
+Uma das funções da camada de rede é o roteamento. Nesse processo, o reteador em questão desencapsula a camada de rede e observa o endereçamento de origem e destino. O roteamento ocorre com a determinação do caminho de repasse dessa informação. Isso ocorre a partir de tabelas de roteamento. Isso ocorre a partir de tabelas de roteamento.
 
 
 
