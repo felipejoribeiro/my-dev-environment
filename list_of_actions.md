@@ -22,6 +22,8 @@ sudo apt install rsync
 sudo apt install shellcheck
 sudo apt install unzip
 sudo apt install fzf
+sudo apt install gnome-terminal
+
 
 # To enhance the terminal experience (remember to install the recommended fonts)
 sudo apt-get install zsh
