@@ -39,3 +39,10 @@ sudo apt-get install xdg-utils --fix-missing
 # To clone the work
 - place the ssh key in ~/.ssh/ and make it ready only with the command "chmod 400 ~/.ssh/id_rsa".
 - than run the git clone programs. (this task was automated partially with the python script)
+
+# Is interesting too to compile the vim that you use. 
+This is important because makes possible to enable lots of interesting features like python and ruby support.
+Those things as necessary for a better execution of plugins and other things. And is really easy to do.
+For that we may follow this tutorial from YouCompleteMe. Just execute the shell file in this directory. It can be called from other scripts or it can be implemented in other program. 
+It is in "clone_compile_install_vim.sh"
+
