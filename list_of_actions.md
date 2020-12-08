@@ -23,7 +23,7 @@ sudo apt install shellcheck
 sudo apt install unzip
 sudo apt install fzf
 sudo apt install gnome-terminal
-
+sudo apt install -y zathura
 
 # To enhance the terminal experience (remember to install the recommended fonts)
 sudo apt-get install zsh
