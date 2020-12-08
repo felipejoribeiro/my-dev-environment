@@ -24,6 +24,8 @@ sudo apt install unzip
 sudo apt install fzf
 sudo apt install gnome-terminal
 sudo apt install -y zathura
+sudo apt-get install curl wget git build-essential libssl-dev
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
 
 # To enhance the terminal experience (remember to install the recommended fonts)
 sudo apt-get install zsh
