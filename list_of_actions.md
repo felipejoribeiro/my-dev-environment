@@ -7,6 +7,7 @@ sudo apt install python
 sudo apt install python3-pip
 sudo apt install python-dev python3-dev -yqq
 sudo apt install git
+sudo apt install nvim
 sudo apt install tmux 
 sudo apt install vim-nox
 sudo apt install vim-gtk
@@ -48,3 +49,5 @@ Those things as necessary for a better execution of plugins and other things. An
 For that we may follow this tutorial from YouCompleteMe. Just execute the shell file in this directory. It can be called from other scripts or it can be implemented in other program. 
 It is in "clone_compile_install_vim.sh"
 
+# The neovim editor is magnificent. 
+I installed the Neovim editor and this was awesome. The alt key is functional now and things are great with the asynchronous stuff. New very important file init.vim. It is located in .config/nvim with other great things to keep in the radar. Ale, jedi, everything works great. Great Markdown support too  
