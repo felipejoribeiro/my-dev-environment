@@ -21,10 +21,10 @@ E veremos sobre a história da internet.
 ## Um protocolo é uma forma de comunicação. A língua portuguesa é um protocolo de comunicação entre dois seres humanos.
 Nos protocolos de redes, ao invés de dois humanos temos duas máquinas. Ela também deve falar uma língua padrão para ser entendida pela outra máquina. O protocolo define o formato, a ordem das mensagens, e as ações tomadas sobre a transmissão e recepção de mensagens. Exemplo:
 
-Computador1: -Solicito uma conexão TCP. (pacotes com informações que significam essa requisição).
-Computador2: -Entendi sua mensagem, posso enviar.
-Computador1: -Solicito http://www.google.com.
-Computador2: -<arquivos> (html, js, etc...)
+- Computador1: -Solicito uma conexão TCP. (pacotes com informações que significam essa requisição).
+- Computador2: -Entendi sua mensagem, posso enviar.
+- Computador1: -Solicito http://www.google.com.
+- Computador2: -<arquivos> (html, js, etc...)
 
 ## Borda da rede são os hospedeiros, a rede de acesso e o meio físico.
 Aqui rodam as aplicação e é onde ocorre a interação máquina homem. Aqui é onde o desktop trabalha. Podem haver dois modelos de comunicação entre hospedeiros sendo eles:
@@ -126,9 +126,9 @@ Temos também o IP spoofing, em que enviamos pacotes com endereço de origem fal
 ## Camada de enlace
 Hospedeiros e roteadores somos nós. Canais de comunicação que conectam a nós adjacentes pelo caminho de comunicação são **enlaces**. Existem enlaces com fio (cabos submarinos ou elétricos) e enlaces sem fio(Antenas de distribuição) e reses LAN(wifi).
 
-<computador>----ethernet-----|roteador|------------------|roteador|---------------<acesspoint>
+     <computador>----ethernet-----|roteador|------------------|roteador|---------------<acesspoint>
 
-               (quadro 1)                  (quadro 2)                 (quadro 3)
+                       (quadro 1)                  (quadro 2)                 (quadro 3)
 
 Em cada quadro há serviços, como por exemplo detecção e correção de erros. Em cada um desses a informação(datagrama) é codificada de forma diferente (quadro diferente). Assim o data grama é formatado de acordo com o protocolo do modal de transmissão. 
 
@@ -212,12 +212,12 @@ Uma das funções da camada de rede é o roteamento. Nesse processo, o reteador 
 O repasse é passar por um cruzamento, e você ir para a via certa. O roteamento é o estabelecimento da rota. Sabendo-se as ruas pelas quais você ira passar. O roteador cria tabelas de roteamento com base em algoritmos de roteamento. Essa tabela diz, com base no endereço de destino, pra onde encaminhar a informação, isso ocorre em todo roteador. Também é possível a criação de caminhos virtuais, uma conexão virtual. 
 Existem serviços, na camada de rede, para determinadas necessidades de broadcast.
 
-Arquitetura  | modelo        |   Garantia de    | Garantia     |  Ordenação | Temporização | Indicação de 
-    rede     | de serviço    | largura de banda | contra perda |            |              | congestionamento
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Internet     | Menor esforço |    Nenhuma       |  Nenhuma     |  qualquer  | Não mantida  | Nenhuma
-ATM          |     CBR       | Taxa constante   |   sim        |  Na ordem  | Mantida      | previne
-ATM          |     CBR       | Mínima garantida |   sim        |  Na ordem  | Não mantida  | previne
+ Arquitetura  | modelo        |   Garantia de    | Garantia     |  Ordenação | Temporização | Indicação de 
+     rede     | de serviço    | largura de banda | contra perda |            |              | congestionamento
+ .............................................................................................................
+ Internet     | Menor esforço |    Nenhuma       |  Nenhuma     |  qualquer  | Não mantida  | Nenhuma
+ ATM          |     CBR       | Taxa constante   |   sim        |  Na ordem  | Mantida      | previne
+ ATM          |     CBR       | Mínima garantida |   sim        |  Na ordem  | Não mantida  | previne
 
 Dessa forma se observa que o protocolo ATM tem features ajustáveis. Existe um preço agregado dependendo das necessidades que existem dentro de uma camada de rede.
 Esses serviços são análogos aos que se encontram dentro da camada de transporte (no computador), mas eles ocorrem no núcleo, ou seja, entre roteadores, estabelecendo circuitos virtuais. 
@@ -387,4 +387,66 @@ Para a de 254   precisamos de 2^8 = 256     130.10.00000000.|00000000
 
 ## Camada de transporte
 Já estamos pensando na programação. Pois isso ocorre dentro do pc. São os protocolos UDP e TCP. 
+Temos as portas, ou seja, aqui já falamos de terminologias de sistema final. (fim de curso).
+Temos um socket, que é aberto por uma aplicação e uma porta. Assim, quando estou desenvolvendo minha aplicação, devo pensar na camada de aplicação e na camada de transporte. Vamos começar a falar de programação. 
+Existem dois mais importantes:
+- UDP: transporte não orientado a conexão. Não é necessário se estabelecer uma conexão. A informação é enviada e não se sabe se ela chegou.
+- TCP: Este é orientado a conexão, então ele recebe feedback pela informação que envia, neste protocolo.
+A Camada de transporte não é acessada pelo núcleo da rede, assim, a informação é empacotada e só é desempacotada no destino final.
 
+Recapitulando: Falamos já da camada física, enlace, rede e agora a camada de transporte.
+Na física pensamos no sinal, como ele é formatado e transmitido. Na de enlace onde ocorre o endereçamento físico. Então temos a camada de rede, que estabelece o endereço lógico. E agora falaremos na camada de transporte.
+A camada de transporte oferta comunicação lógica entre processos de aplicação rodando em hosts diferentes. Ou seja, na camada de rede ocorre a comunicação lógica entre os computadores envolvidos na comunicação, enquanto na camada de transporte temos a comunicação entre as aplicações. Ou seja, o endereço da aplicação é abstraído da camada de rede.
+Temos duas categorias de atores:
+- Remetente: Na camada de transporte, segmenta a informação em pacotes pequenos.
+- Destinatário: Remonta a informação segmentada pelo remetente.
+
+Diferença quanto aos serviços dos protocolos UDP e TCP:
+- TCP: Controle de congestionamento, controle de fluxo e estabelecimento de conexão.
+- UDP: extensão sem luxo do IP pelo menor esforço. Informações podem ser perdidas.
+
+# Multiplexação:
+Ela ocorre no remetente. Ela coleta dados de múltiplos sockets e insere em seus cabeçalhos uma identificação para auxiliar na montagem da informação no destinatário. No destinatário as informações recebidas são encaminhadas para os sockets corretos a partir dos cabeçalhos no momento da multiplexação. 
+O hospedeiro recebe o data grama, cada um tem um segmento da camada de transporte. Cada segmento tem o número da porta de origem e da porta de destino. O hospedeiro usa o número IP e o número da porta para encaminhar o segmento para o socket apropriado. O socket UDP é identificado por tupla de dois elementos, endereço de IP de destino e número de porta de destino. O de TCP tem 4 elementos na tupla. Tem-se endereço de IP de origem e número de porta de origem, IP de destino e número de porta de destino. Assim, podem haver múltiplos sockets para a mesma aplicação para o caso do tcp.
+
+Correio eletrônico | SMTP | TCP
+Acesso a terminal remoto | Telnet| TCP
+Web | HTTP | TCP
+Transferência de arquivo | FTP | TCP
+Servidor de arquivos remoto | NFS | Tipicamente UDP
+Recepção de multimídia | Tipicamente proprietário | UDP ou TCP
+Telefonia por internet | tipicamente proprietário | UDP ou TCP
+Gerenciamento de rede | SNMP | Tipicamente UDP 
+Protocolo de roteamento | RIP | Tipicamente UDP
+Tradução de nome | DNS | Tipicamente UDP 
+
+# UDP : User Datagram Protocol 
+Serviço básico e sem luxo. Informação pode ser perdida ou ordem pode ser mudada dos fragmentos da informação. Não há estabelecimento de conexão (o feedback pode causar atraso), sem estado de conexão no remetente, destinatário. E não há controle de congestionamento.
+Ele é normalmente usado para aplicações de stream, onde a integridade da informação não é crucial. Ele é usado no DNS, SNMP e no RIP. Pode haver um check sum, que faz uma verificação de bits invertidos. O destinatário pode checar a informação para detectar se a informação veio corrompida. Essa é uma das principais características do protocolo UDP.
+
+# Estaelecimento de conexões confiáveis. 
+É importante que se vejam as estratégias para assegurar a confiabilidade da transmissão de um sinal. Essas estratégias podem ser usadas em canais que se preocupam com a integridade das informações transmitidas, como o TCP.
+Esses princípios são encarados como importantes tanto na camada de enlace quanto na de transporte e na de aplicação. As características do canal confiável determinarão a complexidade do protocolo de transferência confiável. O protocolo rdt (reliable data transfer) é complexo na medida do necessário.
+Se o canal é confiável, não é necessário que os protocolos rdt sejam muito robustos. Mas, no caso contrário, se a confiabilidade não é assegurada, os protocolos de rdt são necessários. 
+Assim, temos de forma incremental de transferência de dados que usam de máquinas de estado finito que ficam checando o estado atual, para especificar RE e DE.
+- rdt1.0: nenhum erro de bit, não há perdas de pacotes.
+- rdt2.0: Faz um check sum, reconhece erros, e faz um feedback dizendo que houve problema. Havendo problema, o remetente envia novamente o mesmo pacote. Não identifica as chamadas.
+- rdt2.1: Ocorre a identificação da chamada, podendo assim identificar erros de envio de NAK.
+- rdt2.2: Não usa NAK, mas sim ACK, e todo processo recebido é enviado estado de recebimento com identificação.
+- rdt3.0: Tem tudo de antes, mais um timeout, onde o remetente espera por um tempo o ack. Se não for recebido, ele duplica já a informação. 
+- Go_back_n: É feito em janelas de envio em paralelo.
+- repetição_seletiva: repete a partir de falha, também trabalha em janelas em paralelo.
+
+Go_back_end e separação seletiva usam paralelismo o que é ótimo. No Go_back_end, a partir do momento que não há o retorno do recebimento da informação, ele reenvia tudo novamente, após a confirmação do timeout. Já na repetição seletiva, existe um burrer no receptor e ele guarda as informação após o pacote perdido que chegarem. Assim o remetente não precisa reenviar tudo após o time out, mas sim somente o que foi perdido.
+
+# TCP : Ele existe ponto a ponto, onde existe um remetente e um destinatário. 
+Tem-se a confiança de que os dados chegarão de forma correta e em ordem. Pode-se trabalhar em paralelo com controle de fluxo e congestionamento. Os dados são enviados de forma full duplex, onde os dados são bidirecionais. O remetente não sobrecarrega o destinatário, há um controle de fluxo.
+Existe o check sum para verificação dos dados. Informações de feedback e outros são anexados nos cabeçalhos do data grama. Akcs são usados para checagem de envio. A determinação de buffers e sequência de envio são controlados pelo programador na camada de aplicação. Pode-se programar time-outs, por exemplo, ou fazer as coisas em paralelo. Para estimar esse tempo de espera pode-se estimar o RTT, existem funções para estimar o tempo de ida e volta da informação.
+
+EstimatedRTT = (2 - \alpha) * EstimatedTrr + \alpha * SampleRTT
+
+Assim, o estimado procura um valor médio deste temo de envio, e pode variar com o tempo.
+Para garantir a transferência confiável usa-se o rdp em sima do IP. Usa-se envio de seguimentos em paralelo. Há ACKs acumulativos, o tcp usa temporizador único de retransmissão. Retransmissão são trigadas por eventos de time out e acks duplicados.
+Assim, inicia-se uma conexão a nível de aplicação, e iniciam-se as estratégias de comunicação, com medição de tempo de resposta e tudo que seja necessário. Até o fechamento da conexão deve ser comunicado e confirmado com ACK. Assim, a aplicação é fechada no servidor também. 
+Existe também o controle de fluxo, ou seja, se o remetente envia muitos dados, rápido de mais, o destinatário pode avisar e pedir para diminuir o tráfego. Os buffers sobrecarregados sinalizam esse fato para o destinatário. O resultado de congestionamento pode ser a perda de pacotes e longos atrasos. Com um enfileiramento muito grande nos buffers. Este é um dos grandes problemas das redes de computadores. Então como tratar isso? 
+Se houver mais dados que o limite de banda da conexão, começam a haver problemas. Roteadores não possuem buffers infinitos, mas aumentar a memória deles permite maior engarrafamento sem perda de dados. Aumentar a rapidez de processamento é uma solução real, mas esse é o tipo de manutenção que existe no núcleo da rede. Quanto mais hosts em uma rede mais difícil é manter a eficiência e, por consequência, as capacidades de uma estrutura de rede.
