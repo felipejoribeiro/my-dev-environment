@@ -50,4 +50,6 @@ For that we may follow this tutorial from YouCompleteMe. Just execute the shell 
 It is in "clone_compile_install_vim.sh"
 
 # The neovim editor is magnificent. 
-I installed the Neovim editor and this was awesome. The alt key is functional now and things are great with the asynchronous stuff. New very important file init.vim. It is located in .config/nvim with other great things to keep in the radar. Ale, jedi, everything works great. Great Markdown support too  
+I installed the Neovim editor and this was awesome. The alt key is functional now and things are great with the asynchronous stuff. New very important file init.vim. It is located in .config/nvim with other great things to keep in the radar. Ale, jedi, everything works great. Great Markdown support too. Latex development is now incredible and complete. With no compromisses and really incredible stuff.
+The installation of the zathura package must be better documented, but works like a charm. The forward and backward search is awesome and the zathura configuration to combine with the console theme is fantastic. I even modified the airline theme to look well with the rest of the build. Now i am  happy.
+There are some problems even now. Specially with some bugs with freezing of the x410 xserver and resulting freezing of the nvim session. But i hope thing can get better given the time. For now the build looks pretty promising.
