@@ -6,7 +6,7 @@ This program is used to sync all repos in the csv file.
 import csv
 import os
 
-MY_WD = "work"
+MY_WD = "./../work"
 if __name__ == "__main__":
     with open("git_repos.csv") as file:
         csv_data = csv.reader(file, delimiter=',')
