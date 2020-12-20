@@ -30,7 +30,7 @@ For setting this up, the windows 10's 2004 build is necessary, alongside some ot
 
 ### Solving the graphicall application's problem:
 
-For this, it's necessary to install an X Window server for Windows 10, like Xming or X410. I installed X410, so i will show how to configure wsl2 to work with the software to solve both the graphical problem and the clipboard problem. 
+For this, it's necessary to install an X Window server for Windows 10, like Xming or X410. I installed X410, so i will show how to configure wsl2 to work with the software to solve both the graphical problem and the clipboard problem. Now and then is possible to find problems regarding instability. Some atention has to be given to this. 
 
 ### Solving Tmux graphical glitches:
 
