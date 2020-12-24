@@ -7,17 +7,18 @@ The UML is a standardized form of drawing programs. It uses boxes and lines to d
 
 - Boxes: They symbolize classes. Within it rests the properties and methods listed in the box. It summarizes all that there is in the module.
 
-                +-------------------------------+
-	        |      name_of_class            |               __________________.
-		|-------------------------------|              |                   \
-		| +variable:int                 |              |____________________\___________.
-		| -variable2:int=30             |              |                                |
-		| -variable3:int {readOnly}     | -----------> |  dados ou classe (dependencia) |
-		| #variable4:Boolean=true       |              |                                |
-		+-------------------------------+              +--------------------------------+
-		| +function1():int              |
-		| -function2(int a, int b):int  |
-		+-------------------------------+                  A -------> B   (A usa B)
+
+            +-------------------------------+
+            |      name_of_class            |               __________________.
+            |-------------------------------|              |                   \
+            | +variable:int                 |              |____________________\___________.
+            | -variable2:int=30             |              |                                |
+            | -variable3:int {readOnly}     | -----------> |  dados ou classe (dependencia) |
+            | #variable4:Boolean=true       |              |                                |
+            +-------------------------------+              +--------------------------------+
+            | +function1():int              |
+            | -function2(int a, int b):int  |
+            +-------------------------------+                  A -------> B   (A usa B)
 
 
 Neste exemplo podemos ver como as propriedades e métodos se organizam dentro da função. Os símbolos a esquerda indicam se a função é pública ou privada da classe. Ou se é protegida. Uma legenda pode acompanhar o diagrama para especificar esse tipo de informação. Depois dos dois pontos vem o que a variável contém, ou o que a função retorna. As setas indicam dependências. Isso pode ser um conjunto de dados que a classe usa, ou outra classe. 

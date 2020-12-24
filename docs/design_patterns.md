@@ -27,127 +27,53 @@ The method `getInstance()` makes sure that only one instance of the object is cr
 The problem with this design pattern is that the function `getInstance()` is not thread-safe. So it's possible to exist more than one instance simultaneously.
 
 ## The Factory Pattern principle
-This Design pattern is important as it enhance polymorphism in our code. With this method it's possible to not determine a type on the code in an concrete manner. As an alternative we can call a constructor that knows what to use. By doing that one can avoid creating cross dependency between a parent and a child class.
+Such principle is important as it frees a client routine of creating objects. This is nice because it separates a high level code from low level tasks as object creation. This is important too because it allows one to add new functionalities without breaking the Open-Close principle. This Design pattern is important as it enhance polymorphism in our code. With this method it's possible to not determine a type on the code in an concrete manner. As an alternative we can call a constructor that knows what to use. By doing that one can avoid creating cross dependency between a parent and a child class.
+
 For example:
 
 ```csharp
-void GameObject boneco = new GameObject;
-```
-
-This is bad as 
-
-
-```csharp
-using System;
-
-namespace code.DesignPatterns.FactoryMethod.Conceptual
+public interface ICar
 {
-    // The Creator class declares the factory method that is supposed to return
-    // an object of a Product class. The Creator's subclasses usually provide
-    // the implementation of this method.
-    abstract class Creator
+    void SetModel(string model);
+}
+
+public ICar GetCar(string brand)
+{
+    switch(brand)
     {
-        // Note that the Creator may also provide some default implementation of
-        // the factory method.
-        public abstract IProduct FactoryMethod();
-
-        // Also note that, despite its name, the Creator's primary
-        // responsibility is not creating products. Usually, it contains some
-        // core business logic that relies on Product objects, returned by the
-        // factory method. Subclasses can indirectly change that business logic
-        // by overriding the factory method and returning a different type of
-        // product from it.
-        public string SomeOperation()
-        {
-            // Call the factory method to create a Product object.
-            var product = FactoryMethod();
-            // Now, use the product.
-            var result = "Creator: The same creator's code has just worked with "
-                + product.Operation();
-
-            return result;
-        }
+        case "bmw":
+            return new BMW();
+        case "audi":
+            return new Audi();
+        default:
+            return null;
     }
+}
 
-    // Concrete Creators override the factory method in order to change the
-    // resulting product's type.
-    class ConcreteCreator1 : Creator
+class Audi : ICar
+{
+    private string _model;
+
+    public void SetModel(string model)
     {
-        // Note that the signature of the method still uses the abstract product
-        // type, even though the concrete product is actually returned from the
-        // method. This way the Creator can stay independent of concrete product
-        // classes.
-        public override IProduct FactoryMethod()
-        {
-            return new ConcreteProduct1();
-        }
+        _model = model;
     }
+}
 
-    class ConcreteCreator2 : Creator
+class BMW : ICar
+{
+    private string _model;
+
+    public void SetModel(string model)
     {
-        public override IProduct FactoryMethod()
-        {
-            return new ConcreteProduct2();
-        }
-    }
-
-    // The Product interface declares the operations that all concrete products
-    // must implement.
-    public interface IProduct
-    {
-        string Operation();
-    }
-
-    // Concrete Products provide various implementations of the Product
-    // interface.
-    class ConcreteProduct1 : IProduct
-    {
-        public string Operation()
-        {
-            return "{Result of ConcreteProduct1}";
-        }
-    }
-
-    class ConcreteProduct2 : IProduct
-    {
-        public string Operation()
-        {
-            return "{Result of ConcreteProduct2}";
-        }
-    }
-
-    class Client
-    {
-        public void Main()
-        {
-            Console.WriteLine("App: Launched with the ConcreteCreator1.");
-            ClientCode(new ConcreteCreator1());
-            
-            Console.WriteLine("");
-
-            Console.WriteLine("App: Launched with the ConcreteCreator2.");
-            ClientCode(new ConcreteCreator2());
-        }
-
-        // The client code works with an instance of a concrete creator, albeit
-        // through its base interface. As long as the client keeps working with
-        // the creator via the base interface, you can pass it any creator's
-        // subclass.
-        public void ClientCode(Creator creator)
-        {
-            // ...
-            Console.WriteLine("Client: I'm not aware of the creator's class," +
-                "but it still works.\n" + creator.SomeOperation());
-            // ...
-        }
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            new Client().Main();
-        }
+        _model = model;
     }
 }
 ```
+
+This is bad. The class GetCar is a part of the client code. There are some problems:
+- If the agency needs to add a new brand in the code, the client code would need to be modified. This breaks the open close principle.
+- The code isn't very extensible. If the company needed different brands to appear in different client applications, each client would need to create it's own car brand query, and changes on these car brands would result in changes that wound have to be applied in each client code.
+
+
+
