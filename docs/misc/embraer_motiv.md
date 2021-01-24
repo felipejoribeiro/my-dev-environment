@@ -25,3 +25,15 @@ Muito obrigado.
 - 6: foto produzindo face shields (2 no LAV(ok) e 1 na femec(ok) e 1 da impressora(ok))
 - 8: none
 - 7: none
+
+```plantuml
+
+doc -> alica: ola
+alica -> doc: eita1
+
+```
+
+$\frac{1}{2} = \sum$
+
+
+
