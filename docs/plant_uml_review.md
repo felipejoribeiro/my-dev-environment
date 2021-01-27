@@ -117,7 +117,8 @@ class epa {
     putin();
 }
 
-vishe <- eita
+\'vishe 
+<- eita'\
 vishe <- ola
 vishe <.. epa
 

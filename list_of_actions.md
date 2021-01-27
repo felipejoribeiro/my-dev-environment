@@ -9,12 +9,13 @@ sudo apt install python-dev python3-dev -yqq
 sudo apt install git
 sudo apt install nvim
 sudo apt install tmux 
-sudo apt install vim-nox
-sudo apt install vim-gtk
+sudo apt install nodejs
+sudo apt install npm
 sudo apt install openssh-client
 sudo apt install curl
 sudo apt install gnupg
 sudo apt install htop
+sudo apt install neofetch
 sudo apt install jq
 sudo apt install pass
 sudo apt install pwgen
