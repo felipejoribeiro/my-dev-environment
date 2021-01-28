@@ -117,8 +117,7 @@ class epa {
     putin();
 }
 
-\'vishe 
-<- eita'\
+ola <- eita
 vishe <- ola
 vishe <.. epa
 
@@ -221,6 +220,180 @@ backgroundColor null
 *** <s>Raspmbc</s> => OSMC
 *** <s>Raspyfi</s> => Volumio
 @endmindmap
+
+```
+</div>
+
+Gráfico de tempo:
+
+
+<div style='text-align:center'>
+
+```plantuml
+
+@startuml
+
+!define DARKBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+skinparam {
+ArrowColor white
+
+ParticipantFontname Times
+ParticipantBorderColor white
+ParticipantBackgroundColor #282A36
+ParticipantFontSize 12
+
+classFontColor white
+classFontName Times
+classFontSize 16
+
+ArrowFontName Times
+ArrowFontSize 14
+
+ActorBackgroundColor #282A36
+ActorBorderColor white
+ActorFontColor white
+ActorFontSize 16
+ActorFontName Times
+
+backgroundColor null
+}
+
+robust "Web Browser" as WB
+concise "Web User" as WU
+
+@0
+WU is Idle
+WB is Idle
+
+@100
+WU is Waiting
+WB is Processing
+
+@300
+WB is Waiting
+@enduml
+
+```
+</div>
+
+Gráfico de tempo:
+
+
+<div style='text-align:center'>
+
+```plantuml
+
+@startuml
+
+!define DARKBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+skinparam {
+ArrowColor white
+
+ParticipantFontname Times
+ParticipantBorderColor white
+ParticipantBackgroundColor #282A36
+ParticipantFontSize 12
+
+classFontColor white
+classFontName Times
+classFontSize 16
+
+ArrowFontName Times
+ArrowFontSize 14
+
+ActorBackgroundColor #282A36
+ActorBorderColor white
+ActorFontColor white
+ActorFontSize 16
+ActorFontName Times
+
+backgroundColor null
+}
+
+@startgantt
+-- test01 --
+[task01] lasts 1 days
+note bottom
+'note left
+memo1 ...
+memo2 ...
+explanations1 ...
+explanations2 ...
+end note
+[task02] lasts 1 days
+[task01] -> [task02]
+note bottom
+'note left
+memo1 ...
+memo2 ...
+explanations1 ...
+explanations2 ...
+end note
+-- test02 --
+[task03] as [t3] lasts 7 days
+[t3] -> [t4]
+@endgantt
+
+
+@enduml
+
+```
+</div>
+
+Mais uma de tempo
+
+
+<div style='text-align:center'>
+
+```plantuml
+
+@startuml
+
+!define DARKBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+skinparam {
+ArrowColor white
+
+ParticipantFontname Times
+ParticipantBorderColor white
+ParticipantBackgroundColor #282A36
+ParticipantFontSize 12
+
+classFontColor white
+classFontName Times
+classFontSize 16
+
+ArrowFontName Times
+ArrowFontSize 14
+
+ActorBackgroundColor #282A36
+ActorBorderColor white
+ActorFontColor white
+ActorFontSize 16
+ActorFontName Times
+
+backgroundColor null
+}
+
+|#Lavender|RM ACOSS|
+start
+fork
+:KICKOFF RM ACOSS;
+
+fork again
+|#AliceBlue|CP ou délégataire|
+:KICKOFF CP;
+
+fork again
+|#Gainsboro|DEV CDS|
+:KICKOFF CDS;
+end fork
+
+
+Stop
+@enduml
 
 ```
 </div>
