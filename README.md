@@ -84,11 +84,11 @@ To create the disk partitions you must run the **fdisk** program. For that we us
 We need to make three file systems for the three partitions we created. For the EFI partition we must make it FAT32. For that we run the command `mkfs.fat -F32 /dev/sda1`. For the swap partition we run the command `mkswap /dev/sda2` to create it and `swapon /dev/sda2` to enable it. And lastly we make the file system for the system partition with the command `mkfs.ext4 /dev/sda3` and then we must mount this partition with the command `mount /dev/sda3 /mnt`.
 
 #### Installing the base Linux system
-Now has come the time to install the base Arch Linux system in the mounted disk. For this we run the command:
+Now has come the time to install the base Arch Linux system in the mounted disk. But for stability sake, we will install the LTS kernel that is the version of long time support. It features less updates than the normal kernel but receive all security updates. For this we run the command:
 
 ```shell
     
-    pacstrap /mnt base linux linux-firmware
+    pacstrap /mnt base linux-lts linux-lts-headers linux-firmware
 
 ```
 
@@ -122,6 +122,9 @@ And finally, we must add the new user in some groups to give it permissions (to 
 
 #### Installing SUDO
 Them we can install the **sudo** program. With pacman by running the `pacman -S sudo` command. And after that you can edit the sudo configurations with the command `visudo`. Than search for the line `# %wheel ALL=(ALL) ALL` and uncomment it. That will give privileges to your new born user, as it is in the wheel group.
+
+#### For microcode auto update
+The microcode is a program that is present in your processor. While it is possible to update it in the bios, the linux kernel is capable to upgrade it while the boot happens. For this, install `intel-ucode` for intel processors and `linux-firmware` for amd processors (we've already done that). You can install with the command `sudo pacman -S intel-ucode`.
 
 #### Installing the bootloader
 Then BIOS checks the Master Boot Record (MBR), which is a 512 byte section located first on the Hard Drive. It looks for a bootloader (like GRUB). The hard drive's partition tables are also located here. If you remember, we created a partition for the EFI with this exact size. We will install the bootloader there now.
