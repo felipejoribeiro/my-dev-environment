@@ -3,9 +3,7 @@ A place for the documentation of my development environment. Here i list the too
 
 If you have suggestions or corrections fell free to create a pull request, or send-me an email (felipejoribeiro1@gmail.com). Which will be pretty much appreciated.
 
-Last updated on **November/2020**. 
-
----
+Last updated on **February/2021**. 
 
 ## Windows:
 It's a **Windows 10 Home edition**, with the **2004** (may of 2020) build. 
@@ -51,6 +49,10 @@ The .vimrc file is already prepared for this Plugin. It has the benefit of makin
 
 
 
+## Linux
+For the linux part I'm using an Arch distribution, currently from the 2021.02.01 iso. The objective is to manage an operating system focused on security and on the keyboard. The routine of optimized initialization will be created to enable a recently installed Arch Linux for production with one line of code. Such endeavor is important as arch is knowingly an instable system for now users and I'm trying to make this process easier.
 
+### Window manager:
+For managing the windows of the system the program that i chose  was **Spectrwm**. For installing the program in Arch systems this is easy. One line is enough: `sudo pacman -S spectrwm`.
 
 
