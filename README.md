@@ -84,11 +84,12 @@ To create the disk partitions you must run the **fdisk** program. For that we us
 We need to make three file systems for the three partitions we created. For the EFI partition we must make it FAT32. For that we run the command `mkfs.fat -F32 /dev/sda1`. For the swap partition we run the command `mkswap /dev/sda2` to create it and `swapon /dev/sda2` to enable it. And lastly we make the file system for the system partition with the command `mkfs.ext4 /dev/sda3` and then we must mount this partition with the command `mount /dev/sda3 /mnt`.
 
 #### Installing the base Linux system
-Now has come the time to install the base Arch Linux system in the mounted disk. But for stability sake, we will install the LTS kernel that is the version of long time support. It features less updates than the normal kernel but receive all security updates. For this we run the command:
+Now has come the time to install the base Arch Linux system in the mounted disk. But for stability sake, we will install the LTS kernel that is the version of long time support. It features less updates than the normal kernel but receive all security updates.
+The microcode is a program that is present in your processor. While it is possible to update it in the bios, the linux kernel is capable to upgrade it while the boot happens. For this, install `intel-ucode` for intel processors and `linux-firmware` for amd processors. Install these things with:
 
-```shell
+```
     
-    pacstrap /mnt base linux-lts linux-lts-headers linux-firmware
+    pacstrap /mnt base linux-lts linux-lts-headers linux-firmware intel-ucode
 
 ```
 
@@ -100,7 +101,16 @@ Them we must create a file system for our Linux installation by running the `gen
 You can see if the command worked by seeing the change in the bash command line.
 
 #### Setting our time zone
-Now that we are in the right system we can set the timezone. For that you can reference the right region with the command `ln -sf /usr/share/zoneinfo/Brazil/East /etc/localtime` for my case given the place i reside. Than you can set the hardware clock with the command `hwclock --systohc`. Than you must define the locale by editing the file `/etc/locale.gen`. This can be done with vim, but you must install it first with `pacman -S vim`. Then find the right locale and uncomment it. After that you must run the command `locale-gen`. You can uncomment how much locales you need. You can see the ones activated with the command `locale -a`
+Now that we are in the right system we can set the timezone. For that you can reference the right region with the command `ln -sf /usr/share/zoneinfo/Brazil/East /etc/localtime` for my case given the place i reside. Than you can set the hardware clock with the command `hwclock --systohc`. Than you must define the locale by editing the file `/etc/locale.gen`. This can be done with vim, but you must install it first with `pacman -S vim`. Then find the right locale and uncomment it. After that you must run the command `locale-gen`. You can uncomment how much locales you need. You can see the ones activated with the command `locale -a`.
+
+And, finally, create the file `/etc/locale.conf` with:
+```
+    LANG=en_US.UTF-8
+```
+And make the keyboard layout stay persistent in `/etc/vconsole.conf`:
+```
+    KEYMAP=us
+```
 
 #### Setting the Host name
 Now we will set the computer hostname editing a file again with vim. The file is `/etc/hostname` and you can set it to whatever you want. And we must add some other hosts locally adding the following lines in the file `/etc/hosts`:
@@ -123,9 +133,6 @@ And finally, we must add the new user in some groups to give it permissions (to 
 #### Installing SUDO
 Them we can install the **sudo** program. With pacman by running the `pacman -S sudo` command. And after that you can edit the sudo configurations with the command `visudo`. Than search for the line `# %wheel ALL=(ALL) ALL` and uncomment it. That will give privileges to your new born user, as it is in the wheel group.
 
-#### For microcode auto update
-The microcode is a program that is present in your processor. While it is possible to update it in the bios, the linux kernel is capable to upgrade it while the boot happens. For this, install `intel-ucode` for intel processors and `linux-firmware` for amd processors (we've already done that). You can install with the command `sudo pacman -S intel-ucode`.
-
 #### Installing the bootloader
 Then BIOS checks the Master Boot Record (MBR), which is a 512 byte section located first on the Hard Drive. It looks for a bootloader (like GRUB). The hard drive's partition tables are also located here. If you remember, we created a partition for the EFI with this exact size. We will install the bootloader there now.
 For installing the grub program you must run the `pacman -S grub` command. As we will manage EFI bios, we must install other programs: `pacman -S efibootmgr dosfstools os-prober mtools`.
@@ -137,12 +144,32 @@ Now we can install a network manager and git. The one recommended was `pacman -S
 And thats it. You installed arch Linux. Now you can reboot. For that type `exit` to close chroot and unmount the system disk with `umount -l /mnt`. Then run `shutdown now` to close the os. Remove the flash drive and reboot.
 That's it for the installation.
 
+
 ### After the installation
+
+
 Some good packages to have installed:
 
 - `pacman -S --needed base-devel`
 
-First thing that is good is to enable the **AUR** (Arch User Repository) that enables the command **yay**. For that you need git installed and then clone the repo to your machine with:
+#### Disable boot grub menu
+Chances are that there is only arch in your machine. That means that you don't need the grub initial menu for choosing the operation system. Than we can make that operation with the following procedure:
+
+Edit the following lines in the beginning of `sudo vim /etc/default/grub` file:
+
+```
+    # GRUB boot loader configuration
+
+    GRUB_DEFAULT=0
+    GRUB_TIMEOUT=0.0
+    GRUB_HIDDEN_TIMEOUT=0.0
+
+```
+
+And finally you can rerun the config generator with `grub-mkconfig -o /boot/grub/grub.cfg`.
+
+#### Enabling the AUR helper
+One thing that is good is to enable the **AUR** (Arch User Repository) with **yay**. This makes possible to download packages from the told repository. For that you need git installed and then clone the repo to your machine with:
 
 ```shell
 
