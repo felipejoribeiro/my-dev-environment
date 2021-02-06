@@ -115,7 +115,7 @@ And make the keyboard layout stay persistent in `/etc/vconsole.conf`:
 #### Setting the Host name
 Now we will set the computer hostname editing a file again with vim. The file is `/etc/hostname` and you can set it to whatever you want. And we must add some other hosts locally adding the following lines in the file `/etc/hosts`:
 
-```shell
+```
     
     127.0.0.1   localhost
     ::1         localhost
@@ -131,7 +131,7 @@ Now we will create the user and the user password as well. For that we run the c
 And finally, we must add the new user in some groups to give it permissions (to run the sudo command for example). For that we run the command `usermod -aG wheel,audio,video,optical,storage felipejoribeiro` 
 
 #### Installing SUDO
-Them we can install the **sudo** program. With pacman by running the `pacman -S sudo` command. And after that you can edit the sudo configurations with the command `visudo`. Than search for the line `# %wheel ALL=(ALL) ALL` and uncomment it. That will give privileges to your new born user, as it is in the wheel group.
+Them we can install the **sudo** program. With pacman by running the `pacman -S sudo` command. And after that you can edit the sudo configurations with the command `visudo`. Than search for the line `# %wheel ALL=(ALL) ALL` and uncomment it (line 82). That will give privileges to your new born user, as it is in the wheel group.
 
 #### Installing the bootloader
 Then BIOS checks the Master Boot Record (MBR), which is a 512 byte section located first on the Hard Drive. It looks for a bootloader (like GRUB). The hard drive's partition tables are also located here. If you remember, we created a partition for the EFI with this exact size. We will install the bootloader there now.
@@ -168,23 +168,37 @@ Edit the following lines in the beginning of `sudo vim /etc/default/grub` file:
 
 And finally you can rerun the config generator with `grub-mkconfig -o /boot/grub/grub.cfg`.
 
+#### Enabling the firewall
+A firewall is a program that controls the access of processes to the internet. The best way to do this is by **iptables**, but i don't know the process for now. So we will use the **ufw** for now which is better than nothing. For installation run the `sudo pacman -S ufw` command. Then, enable the process with `sudo ufw enable` and check if everything is running with `sudo ufw status verbos`.
+The default rule is to deny incoming and allow outgoing are ok for most applications. And changing things down the line i fairly simple if needed.
+To finish this process, enable the program to autostart with boot: `sudo systemctl enable ufw.service`.
+
+#### Check for errors
+To see if there is something wrong with your install, run the command `sudo systemctl --failed`, then check for error in log files with `sudo journalctl -p 3 -xb`. If red things pop up, search then online and thy to solve the problems if they are serious.
+
 #### Enabling the AUR helper
 One thing that is good is to enable the **AUR** (Arch User Repository) with **yay**. This makes possible to download packages from the told repository. For that you need git installed and then clone the repo to your machine with:
 
-```shell
+```
 
     git clone https://aur.archlinux.org/yay.git
 
 ```
 After installation you can enter the directory cloned and run `makepkg -si`, and **yay** will be installed in your system. This program is an AUR helper, that facilitates the process of downloading and installing packages from the user repository.
 
+#### Update the system
+Use the following command to update your system image with the latest software:
+`sudo pacman -Syu`. Remember, you can check your linux version with `uname -r`.
+
+#### Remove orphans
+After the installation there are programs that stay in the computer without reason. To get rid of those you can call this command: `sudo pacman -Rns $(pacman -Qtdq)`. If there is no targets, than you are ok to go.
 
 #### For video rendering
 To enable your arch distro to reder things besides the terminal, it must be installed a video driver. When in an virtual machine you can install **xf86-video-fbdev**, with `sudo pacman -S xf86-video-fbdev`, but be aware of finding the right video driver to your machine when installing in a pc. Reference can be found in https://wiki.archlinux.org/index.php/xorg.
 
 Then you must install **Xorg** too. It's an display server, the most popular among Linux users. It can be installed with  `pacman -S xorg xorg-xinit`. The **xinit** component is important as enable the user to initialize Xorg manually. This is important to other programs like window managers, for example. Know, its important to copy the config file for your home directory with `cp /etc/X11/xinit/xinitrc /home/<user>/.xinitrc`. Then, edit this file to initiate the programs like the window manager and others. By deleting the last lines that contains:
 
-```shell
+```
 
     twm &
     xclock - geometry
@@ -195,7 +209,7 @@ Then you must install **Xorg** too. It's an display server, the most popular amo
 ```
 Then add the following lines to open the right software:
 
-```shell
+```
     
     nitrogen --restore &
     picom &
