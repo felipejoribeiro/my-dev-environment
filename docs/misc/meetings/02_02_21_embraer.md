@@ -12,5 +12,5 @@ Entramos no pós processamento, clicamos em 'multiplos arquivos', Nos arquivos t
 Há outra ferramenta com a qual podemos analizar os dados. Ela se chama "hdf compass". Quando entrar nela, basta selecionar o arquivo, nós e podemos ver os elementos dentro da ferramenta h5. Também tem um amostrador de gráficos embutido que em faz questionar se a ferramenta foi programada em python, e provavelmente foi.
 
 [incumbência]
-Fui incumbido de melhorar a velocidade de uma biblioteca python que usamos, a smt. Assim, é bom vazer um fork do projeto e começar a mexer no projeto. É interessante a possibilidade de fazer um pull request e ter meu nome como um dos contribuintes do projeto e por o mflab como uma das instituições envolvidas.
+Fui incumbido de melhorar a velocidade de uma biblioteca python que usamos, a smt. Assim, é bom fazer um fork do projeto e começar a mexer no projeto. É interessante a possibilidade de fazer um pull request e ter meu nome como um dos contribuintes do projeto e por o mflab como uma das instituições envolvidas.
 Foi me indicado duas pessoas para pedir ajuda. O Márcio José da Cunha. E o Hiago.

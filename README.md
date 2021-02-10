@@ -85,7 +85,10 @@ We need to make three file systems for the three partitions we created. For the 
 
 #### Installing the base Linux system
 Now has come the time to install the base Arch Linux system in the mounted disk. But for stability sake, we will install the LTS kernel that is the version of long time support. It features less updates than the normal kernel but receive all security updates.
-The microcode is a program that is present in your processor. While it is possible to update it in the bios, the linux kernel is capable to upgrade it while the boot happens. For this, install `intel-ucode` for intel processors and `linux-firmware` for amd processors. Install these things with:
+The microcode is a program that is present in your processor. While it is possible to update it in the bios, the linux kernel is capable to upgrade it while the boot happens. For this, install `intel-ucode` for intel processors and `linux-firmware` for amd processors. 
+If you don't know your processor manufacturer, run the command `less /proc/cpuinfo`.
+
+Install these things with:
 
 ```
     
@@ -136,7 +139,11 @@ Them we can install the **sudo** program. With pacman by running the `pacman -S 
 #### Installing the bootloader
 Then BIOS checks the Master Boot Record (MBR), which is a 512 byte section located first on the Hard Drive. It looks for a bootloader (like GRUB). The hard drive's partition tables are also located here. If you remember, we created a partition for the EFI with this exact size. We will install the bootloader there now.
 For installing the grub program you must run the `pacman -S grub` command. As we will manage EFI bios, we must install other programs: `pacman -S efibootmgr dosfstools os-prober mtools`.
-After that we must make our EFI directory and our boot directory. For that we use the commands `mkdir /boot/EFI` to create the directory and `mount /dev/sda1 /boot/EFI` to mount the EFI partition to the newborn directory. And finally we can install grub in it with `grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck`. Than we must create a config file for the boot loader. That can be done with `grub-mkconfig -o /boot/grub/grub.cfg`. 
+After that we must make our EFI directory and our boot directory. For that we use the commands `mkdir /boot/EFI` to create the directory and `mount /dev/sda1 /boot/EFI` to mount the EFI partition to the newborn directory.
+
+Remember, your bios must not be configured with the option `UEFI or legacy`. It must be set to `UEFI only`. If it's not the case the following command will result in an error. But the solution is to `exit`, and `shutdown now`. And then, configure your bios properly. After that, boot in your usb again, mount again `/dev/sda3 in /mnt` and do a `arch-chroot /mnt` again. And mount the `EFI` partition again to `/boob/EFI`. And repeat the bellow command.
+
+And finally we can install grub in it with `grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck`. Than we must create a config file for the boot loader. That can be done with `grub-mkconfig -o /boot/grub/grub.cfg`. 
 
 #### For managing internet and downloading good code
 Now we can install a network manager and git. The one recommended was `pacman -S networkmanager git`. And we should enable the network manager with `systemctl enable NetworkManager`.
