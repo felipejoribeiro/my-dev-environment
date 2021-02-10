@@ -175,6 +175,13 @@ Edit the following lines in the beginning of `sudo vim /etc/default/grub` file:
 
 And finally you can rerun the config generator with `grub-mkconfig -o /boot/grub/grub.cfg`.
 
+#### Checking for CPU microcode vulnerabilities
+It's possible that that are vulnerabilities in your CPU that can be mitigated. To check that you can run the command `grep -r . /sys/devices/system/cpu/vulnerabilities/` and it will prompt the problems and what actions you must take.
+It's possible too to add a timer for when you insert a wrong password. It can be done adding the following line to `/etc/pam.d/system-login`:
+```
+auth optional pam_faildelay.so delay=4000000
+```
+
 #### Enabling the firewall
 A firewall is a program that controls the access of processes to the internet. The best way to do this is by **iptables**, but i don't know the process for now. So we will use the **ufw** for now which is better than nothing. For installation run the `sudo pacman -S ufw` command. Then, enable the process with `sudo ufw enable` and check if everything is running with `sudo ufw status verbos`.
 The default rule is to deny incoming and allow outgoing are ok for most applications. And changing things down the line i fairly simple if needed.
@@ -203,6 +210,11 @@ After the installation there are programs that stay in the computer without reas
 #### For video rendering
 To enable your arch distro to reder things besides the terminal, it must be installed a video driver. When in an virtual machine you can install **xf86-video-fbdev**, with `sudo pacman -S xf86-video-fbdev`, but be aware of finding the right video driver to your machine when installing in a pc. Reference can be found in https://wiki.archlinux.org/index.php/xorg.
 
+But, in a nutshell, run the command `lspci -v | grep -A1 -e VGA -e 3D` to see your video rendering hardware and then install the appropriate driver following the recommendations in the given link.
+The one i ended up installing was `sudo pacman -S -needed nvidia-lts`.
+
+After that I've made an automatic config with the command `nvidia-xconfig`. And you can install `pacman -S nvidia-settings` that is a configuration tool for your video card.
+
 Then you must install **Xorg** too. It's an display server, the most popular among Linux users. It can be installed with  `pacman -S xorg xorg-xinit`. The **xinit** component is important as enable the user to initialize Xorg manually. This is important to other programs like window managers, for example. Know, its important to copy the config file for your home directory with `cp /etc/X11/xinit/xinitrc /home/<user>/.xinitrc`. Then, edit this file to initiate the programs like the window manager and others. By deleting the last lines that contains:
 
 ```
@@ -220,7 +232,7 @@ Then add the following lines to open the right software:
     
     nitrogen --restore &
     picom &
-    exec dwm
+    exec dbus-launch leftwm
 
 ```
 
@@ -228,19 +240,46 @@ Then add the following lines to open the right software:
 To enable a background for the system it's used **nitrogen**. It can be installed with `pacman -S nitrogen`.
 
 #### Compositor and window manager
-For the compositor the program **picom** was used.
-For managing the windows of the system the program that i chose  was **Spectrwm**. For installing the program in Arch systems this is easy. One line is enough: `sudo pacman -S spectrwm`.
+For the compositor the program **picom** was used. Install it with `sudo pacman -S picom`.
+For managing the windows of the system the program that i chose  was **Leftwm**. Rust based too. For installing the program in Arch systems this is easy. One line is enough: `sudo pacman -S leftwm`.
+
+#### Status Bar
+For the status bar that comes on the top of the screen with informations and shortcuts i use `polybar`
+
+#### Terminal emulator
+For the terminal emulator I chose alacritty. To install it you need to clone the repo:
+```
+git clone https://github.com/alacritty/alacritty.git
+cd alacritty
+```
+Install the compiler with `sudo pacman -S rustup` and make sure you have the right one with `rustup override set stable` and `rustup update stable`.
+
+And then install some dependencies with:
+```
+pacman -S cmake freetype2 fontconfig pkg-config make libxcb
+```
+After that just build your package with `cargo build --release`.
 
 #### Web browser
-For navigating on the web the **Firefox** browser was chosen. But there are some addons chromium based that i can't leave without. Like:
+For navigating on the web the **Brave** browser was chosen (after some changes on the config it is awesome). Mostly because there are some addons chromium based that i can't leave without. Like:
 
 - Enhanced GitHub,
 - Vimium,
 - Octotree,
 - GitHub isometric Contributions.
 
-##### Terminal emulator
-For the terminal emulator
+To install it in your system clone the git repository and install the bin package with:
+```
+git clone https://aur.archlinux.org/brave-bin.git
+cd brave-bin
+makepkg -si
+```
+Or `sudo yay -S brave-bin` work as well.
 
 ##### Initiating the graphical interface 
-Add `[[ $(fgconsole 2>/dev/null) == 1 ]] && exec startx -- vt1` to your .bashrc the the graphical interface will start autonomously.
+Add the following code to your .bashrc so that the graphical interface will start autonomously.
+```
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -le 3 ]; then
+  exec startx
+fi
+```
