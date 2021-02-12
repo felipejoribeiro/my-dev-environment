@@ -56,6 +56,9 @@ For the linux part I'm using an Arch distribution, currently from the 2021.02.01
 First is important to register the installation process. The one i followed was https://www.youtube.com/watch?v=PQgyW10xD8s from **distrotube** with the arch installation guide from ArchWiki https://wiki.archlinux.org/index.php/Installation_guide . 
 For wifi connection use the  wiki again: https://wiki.archlinux.org/index.php/Network_configuration/Wireless . This is a must due to required downloads during arch installation. So first thing is to enable the internet.
 
+#### wifi
+If connect to wifi is necessary you can use the command `wifi-menu`.
+
 #### Keymaps
 The default keymap is the American US one. To change that you must first see all the available ones. For that enter in the terminal the command: `ls /usr/share/kbd/keymaps/**/*.map.gz | less`. Than you can go reading the entries and pressing enter to advance. These are the ones i use, with the command to enable then:
 
@@ -211,9 +214,9 @@ After the installation there are programs that stay in the computer without reas
 To enable your arch distro to reder things besides the terminal, it must be installed a video driver. When in an virtual machine you can install **xf86-video-fbdev**, with `sudo pacman -S xf86-video-fbdev`, but be aware of finding the right video driver to your machine when installing in a pc. Reference can be found in https://wiki.archlinux.org/index.php/xorg.
 
 But, in a nutshell, run the command `lspci -v | grep -A1 -e VGA -e 3D` to see your video rendering hardware and then install the appropriate driver following the recommendations in the given link.
-The one i ended up installing was `sudo pacman -S -needed nvidia-lts`.
+The one i ended up installing was `sudo pacman -S -needed nvidia nvidia-utils nvidia-settings`.
 
-After that I've made an automatic config with the command `nvidia-xconfig`. And you can install `pacman -S nvidia-settings` that is a configuration tool for your video card.
+After that I've made an automatic config with the command `nvidia-xconfig`.
 
 Then you must install **Xorg** too. It's an display server, the most popular among Linux users. It can be installed with  `pacman -S xorg xorg-xinit`. The **xinit** component is important as enable the user to initialize Xorg manually. This is important to other programs like window managers, for example. Know, its important to copy the config file for your home directory with `cp /etc/X11/xinit/xinitrc /home/<user>/.xinitrc`. Then, edit this file to initiate the programs like the window manager and others. By deleting the last lines that contains:
 
@@ -240,11 +243,39 @@ Then add the following lines to open the right software:
 To enable a background for the system it's used **nitrogen**. It can be installed with `pacman -S nitrogen`.
 
 #### Compositor and window manager
+One option is to use **bspwm**. To install it you can run `sudo pacman -S bspwm sxhkd`. And an additional good software is **dmenu** which is good for launching applications fast, you can install it with pacman too. And for the compositor you can install `picom` with pacman as well.
+
+Move the config files to the right place with:
+```
+mkdir .config/bspwm
+mkdir .config/sxhkd 
+cp /usr/share/doc/bspwm/examples/bspwmrc .config/bspwm/
+cp /usr/share/doc/bspwm/examples/xshkdrc .config/xshkd/
+```
+Edit the **xshkdrc** file to the right terminal.
+
+#### Compositor and window manager
 For the compositor the program **picom** was used. Install it with `sudo pacman -S picom`.
 For managing the windows of the system the program that i chose  was **Leftwm**. Rust based too. For installing the program in Arch systems this is easy. One line is enough: `sudo pacman -S leftwm`.
 
+To configure your window manager, you can install and modify themes. For that run the following commands:
+
+```
+mkdir -p ~/.config/leftwm/themes
+```
+Then you must download a theme and link it to the created folder.
+The theme i use can be downloaded and installed with:
+
+```
+git clone https://github.com/b4skyx/leftwm-soothe.git
+cd leftwm-soothe
+cp -r .fonts/* ~/.fonts/
+ln -s $PWD/theme $HOME/.config/leftwm/themes/current
+```
+And you must install `Rofi` too, with `sudo pacman -S rofi`
+
 #### Status Bar
-For the status bar that comes on the top of the screen with informations and shortcuts i use `polybar`
+For the status bar that comes on the top of the screen with informations and shortcuts i use `polybar`. That is installed with `yay -S polybar`.
 
 #### Terminal emulator
 For the terminal emulator I chose alacritty. To install it you need to clone the repo:
@@ -259,6 +290,19 @@ And then install some dependencies with:
 pacman -S cmake freetype2 fontconfig pkg-config make libxcb
 ```
 After that just build your package with `cargo build --release`.
+And then copy the binary file to `sudo cp target/release/alacritty /usr/local/bin # or anywhere else in $PATH`.
+
+##### Initiating the graphical interface 
+Add the following code to your .bashrc so that the graphical interface will start autonomously.
+```
+if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -le 3 ]; then
+  exec startx
+fi
+```
+
+#### Sound management
+For sound management i run `pavucontrol`. One can install it with `sudo pacman -Sy pavucontrol`. Then the sound will be enabled in your system and you can configure output and input devices by the GUI.
+For command line capabilities install `sudo pacman -S alsa-utils`.
 
 #### Web browser
 For navigating on the web the **Brave** browser was chosen (after some changes on the config it is awesome). Mostly because there are some addons chromium based that i can't leave without. Like:
@@ -276,10 +320,10 @@ makepkg -si
 ```
 Or `sudo yay -S brave-bin` work as well.
 
-##### Initiating the graphical interface 
-Add the following code to your .bashrc so that the graphical interface will start autonomously.
-```
-if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -le 3 ]; then
-  exec startx
-fi
-```
+#### Shell
+For the terminal shell i chose the fish 
+
+#### multiple monitors
+You can install **arand** to deal with multiple monitors.
+
+
