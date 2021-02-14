@@ -57,7 +57,7 @@ First is important to register the installation process. The one i followed was 
 For wifi connection use the  wiki again: https://wiki.archlinux.org/index.php/Network_configuration/Wireless . This is a must due to required downloads during arch installation. So first thing is to enable the internet.
 
 #### wifi
-If connect to wifi is necessary you can use the command `wifi-menu`.
+If connect to wifi is necessary you can use the command `wifi-menu`. In my case, as i use an **Asus Z170-delux** motherboard with a damn **Broadcom Wireless Network Adapter [14e4:43a0] (rev 3)** chip set, things got pretty dirty. I had to read https://wiki.archlinux.org/index.php/broadcom_wireless and download the `sudo pacman -S broadcom-wl-dkms` package and disable some driver modules that were conflicting with `sudo rmmod bcma wl` and  then enable the right one with `sudo modprobe wl`. And maybe some more steps i forgot after 24 hours of war.
 
 #### Keymaps
 The default keymap is the American US one. To change that you must first see all the available ones. For that enter in the terminal the command: `ls /usr/share/kbd/keymaps/**/*.map.gz | less`. Than you can go reading the entries and pressing enter to advance. These are the ones i use, with the command to enable then:
@@ -76,12 +76,18 @@ To create the disk partitions you must run the **fdisk** program. For that we us
 - `fdisk -l` To list all disks that are available.
 - `fdisk /dev/<disk>` From the list you can choose one to initiate the process.
 - `g` This command must be given from the **fdisk** command prompt. It will create an empty SGI partition table, this is important as we are in a EFI process. For us to populate with our preferences. You can press `m` to see all available options.
-- `n` This will add a new partition to the disk. You must add a number for the partition, but the default is fine. You must add where in the memory the partition begins and ends. As this is the first, de default is fine. And where it ends you can insert an incremental measure of memory like **+550M**, giving 550 megabytes for our partition. This is our EFI partition. By default it creates it in Linux filesystem what is wrong. But after adding all partitions we will change this.
+- `n` This will add a new partition to the disk. You must add a number for the partition, but the default is fine. You must add where in the memory the partition begins and ends. As this is the first, de default is fine. And where it ends you can insert an incremental measure of memory like **+300M**, giving 300 megabytes for our partition. This is our EFI partition. By default it creates it in Linux filesystem what is wrong. But after adding all partitions we will change this.
 - For the swap you can repeat the entire process, de default for the number will be 2 now, which is fine, the initial block of the memory will be the end of the last, which is fine and the size was **+2G**. And the file system type again isn't correct but we will change that later.
 - For the last partition, where our system will leave, you can press all the defaults. The number will be 3, the initial memory block will be where the 2 ends, and the end by default will reach all available memory in the disk. For this the linux file system is fine. But we will need to change the other two.
 - `t` To change the type of the partition. It will ask for the partition number. We will first change the EFI one, so press `1`. And then you cam press `L` to list all available options of file systems. For this we will set the **EFI System** that is callable from the key 1, so we press `1` again.
 - `t` Now we will change the swap partition. So press `2`. Then press `L` again. And search for **Linux swap** and press the corresponding key which is `19`. 
 - `w` Then, finally, we can right that to the table pressing this key.
+
+There is another option, that is creating a swap file. If that is what you want you don't need to create the swap partition. Just the EFI and the principal one. This is interesting as provide better size adjustment capabilities for your swap as it is a file, you can in any time delete it and create a new one. 
+
+Other good idea is to separate your root filer partition from you home partition. In that way, if you need to reinstall the system for any reason you can do that more easily by just formating the root and reinstalling it.A good size for it is 30Gb. So following these instructions we would end up with 3 partitions, one for the EFI, one for the root and one for the user.
+
+
 
 #### Making our file system
 We need to make three file systems for the three partitions we created. For the EFI partition we must make it FAT32. For that we run the command `mkfs.fat -F32 /dev/sda1`. For the swap partition we run the command `mkswap /dev/sda2` to create it and `swapon /dev/sda2` to enable it. And lastly we make the file system for the system partition with the command `mkfs.ext4 /dev/sda3` and then we must mount this partition with the command `mount /dev/sda3 /mnt`.
@@ -95,7 +101,7 @@ Install these things with:
 
 ```
     
-    pacstrap /mnt base linux-lts linux-lts-headers linux-firmware intel-ucode
+    pacstrap /mnt base linux-lts linux-lts-headers linux-headers linux-firmware intel-ucode
 
 ```
 
@@ -136,7 +142,7 @@ Now we will create the user and the user password as well. For that we run the c
 
 And finally, we must add the new user in some groups to give it permissions (to run the sudo command for example). For that we run the command `usermod -aG wheel,audio,video,optical,storage felipejoribeiro` 
 
-#### Installing SUDO
+#### Installing SUDO 
 Them we can install the **sudo** program. With pacman by running the `pacman -S sudo` command. And after that you can edit the sudo configurations with the command `visudo`. Than search for the line `# %wheel ALL=(ALL) ALL` and uncomment it (line 82). That will give privileges to your new born user, as it is in the wheel group.
 
 #### Installing the bootloader
@@ -149,13 +155,36 @@ Remember, your bios must not be configured with the option `UEFI or legacy`. It 
 And finally we can install grub in it with `grub-install --target=x86_64-efi --bootloader-id=grub_uefi --recheck`. Than we must create a config file for the boot loader. That can be done with `grub-mkconfig -o /boot/grub/grub.cfg`. 
 
 #### For managing internet and downloading good code
-Now we can install a network manager and git. The one recommended was `pacman -S networkmanager git`. And we should enable the network manager with `systemctl enable NetworkManager`.
+Now we can install a network manager and git. The one recommended was `pacman -S iwd networkmanager network-manager-applet wireless_tools wpa_supplicant dialog git`. Install de driver for your wifi card too if required. Like `sudo pacman -S broadcom-wl-dkms`.
+And you must enable iwd with `systemctl enable iwd`.
 
 And thats it. You installed arch Linux. Now you can reboot. For that type `exit` to close chroot and unmount the system disk with `umount -l /mnt`. Then run `shutdown now` to close the os. Remove the flash drive and reboot.
 That's it for the installation.
 
 
 ### After the installation
+
+Configure your **nameserver** that is the address from which you can take the **ip** of the websites you visit.
+For that enter the file `sudo vim etc/resolv.conf` and add:
+
+```
+1.1.1.1     #cloudflare server
+1.0.0.1     #cloudflare server (2)
+9.9.9.9     #Quad9 DNS server
+
+```
+
+And configure your wifi connection with `iwctl`. And then add these lines to`sudo vim /etc/iwd/main.conf` with:
+```
+[Settings]
+AutoConnect=true
+
+[General]
+EnableNetworkConfiguration=true
+
+[Network]
+EnableIPv6=true
+```
 
 
 Some good packages to have installed:
@@ -214,9 +243,8 @@ After the installation there are programs that stay in the computer without reas
 To enable your arch distro to reder things besides the terminal, it must be installed a video driver. When in an virtual machine you can install **xf86-video-fbdev**, with `sudo pacman -S xf86-video-fbdev`, but be aware of finding the right video driver to your machine when installing in a pc. Reference can be found in https://wiki.archlinux.org/index.php/xorg.
 
 But, in a nutshell, run the command `lspci -v | grep -A1 -e VGA -e 3D` to see your video rendering hardware and then install the appropriate driver following the recommendations in the given link.
-The one i ended up installing was `sudo pacman -S -needed nvidia nvidia-utils nvidia-settings`.
+The one i ended up installing was `sudo pacman -S nvidia nvidia-lts nvidia-libgl mesa nvidia-utils nvidia-settings`.
 
-After that I've made an automatic config with the command `nvidia-xconfig`.
 
 Then you must install **Xorg** too. It's an display server, the most popular among Linux users. It can be installed with  `pacman -S xorg xorg-xinit`. The **xinit** component is important as enable the user to initialize Xorg manually. This is important to other programs like window managers, for example. Know, its important to copy the config file for your home directory with `cp /etc/X11/xinit/xinitrc /home/<user>/.xinitrc`. Then, edit this file to initiate the programs like the window manager and others. By deleting the last lines that contains:
 
@@ -239,6 +267,8 @@ Then add the following lines to open the right software:
 
 ```
 
+After that, if you have nvidia, you can make an automatic config with the command `nvidia-xconfig`.
+
 #### Background setter
 To enable a background for the system it's used **nitrogen**. It can be installed with `pacman -S nitrogen`.
 
@@ -250,7 +280,7 @@ Move the config files to the right place with:
 mkdir .config/bspwm
 mkdir .config/sxhkd 
 cp /usr/share/doc/bspwm/examples/bspwmrc .config/bspwm/
-cp /usr/share/doc/bspwm/examples/xshkdrc .config/xshkd/
+cp /usr/share/doc/bspwm/examples/sxhkdrc .config/sxhkd/
 ```
 Edit the **xshkdrc** file to the right terminal.
 
@@ -300,6 +330,9 @@ if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -le 3 ]; then
 fi
 ```
 
+#### multiple monitors
+You can install **arand** to deal with multiple monitors. Then arrange the monitors in the graphical application and hit save. A file will appear in `$HOME/.screenlayout/<file_name>.sh`. Than you make this shell file executable with `chmod +x .screenlayout/<file_name>.sh`. And insert the line `$HOME/.screenlayout/<file_name>.sh` in your **.xinitrc** file to load the configuration in screen startup without `&` in the end.
+
 #### Sound management
 For sound management i run `pavucontrol`. One can install it with `sudo pacman -Sy pavucontrol`. Then the sound will be enabled in your system and you can configure output and input devices by the GUI.
 For command line capabilities install `sudo pacman -S alsa-utils`.
@@ -322,8 +355,3 @@ Or `sudo yay -S brave-bin` work as well.
 
 #### Shell
 For the terminal shell i chose the fish 
-
-#### multiple monitors
-You can install **arand** to deal with multiple monitors.
-
-
