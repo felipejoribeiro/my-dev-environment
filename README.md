@@ -248,7 +248,7 @@ The one i ended up installing was `sudo pacman -S nvidia nvidia-lts nvidia-libgl
 
 Then you must install **Xorg** too. It's an display server, the most popular among Linux users. It can be installed with  `pacman -S xorg xorg-xinit`. The **xinit** component is important as enable the user to initialize Xorg manually. This is important to other programs like window managers, for example. Know, its important to copy the config file for your home directory with `cp /etc/X11/xinit/xinitrc /home/<user>/.xinitrc`. Then, edit this file to initiate the programs like the window manager and others. By deleting the last lines that contains:
 
-```
+```bash
 
     twm &
     xclock - geometry
@@ -301,6 +301,7 @@ git clone https://github.com/b4skyx/leftwm-soothe.git
 cd leftwm-soothe
 cp -r .fonts/* ~/.fonts/
 ln -s $PWD/theme $HOME/.config/leftwm/themes/current
+
 ```
 And you must install `Rofi` too, with `sudo pacman -S rofi`
 
@@ -334,8 +335,13 @@ fi
 You can install **arand** to deal with multiple monitors. Then arrange the monitors in the graphical application and hit save. A file will appear in `$HOME/.screenlayout/<file_name>.sh`. Than you make this shell file executable with `chmod +x .screenlayout/<file_name>.sh`. And insert the line `$HOME/.screenlayout/<file_name>.sh` in your **.xinitrc** file to load the configuration in screen startup without `&` in the end.
 
 #### Sound management
-For sound management i run `pavucontrol`. One can install it with `sudo pacman -Sy pavucontrol`. Then the sound will be enabled in your system and you can configure output and input devices by the GUI.
-For command line capabilities install `sudo pacman -S alsa-utils`.
+For command line capabilities install `sudo pacman -S alsa-utils alsa-tools pulseaudio asoundconf`.
+One can install a good graphycall interface too with `sudo pacman -Sy pavucontrol`.
+And for the sound usb saund card `UR22 MKII` you need to edit the file `/etc/modprobe.d/alsa-base.conf`, apending to it's final:
+``` 
+options snd slots=snd_usb_audio
+```
+And, that's it. Have fun.
 
 #### Web browser
 For navigating on the web the **Brave** browser was chosen (after some changes on the config it is awesome). Mostly because there are some addons chromium based that i can't leave without. Like:
@@ -352,6 +358,13 @@ cd brave-bin
 makepkg -si
 ```
 Or `sudo yay -S brave-bin` work as well.
+
+#### For Corsair whatercooler 
+For enabling the corsair whatercooling solution, you must install the OpenCorsairLink driver with `yay -S opencorsairlink-testing-git`.
+And then configure it with something like `sudo OpenCorsairLink --device=0 --fan mode=5 --pump mode=5`.
+
+#### Spotify client in the terminal
+
 
 #### Shell
 For the terminal shell i chose the fish 

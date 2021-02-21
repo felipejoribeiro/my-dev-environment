@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 '''
 This program is used to sync all repos in the csv file.
+It's a component of the vesper routine.
 '''
 
 import csv
