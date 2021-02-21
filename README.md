@@ -367,4 +367,4 @@ And then configure it with something like `sudo OpenCorsairLink --device=0 --fan
 
 
 #### Shell
-For the terminal shell i chose the fish 
+For the terminal shell i chose the fish and it is awesome
