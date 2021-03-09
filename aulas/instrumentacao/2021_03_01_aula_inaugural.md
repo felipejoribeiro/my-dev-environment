@@ -187,6 +187,8 @@ A fonte de erro pode vir de muitos fatores. O próprio modelo físico impõe um 
 
 ![oi](./2021-03-01_09-56_8.png)
 
+Quando colocamos ks e kfb, a fórmula resultante, com ka muito grande, a saída não sofrerá efeito da transferência de km e ks. Funciona como um filtro. Colocaremos um sinal, vindo da saída do sistema, com uma impedância muito alta. Isso vai fazer com que não haja interferência na saída e colocando isso na entrada do sistema e isso faz com que as interferências seja minimizadas.
+Estamos retroalimentando o sistema com a saída dele, de forma que a interferência presente na saída cancele a interferência da entrada.
 
 ## Encerramento da aula
 Ele encerra a aula fazendo o exemplo de medições com um paquímetro onde se tiram 5 medidas e se calcula a média e o desvio padrão.
