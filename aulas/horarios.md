@@ -31,9 +31,10 @@
 
 []Instrumentação - Terminar anotações assíncrona.
 []Instrumentação - Ver aula base estatística e fazer anotação dela.
+[]Instrumentação - Fazer lista de exercícios de número 1.
 []Instrumentação - Aplicar os estudos as dados do laboratório 1.
 []Instrumentação - fazer relatório do laboratório 1.
-[]TC2 - ver aula 1 assíncrona e fazer anotações.
-[]TC2 - ver aula 2 assíncrona e fazer anotações.
+[x]TC2 - ver aula 1 assíncrona e fazer anotações.
+[x]TC2 - ver aula 2 assíncrona e fazer anotações.
 []TC2 - ver aula 3 assíncrona e fazer anotações.
 
