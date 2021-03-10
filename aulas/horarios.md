@@ -27,9 +27,14 @@
 
 -----------------------------------------------------
 
-# TODO
+# Avisos
 
-[]Instrumentação - Terminar anotações assíncrona.
+- Sistemas de aeronaves - A pasta do Google drive já foi disponibilizada para consulta. Consta no Google classroom.
+
+-----------------------------------------------------
+
+# TODO (09/03)
+
 []Instrumentação - Ver aula base estatística e fazer anotação dela.
 []Instrumentação - Fazer lista de exercícios de número 1.
 []Instrumentação - Aplicar os estudos as dados do laboratório 1.
@@ -37,13 +42,8 @@
 [x]TC2 - ver aula 1 assíncrona e fazer anotações.
 [x]TC2 - ver aula 2 assíncrona e fazer anotações.
 [x]TC2 - ver aula 3 assíncrona e fazer anotações.
-[]Eletrônica - completar anotações da aula de terça.
-[]Eletrônica - completar anotações da aula de segunda.
-[]Eletrônica - baixar livro do malvino (checar no plano de ensino).
+[x]Eletrônica - completar anotações da aula de terça.
+[x]Eletrônica - completar anotações da aula de segunda.
+[x]Eletrônica - baixar livro do malvino (checar no plano de ensino).
 
------------------------------------------------------
-
-# Avisos
-
-- Sistemas de aeronaves - A pasta do Google drive já foi disponibilizada para consulta. Consta no Google classroom.
 

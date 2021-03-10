@@ -33,7 +33,7 @@ Observa-se uma forma de onda pulsante na saída do retificador. Esta forma de on
 
 Temos uma norma que diz que a variação máxima que podemos ter na saída é de 5%. Assim se a saída for 100V, só é permitido oscilações de 5V pra cima e pra baixo.
 
-É necessário "alisar" a tensão de saída do regificador, caso contrário os ciecuitos eletrônicos alimentados por essaPS ficarão instáveis. Isso pode ser feito incluindo-se um capacitor (polarizado) em paraleleo com a saída. O máximo de tensão reversa aplicada ao diodo, com o capacitor é $V_{RPM} = V_2 * \sqrt{2} + (V_2 * \sqrt{2} - V_F)$.
+É necessário "alisar" a tensão de saída do retificador, caso contrário os circuitos eletrônicos alimentados por essa PS ficarão instáveis. Isso pode ser feito incluindo-se um capacitor (polarizado) em paralelo com a saída. O máximo de tensão reversa aplicada ao diodo, com o capacitor é $V_{RPM} = V_2 * \sqrt{2} + (V_2 * \sqrt{2} - V_F)$.
 
 A saída apresentará um pequeno ripple próximo de $V_{PK}$
 
@@ -45,11 +45,11 @@ $
     V_R = \frac{I}{f C}
 $
 
-Onde I é a corrente drenada da PS, f é a frequência do ripple de voltagem (da saída. Nem sempre é a mesma da entrada), C é o valor da capacitância e V_R é o valor de pico a pico do ripple.
+Onde I é a corrente drenada da PS, f é a frequência do ripple de voltagem (da saída. Nem sempre é a mesma da entrada), C é o valor da capacitância e $V_R$ é o valor de pico a pico do ripple. 3V max por norma.
 
-Por se tratar de uma a proximação/simplificação, essa equação só é válida para $V_R < 0,2 V_{PK}$
+Por se tratar de uma a proximação/simplificação, essa equação só é válida para $V_R < 0,2 V_{PK}$.
 
-EXEMPLO: projete, e simule no OrCAD, um retificador de meia onda para alimentar uma carga eletrônica aeronáutica de 200W. A voltagem de entrada será de 100 V_rms obtida do barramento AC (FAse-neutro) da aeronave.
+EXEMPLO: projete, e simule no OrCAD, um retificador de meia onda para alimentar uma carga eletrônica aeronáutica de 200W. A voltagem de entrada será de 100 V_rms obtida do barramento AC (Fase-neutro) da aeronave.
 
 Resolução:
 
@@ -58,11 +58,25 @@ Com base no enunciado podemos complementar os dados:
 - Voltagem de saída : Vo = 28 $V_{DC}$
 - Frequência da aeronave: 400 HZ
 - Potência do transformador deve ser maior que a potênica da saída do retificador devido às perdas, ou seja, $S_{trafo} >= 210 VA$.
-- Ripple -> a norma Mil Std 704 TODO:
+- Ripple -> a norma Mil Std 704 (Aircraft Electric Power Characteristics) define um valor pico máximo de 1.5V ou 3.0V pico a pico. Independente do valor de tenção que eu estiver fornecendo o valor máximo de pico deve ser de 3V.
 
-A voltagem no secundário do trafo deve ser suficientemente alta para que o seu valor médio atinja 28V_dc, esperados. Devemos então considerar metade da queda de tensão em consuçao do diodo retificado(V_f) e o pico da voltagem de ripple na voltagem de saída (V_R). Sabendo que V_r = 3,0V e que V_F = 2,5V para uso com filtro capacitivo, temos:
+A voltagem no secundário do trafo deve ser suficientemente alta para que o seu valor médio atinja 28V_dc, esperados. Devemos então considerar metade da queda de tensão em condução do diodo retificado(V_f) e o pico da voltagem de ripple na voltagem de saída (V_R). Sabendo que V_r = 3,0V e que V_F = 2,5V para uso com filtro capacitivo, temos:
 
-Quanto ao diodo retificador, a máxima voltagem reversa a que ficará submetido (V_rrm) será TODO:
+$
+    V_2 = \frac{V_o + \frac{V_R}{2} + V_F}{\sqrt{2}} = \frac{28 + \frac{3,0}{2} + 2,5}{\sqrt{2}} = 22,63 V_{AC}
+$
+
+Quanto ao diodo retificador, a máxima voltagem reversa a que ficará submetido (V_rrm) será equivalente ao pico de V_2 somado ao pico da voltagem no capacitor.
+
+$
+    V_{RRM} = V_1\sqrt{2} + (V_2 \sqrt{2} - V_F) = 22,63 \sqrt{2} + (22,63 \sqrt{2} - 2,5) ~= 61,5 V_{AC}
+$
+
+Como cada diodo conduz um dos semiciclos, a corrente média e total drenada é dividida entre eles:
+
+$
+    I_{FD1} = I_{FD2} = \frac{P_o}{2 V_0} = \frac{200}{56} = 3,57A
+$
 
 É recomendado escolher um diodo com V_rrm superior em 20\% - 50\%  do valor calculado.
 
@@ -77,7 +91,6 @@ Temos a seguir a simulação do circuito abordado:
 ![](./2021-03-09_07-17_6.png)
 
 O pico da corrente de "irush" que é a corrente de carga do capacitor é 4 vezes maior que o pico da corrente de regime. Essa corrente de entrada apresenta alta distorção harmônica e níveis médios que comprometem o gerador da aeronave.
-
 
 ![](./2021-03-09_07-17_7.png)
 
@@ -95,25 +108,49 @@ Esse mecanismo é interessante por resolver o problema do desbalanceamento de ca
 
 Os dois semiciclos são usados para compor o valor DC no secundário. Porém, assim como no retificador de meia onde, é necessário usar um filtro capacitivo. O ripple na saída passa a ter o dobro a frequência da rede AC.
 
+Com a frequência maior, espera-se usar um valor menor de capacitância.
+
+Mas o principal ponto positivo é a não existência de valor médio de corrente e uma redução considerável na distorção harmônica na entrada da PS.
+
 ![](./2021-03-09_07-17_9.png)
 
-TODO: continuação.
+Exemplo: continuação
 
+O Calculo da capacitância segue os mesmos parâmetros usados no outro projeto ($V_R = 3,0V, I = 7,15A$), porém $f = 800Hz$ devido à retificação de onda completa.
+
+$
+    C = \frac{I_F}{f V_R} = \frac{7,15}{800*3} = 2980 \mu F
+$
+
+O Circuito abaixo foi usado para a simulação e comprovação dos cálculos:
+
+
+![](./2021-03-09_07-17_12.png)
+
+A distorção harmônica é reduzida.
 Na solução podemos ver que o capacitor pode ser diminuído de forma significativa.
 
 ### Retificador a onda completa.
 A primeira coisa que notamos é que não é necessário um transformador com tap central. É uma ótima alternativa em aplicações onde um trafo central não está disponível.
 
-Quatro diodos são usados em arranjo de ponte, sendo que a cada semiciclo um para é responsável pela condução. Mas o diodo é muito barato, assim seu maior número é algo mais barato que um trnasformador maior.
+Quatro diodos são usados em arranjo de ponte, sendo que a cada semiciclo um para é responsável pela condução. Mas o diodo é muito barato, assim seu maior número é algo mais barato que um transformador maior.
 
 
 ![](./2021-03-09_07-17_10.png)
+
 Ciclo inverso: 
+
 ![](./2021-03-09_07-17_11.png)
 
 No gráfico de saída podemos ver que o comportamento é igual à da retificação a dois diodos. A frequência de saída dobra. É importante lembrar que a carga passa por dois diodos, havendo as quedas de tensão cabíveis (0,7v x 2).
 
-TODO: continuar.
+Assim temos o cálculo abaixo para a voltagem final:
+
+$
+    V_2 = \frac{V_o + V_R/2 + 2*V_F}{\sqrt{2}}
+$
+
+Assim os cálculos ficam bem parecidos com o exemplo anterior, mas com dois diodos tendo de ser considerados na queda de tensão.
 
 ## Fim de aula
 
