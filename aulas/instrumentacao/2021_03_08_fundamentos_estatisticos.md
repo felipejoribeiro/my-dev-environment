@@ -7,8 +7,155 @@ Quando desenvolvemos um instrumento, precisamos falar qual é o erro desse instr
 
 Não temos aula prática hoje, mas a experimental da semana passada deve ser entregue semana que vem.
 
-## Aula assíncrona: Fundamentos estatísticos para análise estática de instrumentos - Pt.2
+## Aula assíncrona: Fundamentos estatísticos para análise estática de instrumentos - Pt.1
 Veremos os testes estatísticos mais comuns na calibração de sistemas de medição.
+
+As principais fontes de erro em sistemas de medição pode vir de entradas modificantes como temperatura, umidade, pressão e vibração, ou de entradas de interferência, como atritos, campos eletromagnéticos e tensões galvanométricas.
+
+Caracterização estática de instrumentos:
+
+- Desempenho em estado estacionário
+- Relação entre a grandeza a ser medida e o sinal de saída y(t) do sensor
+- Incertezas inerentes ao resultado:
+    - Efeito sistemático: Desvio na média das medições. Altera de forma sistemática e consistente os valores medido. 
+    - Efeito aleatório: Aumento no desvio padrão das medidas. Altera de forma aleatória os resultados causando uma dispersão nos resultados para uma mesma entrada.
+
+O objetivo de uma medição é determinar os valores do mesurando, ou seja, da grandeza a ser medida. Isso inclui um procedimento de medição e o resultado é apenas uma estimativa do valor do mesurando e, portanto, o resultado da medição deve incluir uma declarqação da incerteza associada.
+
+![](./2021-03-08_17-08_13.png)
+
+### Fundamentos da estatística
+Uma característica desejável do instrumento é não ser tendencioso, ou seja, não polarizado e sem viés.
+
+Um instrumento não tendencioso ou não polarizado tem a mesma probabilidade de indicar valores inferiores ou superiores.
+
+Matematicamente, a função densidade de probabilidade (FDP) de um instrumento não tendencioso pode ser escrita como:
+
+$
+    P(y < y_0) = \int_{-\infty}^{y_0} f_p(y)dy = \int^\infty_{y_0} f_p(y)dy = P(y_0 < y)
+$
+
+Podemos ver isso claramente em uma curva de Gaus. A partir da função de densidade de probabilidade:
+
+$
+    p(x)= \frac{d P(x)}{dx} \leftrightarrow P(x) = \int^x_{-\infty} p(x)dx
+$
+
+$
+    p(x) \epsilon [0 , \infty] ,  \int^x_{-\infty} p(x)dx = 1
+$
+
+A função de densidade de probabilidade informa a probabilidade da variável X assumir um valor dentro e um determinado intervalo. A cuva pode ser vista adiante:
+
+![](./2021-03-08_17-08_14.png)
+
+A função de distribuição de probabilidade pode ser descrita como:
+
+- $P(x) = PROB(x =< X)$
+- Se $a<=b \rightarrow P(a) <=P(b)$
+- $P(-\infty)=0$ e $P(\infty)=1$
+
+Se eu pegar um valor específico em x e calcular a probabilidade para ele, essa probabilidade tende a zero. É necessário se trabalhar com intervalos.
+
+Uma coisa importante de se fazer é normalizar a curva. Ou seja, temos que trazer a média para zero e o transformar o desvio para 1.
+
+A Gaussiana pode ser definida por:
+
+$
+    p(x) = \frac{1}{\sigma_x \sqrt{2 \pi} }e^\frac{- (x - \mu_x)^2}{2 \sigma_x^2}
+$
+
+Onde temos:
+
+$
+    \mu_x = E[x] = \int^\infty_{-\infty} x p(x) dx
+$
+
+$
+    \sigma_x^2 = E[(x - \mu_x)^2] = \int^\infty_{-\infty} (x - \mu_x)^2 p(x) dx
+$
+
+Normal reduzida : $z = \frac{x - \mu_x}{\sigma_x}$
+
+$
+    p(z) = \frac{1}{\sqrt{2 \pi}} e^\frac{- z^2}{2} \rightarrow \mu_z = 0 | \sigma_z^2 = 1
+$
+
+Assim, subtraímos a média de todos os valores e dividimos eles pelo desvio padrão.
+
+![](./2021-03-08_17-08_15.png)
+
+Assim, podemos começar a trabalhar com as tabelas.
+
+![](./2021-03-08_17-08_16.png)
+
+Os valores de $\phi(x)$
+
+Há outras formas de função de distribuição de probabilidade. Por exemplo temos a FDP uniforme:
+
+$
+    P(x) = (b-a)^{-1} | \text{para a<=x<=b}
+$
+
+$
+    P(x) = 0 | \text{para x fora}
+$
+
+ou
+
+$
+    P(x) = 0 | \text{para x < a}
+$
+
+$
+    P(x) = (x-a)^/(b-a) | \text{para a<=x<=b}
+$
+
+$
+    P(x) = 1 | \text{para x > b}
+$
+
+![](./2021-03-08_17-08_17.png)
+
+Uma das características mencionadas no conceito de densidade de probabilidade e distribuição de probabilidade estão relacionadas às características de precisão e exatidão do instrumento.
+
+Seguem as funções de Matlab que podem ser úteis:
+
+![](./2021-03-08_17-08_18.png)
+
+Pode-se usar também a função $normpdf$ para gerar a função de distribuição de probabilidades, mas para isso é necessário prover a média e o desvio padrão.
+
+Quando temos a curva, o intervalo correspondente a 99% da probabilidade ao redor da média, nós chamamos de intervalo de confiança.
+
+#### Histogramas
+
+Histograma é um estimador da FDP (função de distribuição de probabilidades). Seja $u = {u_1, u_2 ... u_N}$ uma amostra finita e discreta das medidas obtidas num experimento.
+
+O histograma da amostra pode ser construído para estimar a fdp das medidas u, de acordo com as seguintes etapas:
+
+- Ordenar u e determinar a amplitude da amostra ( R ).
+- Agrupar as medidas em k classes (bins) de amplitudes calculadas por um critério estatístico. (ver adiante).
+- Determinar o número ($n_{ok}$) de ocorrências das medidas na classe k.
+- Calcular a frequência relativa em cada classe: $f_k = n_{ok}/N$.
+- Calcular a frequência acumulada $f_a$ até cada classe k.
+- Fazer os gráficos: $n_{ok}$ x $k$, $f_k$ x $k$, $f_a$ x $k$.
+- Testar a fdp teórica que melhor se ajusta ao histograma.
+
+Dependendo do número de pontos para a análise, temos diferentes métodos para determinar o número de classes no histograma.
+ 
+- Se $N <= 20 \rightarrow$ n_k = 5
+- Se $20 < N < 40 \rightarrow$ número de ocorrências em cada classe >=5
+- Se $N > 40 \rightarrow$ Critério de Kendal & Stuart: $n_k = 1,87(N-1)^{0,4}$
+
+Segue um exemplo:
+
+![](./2021-03-08_17-08_19.png)
+
+![](./2021-03-08_17-08_20.png)
+
+![](./2021-03-08_17-08_21.png)
+
+Além de trabalhar só com um conjunto de amostras, também podemos trabalhar com várias entradas. Assim, cada entrada terá seu conjunto de estimadores estatísticos.
 
 ## Aula assíncrona: Fundamentos estatísticos para análise estática de instrumentos - Pt.2
 Falaremos da sensibilidade, resolução, incerteza, linearidade estatística, limiar e histerese. Também veremos a calibração de instrumentos.

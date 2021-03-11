@@ -45,5 +45,3 @@
 [x]Eletrônica - completar anotações da aula de terça.
 [x]Eletrônica - completar anotações da aula de segunda.
 [x]Eletrônica - baixar livro do malvino (checar no plano de ensino).
-
-
