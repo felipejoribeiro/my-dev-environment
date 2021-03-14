@@ -30,15 +30,36 @@
 # Avisos
 
 - Sistemas de aeronaves - A pasta do Google drive já foi disponibilizada para consulta. Consta no Google classroom.
+- Apresentação Petrobras até sexta (12).
+- Competição programação na quinta feira (11).
+- Concluir sua parte de instrumentação até dia (11).
+- Pesquisar formas de salvar modelos de treinamento e treinar mais de uma vez o mesmo modelo.
 
 -----------------------------------------------------
 
-# TODO (09/03)
+# TODO (11/03)
 
-[]Instrumentação - Ver aula base estatística e fazer anotação dela.
+[x]Instrumentação - Ver aula base estatística e fazer anotação dela.
 []Instrumentação - Fazer lista de exercícios de número 1.
 []Instrumentação - Aplicar os estudos as dados do laboratório 1.
 []Instrumentação - fazer relatório do laboratório 1.
+[x]Home - participar competição programação.
+[]Lab - Dar andamento apresentação pesquisa.
+
+# TODO (10/03)
+
+[x]Home - Organizar fotos HD.
+[-]Instrumentação - Ver aula base estatística e fazer anotação dela.
+[-]Instrumentação - Fazer lista de exercícios de número 1.
+[-]Instrumentação - Aplicar os estudos as dados do laboratório 1.
+[-]Instrumentação - fazer relatório do laboratório 1.
+
+# TODO (09/03)
+
+[-]Instrumentação - Ver aula base estatística e fazer anotação dela.
+[-]Instrumentação - Fazer lista de exercícios de número 1.
+[-]Instrumentação - Aplicar os estudos as dados do laboratório 1.
+[-]Instrumentação - fazer relatório do laboratório 1.
 [x]TC2 - ver aula 1 assíncrona e fazer anotações.
 [x]TC2 - ver aula 2 assíncrona e fazer anotações.
 [x]TC2 - ver aula 3 assíncrona e fazer anotações.

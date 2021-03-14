@@ -155,7 +155,152 @@ Segue um exemplo:
 
 ![](./2021-03-08_17-08_21.png)
 
-Além de trabalhar só com um conjunto de amostras, também podemos trabalhar com várias entradas. Assim, cada entrada terá seu conjunto de estimadores estatísticos.
+Além de trabalhar só com um conjunto de amostras, também podemos trabalhar com várias entradas. Assim, cada entrada terá seu conjunto de estimadores estatísticos. A questão é se a média das médias amostrais é um bom estimador da média de x.
+
+#### Quanto à interpretação de muitos valores temos dois casos
+
+- Caso 1: Se x é uma variável com fdp desconhecida tal que $E[x]= \mu$ e $VAR[x]=\sigma^2$ são conhecidas. Colhidas amostras discretas e finitas {x} de tamanho N, e calculados os estimadores das médias amostrais $\overline{x}$ tem-se:
+
+![](./2021-03-08_17-08_22.png)
+
+Esse fato permite calcular o intervalo (D) de $\overline{x}$ que contém $\mu$ com um determinado nível de probabilidade (Confiança = $\alpha$).
+
+![](./2021-03-08_17-08_23.png)
+
+EXEMPLO:
+
+Um componente elétrico tem duração (vida) cujo valor tem desvio padrão $\sigma = 4 horas$. Montou-se uma amostra com N = 100 componentes que foram ensaiados para determinar suas durações. A média amostral da vida do componente resultou $\overline{x} = 501,2 horas$. Qual é o intervalo de confiança para a média com confiança de 95\%.
+
+Solução:
+
+![](./2021-03-08_17-08_24.png)
+
+- Caso 2: Não se conhece previamente o valor do desvio padrão. Ele pode ser estimado pela variância Amostral:
+
+$
+    S^2 = \frac{1}{N - 1} \sum^N_{i = 1} (x_i - \overline{x})^2 \neq \sigma^2
+$
+
+É bom deixar claro que este valor é diferente do desvio padrão da população, pois esse é somente o desvio padrão da amostra.
+
+A média amostral não tem fdp gaussiana, mesmo se N é grande. Mas tem fdp t-Student:
+
+![](./2021-03-08_17-08_25.png)
+
+Podemos ver que se tivermos o número de amostras e a probabilidade, conseguimos achar o intervalo. Ou se nos dão o intervalo e a probabilidade podemos achar o número de amostras.
+
+EXEMPLO:
+
+Foram realizadas 10 medidas da resistência elétrica de um componente elétrico resultando: Média amostral = 10,48 $\Omega$ e desvio padrão Amostral = 1,36 $\Omega$. (o desvio padrão é desconhecido)
+Qual é o intervalo de confiança para a média com probabilidade de $\alpha = 90\%$?
+
+![](./2021-03-08_17-08_26.png)
+
+![](./2021-03-08_17-08_27.png)
+
+#### Critério de Chauvenet
+Objetivo: Remover da amostra os valores que tenham despersão em relação à média superior a um valor padrão.
+
+![](./2021-03-08_17-08_28.png)
+
+Esse critério só pode ser aplicado uma vez.
+
+A taxa padrão de chauvenet é tabelada em função do número de amostras:
+
+![](./2021-03-08_17-08_29.png)
+
+#### Teste do Qui-quadrado
+Objetivo: Verificar a hip'otese feita sobre a fdp adotada para uma variável, a partir de uma amostra finita e discreta (tamanho N).
+
+Técnica: Construir o histograma com $n_k$ classes e comparar o número de ocorrências observado com aquele obtido com a fdp assumida. A varável $X^2$ definida abaixo tem fdp Qui-quadrado.
+
+$
+    X^2 = \sum_{k = 1}^{n_k} \frac{(n_o - n_e)^2_k}{n_{ek}}
+$
+
+$n_o$ - número observado de ocorrências na classe k
+
+$n_e$ - número de ocorrências esperado na classe k, para a fdp sob teste.
+
+$X_n^2$ - variável com fdp Qui-quadrado 
+
+$n$ - número de graus de liberdade estatísticos
+
+$
+    n = n_k - 1 - n_p
+$
+
+$n_k$ - número de classes 
+
+$n_p$ - número de parâmetros da fdp testada. No caso dessa matéria, esse valor sempre é igual a 2 pois só trataremos das funções de distribuição de probabilidade normal e gaussiana, que só tem 2 parâmetros.
+
+Dados $X^2$ e n -> tabela -> $\alpha =$ confiança do teste de hipótese
+
+![](./2021-03-08_17-08_30.png)
+
+EXEMPLO:
+
+![](./2021-03-08_17-08_31.png)
+
+![](./2021-03-08_17-08_32.png)
+
+![](./2021-03-08_17-08_33.png)
+
+O mercado geralmente trabalha com uma confiança de 95\%. Quanto maior esse alpha, maior vai ser o intervalo. Se a confiança aqui é de 83 significa que o erro dela é menor do que se fosse pra 95\%
+
+Observações:
+
+- O nível de confiança da variável Qui - quadrado pode ser calculada pela função chi2cdf(xi2, ngl) que fornece a probabilidade acumulada $P(chi2 < xi2) = 1- \alpha$.
+- A função [h,P,stats] = chi2gof(x) fornece:
+    - h = 0 -> hipótese aceita com 95\% de confiança (=1 rejeitada)
+    - P: valor da probabilidade ou confiança do resultado 
+    - stats: informações adicionais...
+
+#### Análise de regressão
+Objetivo: Criar um modelo matemático (f) que representa a relação entre pelo menos dois conjuntos de dados.
+- {x} é uma amostra da entrada do SM
+- {y} uma amostra da saída do SM
+
+Determinar $y =f(x)$, tal que $|y_{medido} - y|$ seja mínimo.
+
+Funções do MATLAB: ajuste polinomial
+
+![](./2021-03-08_17-08_34.png)
+
+EXEMPLO:
+
+Num ensaio de calibração estática foi medida a saída {y} do SM para entradas padrão {x}. Neste caso os valores y são contaminados por ruído, porém têm valores crescentes nos limites da faixa de operação do SM(tendência).
+
+![](./2021-03-08_17-08_35.png)
+
+![](./2021-03-08_17-08_36.png)
+
+Temos também formas de fazer regressão de vários argumentos de entrada, como segue:
+
+![](./2021-03-08_17-08_37.png)
+
+![](./2021-03-08_17-08_38.png)
+
+Mas isso não será cobrado na disciplina.
+
+#### Propagação de erros
+Podemos estudar como erros são propagados. Temos dois casos:
+- Caso A: Os erros de um processo de medição podem estar distribuídos em cada um dos componentes do SM: Conhecidos o erro no sensor, o erro no condicionador e o erro no indicador, calcular o erro do resultado da medição feita com o SM.
+- Caso B: Várias medições independentes de grandezas físicas são combinadas para calcular o resultado de um experimento: Medição do diâmetro d com incerteza $\Delta d$ e medição da altura h com incerteza $\Delta h$. Calcular a incerteza $\Delta V$ do volume V calculado a partir da expressão $V = \pi d^2 h/4$.
+
+Esses dois problemas podem ser formulados considerando:
+- Se a incerteza de cada componente (ou medida) for conhecida, como calcular a incerteza global do SM?
+- Se a incerteza total desejada for especificada, como determinar os limites das incertezas de cada componente do SM(ou de cada medida)?
+
+Seja erro de medidor de cada elemento na medição é possível calcular o erro consequente na medida final. O oposto também é possível. Sabendo-se o erro na saída podemos estimar o erro máximo de cada elemento da entrada.
+
+![](./2021-03-08_17-08_39.png)
+
+![](./2021-03-08_17-08_40.png)
+
+![](./2021-03-08_17-08_41.png)
+
+![](./2021-03-08_17-08_42.png)
 
 ## Aula assíncrona: Fundamentos estatísticos para análise estática de instrumentos - Pt.2
 Falaremos da sensibilidade, resolução, incerteza, linearidade estatística, limiar e histerese. Também veremos a calibração de instrumentos.
