@@ -36,29 +36,31 @@
 - Pesquisar formas de salvar modelos de treinamento e treinar mais de uma vez o mesmo modelo.
 
 -----------------------------------------------------
+# TODO (14/03)
+
+[x]Instrumentação - Fazer lista de exercícios de número 1.
+[x]Instrumentação - fazer relatório do laboratório 1.
+[-]Lab - Dar andamento apresentação pesquisa.
 
 # TODO (11/03)
 
 [x]Instrumentação - Ver aula base estatística e fazer anotação dela.
-[]Instrumentação - Fazer lista de exercícios de número 1.
-[]Instrumentação - Aplicar os estudos as dados do laboratório 1.
-[]Instrumentação - fazer relatório do laboratório 1.
+[-]Instrumentação - Aplicar os estudos as dados do laboratório 1.
+[-]Instrumentação - fazer relatório do laboratório 1.
 [x]Home - participar competição programação.
-[]Lab - Dar andamento apresentação pesquisa.
+[-]Lab - Dar andamento apresentação pesquisa.
 
 # TODO (10/03)
 
 [x]Home - Organizar fotos HD.
 [-]Instrumentação - Ver aula base estatística e fazer anotação dela.
 [-]Instrumentação - Fazer lista de exercícios de número 1.
-[-]Instrumentação - Aplicar os estudos as dados do laboratório 1.
 [-]Instrumentação - fazer relatório do laboratório 1.
 
 # TODO (09/03)
 
 [-]Instrumentação - Ver aula base estatística e fazer anotação dela.
 [-]Instrumentação - Fazer lista de exercícios de número 1.
-[-]Instrumentação - Aplicar os estudos as dados do laboratório 1.
 [-]Instrumentação - fazer relatório do laboratório 1.
 [x]TC2 - ver aula 1 assíncrona e fazer anotações.
 [x]TC2 - ver aula 2 assíncrona e fazer anotações.

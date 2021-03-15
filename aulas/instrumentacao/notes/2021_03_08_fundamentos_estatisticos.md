@@ -215,7 +215,7 @@ Objetivo: Verificar a hip'otese feita sobre a fdp adotada para uma variável, a 
 Técnica: Construir o histograma com $n_k$ classes e comparar o número de ocorrências observado com aquele obtido com a fdp assumida. A varável $X^2$ definida abaixo tem fdp Qui-quadrado.
 
 $
-    X^2 = \sum_{k = 1}^{n_k} \frac{(n_o - n_e)^2_k}{n_{ek}}
+    X^2 = \sum_{k = 1}^{n_k} \frac{(n_o - n_e)^2_k}{n_{e}}
 $
 
 $n_o$ - número observado de ocorrências na classe k
