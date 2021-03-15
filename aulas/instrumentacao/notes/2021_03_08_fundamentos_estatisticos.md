@@ -242,6 +242,8 @@ EXEMPLO:
 
 ![](./2021-03-08_17-08_31.png)
 
+OBS: Na linha 4 (de baixo pra cima) temos que subtrair também o valor da FDP em xs(1). E o desvio padrão deve ser o sigx.
+
 ![](./2021-03-08_17-08_32.png)
 
 ![](./2021-03-08_17-08_33.png)

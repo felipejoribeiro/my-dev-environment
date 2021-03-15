@@ -84,15 +84,18 @@ def teste_qui_quadrado(dados, classes, media, std, plotar):
 
     # Achan-se os valores esperados para a distribuição
     n_e = []
-    n_e.append(stats.norm.cdf(lik[1], mean, sig_x)*x_n)
+    n_e.append(stats.norm.cdf(lik[1], mean, sig_x)*x_n
+               - stats.norm.cdf(lik[0], mean, sig_x)*x_n)
     for i in range(2, len(lik)):
         n_e.append((stats.norm.cdf(lik[i], mean, sig_x)
                    - stats.norm.cdf(lik[i - 1], mean, sig_x) )*x_n)
 
     # Achando as diferenças normalizadas
     soma = 0
+    soma_i = []
     for i, n_ol in enumerate(n_o):
         soma = soma + ((n_e[i] - n_ol)**2)/n_e[i]
+        soma_i.append(((n_e[i] - n_ol)**2)/n_e[i])
 
     # print(soma)
     # Número de parâmetros da gaussiana
@@ -108,7 +111,7 @@ def teste_qui_quadrado(dados, classes, media, std, plotar):
     if plotar:
         # Amostra no console
         for i, elemento in enumerate(n_o):
-            print(elemento, n_e[i])
+            print(elemento, n_e[i], soma_i[i])
 
         # Mostra resultado
         print ("alpha = ", alpha)

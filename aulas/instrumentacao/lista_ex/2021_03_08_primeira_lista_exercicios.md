@@ -264,8 +264,10 @@ def teste_qui_quadrado(dados, classes, media, std, plotar):
 
     # Achando as diferenças normalizadas
     soma = 0
+    soma_i = []
     for i, n_ol in enumerate(n_o):
         soma = soma + ((n_e[i] - n_ol)**2)/n_e[i]
+        soma_i.append(((n_e[i] - n_ol)**2)/n_e[i])
 
     # print(soma)
     # Número de parâmetros da gaussiana
@@ -281,7 +283,7 @@ def teste_qui_quadrado(dados, classes, media, std, plotar):
     if plotar:
         # Amostra no console
         for i, elemento in enumerate(n_o):
-            print(elemento, n_e[i])
+            print(elemento, n_e[i], soma_i[i])
 
         # Mostra resultado
         print ("alpha = ", alpha)
@@ -295,12 +297,17 @@ def teste_qui_quadrado(dados, classes, media, std, plotar):
 
 Como resultado foi obtido:
 
-        3 3.5104526444899173
-        0 0.4445946645845439
-        1 0.4586395895730594
-        3 0.4666483672113525
-        3 0.46829430697828134
-        alpha =  6.166536263840783e-07
+        3 0.4250772572300461 15.597699049906481
+        0 0.4445946645845439 0.4445946645845439
+        1 0.4586395895730594 0.6390008639473121
+        3 0.4666483672113525 13.753118935582068
+        3 0.46829430697828134 13.686977656074397
+        alpha =  2.625195616445808e-10
 
-Houveram erros maiores que os presentes na tabela para confiança de 0.95 e 2 graus de liberdade.
+É possível fazer esse exercício somente com a tabela da FDP normal $\phi(z)$. Basta pegar os valores correspondentes aos limites do histograma e conseguir a probabilidade deles a partir da tabela.
 
+Houveram erros maiores que os presentes na tabela para confiança de 0.95 e 2 graus de liberdade, logo a função normal não é representativa.
+
+Questão 7:
+---
+![](./14_03_21_11.png)

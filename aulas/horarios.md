@@ -30,10 +30,16 @@
 # Avisos
 
 - Sistemas de aeronaves - A pasta do Google drive já foi disponibilizada para consulta. Consta no Google classroom.
-- Apresentação Petrobras até sexta (12).
-- Competição programação na quinta feira (11).
-- Concluir sua parte de instrumentação até dia (11).
 - Pesquisar formas de salvar modelos de treinamento e treinar mais de uma vez o mesmo modelo.
+
+-----------------------------------------------------
+# TODO (15/03)
+- Houve aula de laboratório instrumentação.
+[]Lab - Dar andamento apresentação pesquisa.
+[]Lab - Gerar resultados para apresentação do lab.
+[]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
+[]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
+[]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
 
 -----------------------------------------------------
 # TODO (14/03)
