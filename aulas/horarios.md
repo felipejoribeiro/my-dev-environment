@@ -33,15 +33,33 @@
 - Pesquisar formas de salvar modelos de treinamento e treinar mais de uma vez o mesmo modelo.
 
 -----------------------------------------------------
-# TODO (15/03)
-- Houve aula de laboratório instrumentação.
-[]Lab - Dar andamento apresentação pesquisa.
-[]Lab - Gerar resultados para apresentação do lab.
-[]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
-[]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
-[]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
+# TODO (17/03)
+[x]Lab - revisar apresentação pesquisa.
+[-]Eletrônica - Fazer anotações da aula de segunda.
+[-]Eletrônica - Fazer anotações da aula de terça.
+[-]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
+[-]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
+[-]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
+[x][x][x][x][x][x][x]Aerodinâmica - 7 exercícios
 
 -----------------------------------------------------
+# TODO (16/03)
+[x]Lab - Concluir apresentação pesquisa.
+[-]Lab - revisar apresentação pesquisa.
+[-]Eletrônica - Fazer anotações da aula de segunda.
+[-]Eletrônica - Fazer anotações da aula de terça.
+[-]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
+[-]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
+[-]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
+
+# TODO (15/03)
+- Houve aula de laboratório instrumentação: para entregar 29.
+[x]Lab - Dar andamento apresentação pesquisa.
+[x]Lab - Gerar resultados para apresentação do lab.
+[-]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
+[-]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
+[-]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
+
 # TODO (14/03)
 
 [x]Instrumentação - Fazer lista de exercícios de número 1.
