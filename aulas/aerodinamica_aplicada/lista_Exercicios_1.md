@@ -72,7 +72,7 @@ v = f(y)
 $
 
 $
-w = zy^2
+w = -zy^2
 $
 
 - Temos um fluido incompressível, logo temos:$\vec{\nabla} \bullet \vec{V} = \frac{\partial u }{\partial x} + \frac{\partial v}{\partial y} + \frac{\partial w}{\partial z} = 0$ 
@@ -80,21 +80,21 @@ $
 Assim, aplicando as componentes:
 
 $
-\frac{\partial }{\partial x}(4xy^2) + \frac{\partial f(y)}{\partial y} + \frac{\partial }{\partial z}(zy^2) = 0
+\frac{\partial }{\partial x}(4xy^2) + \frac{\partial f(y)}{\partial y} + \frac{\partial }{\partial z}(- zy^2) = 0
 $
 
 $
-4y^2 + \frac{\partial f(y)}{\partial y} + y^2 = 0
+4y^2 + \frac{\partial f(y)}{\partial y} - y^2 = 0
 $
 
 $
-\frac{\partial f(y)}{\partial y} = -5y^2
+\frac{\partial f(y)}{\partial y} = -3y^2
 $
 
 Integrando em y em ambos os lados:
 
 $
-f(y) = -\frac{5}{3}y^3 + C
+f(y) = -y^3 + C
 $
 
 Em que $C$ é uma constante numérica.
@@ -281,22 +281,7 @@ $
 \frac{\partial \phi}{\partial y} = 0
 $
 
-Com isso, podemos concluir:
-
-$
-\frac{\partial^2 \phi}{\partial x^2 } = 0
-$
-
-$
-\frac{\partial^2 \phi}{\partial y^2 } = 0
-$
-
-Com isso podemos ver que que equação de Laplace é verdadeira para esse caso : 
-
-$\frac{\partial^2 \phi}{\partial x^2 } +\frac{\partial^2 \phi}{\partial y^2 } = 0$
-
-Isso nos diz que o escoamento é irrotacional.
-
+Tal sistema de equações não tem solução, o que nos diz que não existe função potencial para esse caso.
 
 
 ### 6 - sexta questão 
@@ -473,12 +458,247 @@ $
 $
 
 
+### 8 - oitava questão 
+
+![](./lista_Exercicios_1_8.png)
+![](./lista_Exercicios_1_9.png)
+
+Sabemos:
+- $\psi(x,y)=0$ na parede.
+- $\psi(x,y)=0$ longe da parede é um valor positivo.
+- Considera-se o escoamento bidimensional ($w = 0$).
+- Considera-se o fluido Newtoniano e incompressível.
+
+Considerando o comportamento do fluido com a função corrente, como podemos ver nesse recorte do livro do White:
+
+![](./lista_Exercicios_1_10.png)
+
+A função corrente aumenta em uma linha perpendicular ao fluido que caminha com o sentido do fluido para a direita. Com isso, podemos fazer uma análise gráfica na imagem da questão:
+
+![](./lista_Exercicios_1_11.png)
+
+Podemos ver que a extremidade da bolha encosta na parede, o que torna o valor de sua função corrente igual a zero. Dessa forma, a bolha fica cercada por um contorna de valor de função corrente igual a zero. Também podemos ver com uma das setas que o valor da função corrente diminui dentro da bolha ao se aproximar do seu centro, tornando todos os valores ali dentro negativos uma vez que teriam de ser menores que zero. O centro dessa bolha passa a ser o ponto onde ocorre a mínima função corrente em todo o escoamento da imagem. A seta invertida na parte inferior da bolha também nos indica que a função corrente aumenta do centro dela em direção da parede.
 
 
+### 9 - nona questão 
+
+![](./lista_Exercicios_1_12.png)
+
+- Temos um escoamento turbulento de comportamento estatisticamente permanente.
+- O escoamento é bidimensional ($w = 0$).
+- O escoamento é compressível.
+- O bloco na imagem é um quadrado de tamanho 1.
+- Linhas de corrente disponíveis para análise.
+- Fluido é ar a temperatura ambiente ($\rho = 1,18 kg/m^2$).
+- $\psi(x,y) [kg/ms]$
+
+Podemos desenhar as linhas de velocidade ao observarmos mais uma vez o princípio das linhas de corrente a seguir:
+
+![](./lista_Exercicios_1_10.png)
+
+Observamos que a linha de corrente de valor igual a $1$ é a menor de todas, assim, a velocidade roda em torno de seu centro no sentido horário segundo a convenção das linhas de corrente. Isso nos permite fazer a estimativa da direção da velocidade nos dois pontos:
+
+![](./lista_Exercicios_1_13.png)
+
+Para estimar a velocidade do vento no Ponto $B$ assumimos um escoamento linear entre as duas linhas de corrente. Podemos estimar, grosseiramente, que a distância entre elas é de $0,05 m$. Sabemos que $\frac{\partial \psi}{\partial y} = u$, o que nos diz que a unidade de medida desta função é $m^2/s$, mas neste caso vemos que ela está dependente da massa do fluido. Para adimensionalizar ela nesse sentido podemos dividir ela pela densidade. Além disso, a diferença entre dois valores de função de corrente dividido pela distância das linhas, assumindo linearidade do sistema também deve nos dar a velocidade. Assim, temos:
+
+$
+ \frac{\Delta\psi}{\rho \delta} = \frac{(6 - 5)[kg/ms]}{1,18 [kg/m^3] * 0.05 [m]} \simeq 17 [m/s]
+$
 
 
+### 10 - décima questão 
+
+![](./lista_Exercicios_1_14.png)
+
+Para aplicar a equação de Bernoulli consideramos que o fluido é incompressível, irrotacional e que não há atritos com as paredes do túnel. 
+- Sabemos que a densidade do ar nessas condições pode ser conseguido a partir da constante dos gases para o ar $0,287 [kPa*m^3/kg * K]$.
+- Velocidade no túnel é de $80 [m/s]$
+
+Assim, temos:
+
+$
+\rho = \frac{P}{R*T} = \frac{101,3}{0,287 * (20 + 273)} = 1,205 [Kg/m^3]
+$
+
+Fora do túnel, a pressão é igual à pressão ambiente e a velocidade é igual a zero, assim temos que $V_1 = 0$ e $P_1 = 101,3[KPa]$. A diferença na altura é negligenciável. Assim temos a equação final como:
+
+$
+\frac{P_1}{\rho} + \frac{0^2}{2} = \frac{P_2}{\rho} + \frac{V_2^2}{2}
+$
+
+$
+P_2= P_1 - \frac{\rho V_2^2}{2} = 101300 - \frac{1,205 *  80^2}{2} = 97444,44 \simeq 97,4 [Kpa]
+$
 
 
+### 11 - décima primeira questão 
+
+![](./lista_Exercicios_1_15.png)
+
+- Podemos definir a densidade da água como $1000 Kg/m^3$
+- Consideramos o fluido como incompressível.
+- Área de entrada = $\pi (0,07/2)^2 = 0,00385 [m^2]$
+- Área de garganta = $\pi (0,04/2)^2 = 0,00126 [m^2]$
+- Também consideramos o fluido como completamente desenvolvido e desconsideramos atritos o que nos permite usar Bernoulli.
+
+Pelo fluido ser incompressível, já podemos dizer que a vazão é constante. Isso nos permite declarar que:
+
+$
+A_1 * V_1 = A_2 * V_2
+$
+
+$
+V_2 = \frac{A_1 * V_1}{A_2}
+$
+
+Como o escoamento é horizontal, podemos ignorar as diferenças de altura:
+
+$
+\frac{P_1}{\rho} + \frac{V_1^2}{2} = \frac{P_2}{\rho} + \frac{V_2^2}{2}
+$
+
+Substituindo em $V_2$:
+
+$
+\frac{P_1}{\rho} + \frac{V_1^2}{2} = \frac{P_2}{\rho} + \frac{(\frac{A_1 * V_1}{A_2})^2}{2}
+$
+
+$
+ \frac{V_1^2}{2} = \frac{P_2-P_1}{\rho} + \frac{(\frac{A_1 * V_1}{A_2})^2}{2}
+$
+
+$
+ V_1^2(1 - \frac{A_1^2}{A_2^2})= \frac{2(P_2-P_1)}{\rho} 
+$
+
+$
+ V_1^2 = \frac{2(P_2-P_1)}{\rho(1 - \frac{A_1^2}{A_2^2})} 
+$
+
+$
+ V_1 = \sqrt{\frac{2(P_2-P_1)}{\rho(1 - \frac{A_1^2}{A_2^2})}} = 8,624
+$
+
+Isso nos dá uma vasão de $8,624 * A_1 = 0,033$
 
 
+### 12 - décima segunda questão 
+
+![](./lista_Exercicios_1_16.png)
+
+- Temos a vazão no tubo ($0,12[m^3/s]$) que por se tratar de um fluido incompressível é a mesma para todas as secções transversais do escoamento interno.
+- Temos a densidade do ar igual a $\rho = 1,20 [kg/m^3]$, constante.
+- Área 1 = $\pi (0,22/2)^2 = 0,038 [m^2]$
+- Área 2 = $\pi (0,1/2)^2 = 0,00785 [m^2]$
+- Também consideramos que não há atrito e que o escoamento está completamente desenvolvido.
+
+Mais uma vez temos um escoamento horizontal, em que posemos definir Bernoulli da seguinte forma:
+
+$
+\frac{P_1}{\rho} + \frac{V_1^2}{2} = \frac{P_2}{\rho} + \frac{V_2^2}{2}
+$
+
+Podemos achar a diferença de pressão da seguinte forma:
+
+$
+P_1 - P_2= \frac{\rho (V_2^2 - V_1^2)}{2} 
+$
+
+É possível achar as velocidades dividindo a vazão pela área:
+
+$
+V_1 = \frac{0,12}{0,038} = 3,157
+$
+
+$
+V_2 = \frac{0,12}{0,00785} = 15,279
+$
+
+$
+P_1 - P_2= \frac{\rho (V_2^2 - V_1^2)}{2} = \frac{1,2 (15,2866^2 - 3,158^2)}{2} = 134,09 [N/m^2]
+$
+
+Para achar a altura, podemos usar a fórmula $\Delta P  = \rho g h$, que nos dá:
+
+$
+h= \frac{\Delta P}{\rho g} = \frac{134,09 [N/m^2]}{1000[kg/m^3] 9,8 [m/s^2]} = 1,37 [cm]
+$
+
+
+### 13 - décima terceira questão 
+
+![](./lista_Exercicios_1_17.png)
+
+- Considerando a densidade da água como $1000 [kg/m^3]$,
+- Considerando um escoamento incompressível, em regime permanente e irrotacional.
+- Também desconsideramos os efeitos do atrito, o que nos possibilita o uso de Bernoulli.
+- Como os pontos de análise estão muito próximos, também se desconsidera o efeito da gravidade sobre o escoamento.
+
+Dessa forma temos a seguinte equação:
+
+$
+\frac{P_1}{\rho} + \frac{V_1^2}{2} = \frac{P_2}{\rho} + \frac{V_2^2}{2}
+$
+
+Podemos comparar dois pontos próximos sendo um deles o orifício de frente para o escoamento e o outro o que pega o escoamento de lado. Assim, em um deles a velocidade é zero enquanto no outro não. Isso nos dá:
+
+$
+\frac{P_1}{\rho} + \frac{0^2}{2} = \frac{P_2}{\rho} + \frac{V_2^2}{2}
+$
+
+$
+P_1 = P_2 + \frac{\rho V_2^2}{2}
+$
+
+A diferença de pressão pode ser pega a partir do tamanho da coluna da água, com a expressão:
+
+$\Delta P = \rho g h$
+
+
+$
+\frac{\rho V_2^2}{2} = \rho_w g h
+$
+
+$
+\frac{1,15 V_2^2}{2} = 1000 * 9,8 * 0,055
+$
+
+$
+V_2= \sqrt{\frac{2 * 1000 * 9,8 * 0,055}{1,15}} = 30,617 [m/s]
+$
+
+
+### 14 - décima quarta questão 
+
+![](./lista_Exercicios_1_18.png) 
+
+Usando de Bernoulli mais uma vez: 
+- desconsiderando atritos.
+- considerando o fluido como Newtoniano e incompressível.
+- considerando o o escoamento como completamente desenvolvido.
+
+Temos a seguinte equação, observando que em um dos pontos a velocidade é zero, e tem-se um escoamento horizontal:
+
+$
+\frac{P_1}{\rho} + \frac{V_1^2}{2} = \frac{P_2}{\rho} + \frac{0^2}{2} 
+$
+
+$
+P_2 - P_1 = \frac{\rho V_1^2}{2}
+$
+
+Essa diferença de pressão causa a diferença na altura de coluna de água. Isso pode ser calculado com a expressão:$\Delta P = \rho g h$
+
+$
+\rho g h = \frac{\rho V_1^2}{2}
+$
+
+$
+g h = \frac{V_1^2}{2}
+$
+
+$
+V_1 = \sqrt{2 h g} = \sqrt{2 * 0,12 * 9,8} = 1,534 [m/s]
+$
 

@@ -33,6 +33,24 @@
 - Pesquisar formas de salvar modelos de treinamento e treinar mais de uma vez o mesmo modelo.
 
 -----------------------------------------------------
+# TODO (19/03)
+[] - reunião Tatiane (16)
+[]Eletrônica - Fazer anotações da aula de segunda.
+[]Eletrônica - Fazer anotações da aula de terça.
+[]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
+[]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
+[]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
+
+
+-----------------------------------------------------
+# TODO (18/03)
+[-]Eletrônica - Fazer anotações da aula de segunda.
+[-]Eletrônica - Fazer anotações da aula de terça.
+[-]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
+[-]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
+[-]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
+[x][x][x][x][x][x][x]Aerodinâmica - 7 exercícios
+
 # TODO (17/03)
 [x]Lab - revisar apresentação pesquisa.
 [-]Eletrônica - Fazer anotações da aula de segunda.
@@ -42,7 +60,6 @@
 [-]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
 [x][x][x][x][x][x][x]Aerodinâmica - 7 exercícios
 
------------------------------------------------------
 # TODO (16/03)
 [x]Lab - Concluir apresentação pesquisa.
 [-]Lab - revisar apresentação pesquisa.
