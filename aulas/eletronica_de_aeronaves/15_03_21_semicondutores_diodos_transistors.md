@@ -87,3 +87,15 @@ Como observado, o transistor é feito de dois diodos, o diodo emissor e o diodo 
 Dessa forma ele funciona como uma torneira de corrente, onde, quando você eletrifica o centro, isso permite a passagem de corrente.
 
 É importante decorar a fórmula da relação de ganho, da corrente que entra e da corrente que sai.
+
+#### Ganho de corrente e outros parâmetros
+Seguem parâmetros de transistores bipolares. Tais dados podem ser usados para a solução de exercícios.
+
+![](./15_03_21_6.png)
+
+Exemplo de exercício:
+
+![](./15_03_21_7.png)
+
+#### Polarização do emissor 
+Podemos sair da condição de ganho variável. Resistor na saída é responsável por controlar o fluxo de corrente do transistor. Assim, pode-se ligar a fonte diretamente na base do transistor.

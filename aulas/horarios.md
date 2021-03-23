@@ -49,7 +49,7 @@
 [-]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
 [-]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
 [-]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
-[x][x][x][x][x][x][x]Aerodinâmica - 7 exercícios
+[x][x][x][x][x][x][x]Aerodinâmica - 7 exercícios --> lista terminada
 
 # TODO (17/03)
 [x]Lab - revisar apresentação pesquisa.
