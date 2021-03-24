@@ -1,0 +1,62 @@
+# Escoamentos externos
+Iremos tratar de escoamentos externos. Nesse assunto estudamos corpos imersos em fluidos.
+
+Como exemplo podemos ver esse caminhão:
+
+![](./2021-03-24_08-19_1.png)
+
+Ele é um caminhão frigorífico que é mais frio que o escoamento ao redor. Dessa forma, o escoamento leva energia ao objeto e tem a velocidade do veículo acrescido da velocidade do ar local.
+
+Para esse tipo de análise algumas grandezas adimensionais são importantes. Dentre elas:
+
+Referente a transferência de energia:
+- $Nu_x = f(x^\ast,Re_x, Pr)$
+- $\overline{Nu_x} = f(Re_x, Pr)$
+
+Referente a transferência de massa:
+- $Sh_x = f(x^\ast, Re_x, Sc)$
+- $\overline{Sh_x} = f(Re_x, Sc)$
+
+Essas relações vem de análises empíricas, teóricas e numéricas.
+
+#### O método empírico
+O método empírico envolve a execução de medidas de calor ou de transferência de massa sob condições controladas envolvendo correlação de dados em termos de parâmetros adimensionais.
+
+![](./2021-03-24_08-19_2.png)
+
+Como esses parâmetros são independentes da natureza do fluido isso nos garante ampla aplicabilidade.
+
+#### O método teórico
+Outra forma de se conseguir os parâmetros da análise é de forma teórica. Isso se dá a partir das equações diferenciais que descrevem o comportamento do fluido e das simplificações que podemos fazer sobre o sistema.
+
+![](./2021-03-24_08-19_3.png)
+
+Analisaremos somente o trecho laminar desse escoamento.
+
+Neste estudo utiliza-se a solução por similaridade, também conhecida como método de Blasius. Onde podemos definir as funções corrente:
+
+$
+u = \frac{\partial \Psi}{\partial y}
+$
+
+$
+v =- \frac{\partial \Psi}{\partial x}
+$
+
+Assim, conseguimos uma nova variável dependente:
+
+$
+f(\eta) = \frac{\Psi}{u_\infin \sqrt{\frac{\nu x}{u_\infin}}}
+$
+
+$
+\eta = y \sqrt{\frac{u_\infin}{\nu x}}
+$
+
+Assim, tínhamos as funções $u$ e $v$ e variáveis $x$ e $y$, mas agora só temos $\eta$ e $\Psi$. Isso é conveniente para os cálculos.
+
+Assim, aplicando essas novas variáveis nas equações iniciais nos dá:
+
+$
+u = \frac{\partial \Psi}{\partial y} = \frac{\partial \Psi}{\partial \eta} \frac{\partial \eta}{\partial y}=u_\infin \sqrt{\frac{\nu x}{u_\infin}} \frac{df}{d\eta}
+$
