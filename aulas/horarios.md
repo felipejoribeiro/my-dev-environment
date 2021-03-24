@@ -29,11 +29,18 @@
 
 # Avisos
 - Pesquisar formas de salvar modelos de treinamento e treinar mais de uma vez o mesmo modelo.
+- Pesquisar formas de deixar o modelo mais rápido.
+- Estudar transistors de eletrônica de aeronaves, uma vez que o assunto está um pouco nebuloso.
+- Iniciar procura de emprego no Canadá.
 
 -----------------------------------------------------
 # TODO (23/03)
 []TC2 - Ver aula assíncrona 7. -> https://youtu.be/RG6aMIHLrMU
-[]TC2 - Ver aula síncrona segunda -> baixar meets
+[]TC2 - Ver aula síncrona segunda -> baixar meets as tarefas resolvidas.
+[]Instrumentação - Ver aula assíncrona (2) [][].
+[]Instrumentação - Fazer questões lista (2) [][].
+[]Instrumentação - Ler e processar material do relatório.
+[]aerodinâmica - Começar a lista de aerodinâmica.
 
 -----------------------------------------------------
 # TODO (23/03)
