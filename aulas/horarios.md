@@ -28,21 +28,28 @@
 -----------------------------------------------------
 
 # Avisos
-
-- Sistemas de aeronaves - A pasta do Google drive já foi disponibilizada para consulta. Consta no Google classroom.
 - Pesquisar formas de salvar modelos de treinamento e treinar mais de uma vez o mesmo modelo.
 
 -----------------------------------------------------
-# TODO (19/03)
-[] - reunião Tatiane (16)
-[]Eletrônica - Fazer anotações da aula de segunda.
-[]Eletrônica - Fazer anotações da aula de terça.
-[]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
-[]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
-[]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
-
+# TODO (23/03)
+[]TC2 - Ver aula assíncrona 7. -> https://youtu.be/RG6aMIHLrMU
+[]TC2 - Ver aula síncrona segunda -> baixar meets
 
 -----------------------------------------------------
+# TODO (23/03)
+[x]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
+[x]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
+[x]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
+[-]TC2 - Ver aula assíncrona 7. -> https://youtu.be/RG6aMIHLrMU
+
+# TODO (22/03)
+[x]Lab - reunião Tatiane (16)
+[-]Eletrônica - Fazer anotações da aula de segunda.
+[-]Eletrônica - Fazer anotações da aula de terça.
+[-]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
+[-]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
+[-]TC2 - Ver aula assíncrona 6. -> https://youtu.be/Yk4m8yMNQwI
+
 # TODO (18/03)
 [-]Eletrônica - Fazer anotações da aula de segunda.
 [-]Eletrônica - Fazer anotações da aula de terça.
