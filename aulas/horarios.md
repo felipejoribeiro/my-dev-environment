@@ -15,7 +15,7 @@
     Aerodinâmica alicada            08:50 - 10:40
 
 # Quinta feira 
-    
+
     Transferência de calor 2(async) 07:10 - 08:50
     Sistemas de aeronaves           09:50 - 11:30
     Aerodinâmica aplicada           13:10 - 14:50
@@ -34,15 +34,21 @@
 - Iniciar procura de emprego no Canadá.
 
 -----------------------------------------------------
-# TODO (23/03)
-[]TC2 - Ver aula assíncrona 7. -> https://youtu.be/RG6aMIHLrMU
-[]TC2 - Ver aula síncrona segunda -> baixar meets as tarefas resolvidas.
+# TODO (25/03)
 []Instrumentação - Ver aula assíncrona (2) [][].
 []Instrumentação - Fazer questões lista (2) [][].
 []Instrumentação - Ler e processar material do relatório.
 []aerodinâmica - Começar a lista de aerodinâmica.
 
 -----------------------------------------------------
+# TODO (23/03)
+[x]TC2 - Ver aula assíncrona 7. -> https://youtu.be/RG6aMIHLrMU
+[x]TC2 - Ver aula síncrona segunda -> baixar meets as tarefas resolvidas.
+[-]Instrumentação - Ver aula assíncrona (2) [][].
+[-]Instrumentação - Fazer questões lista (2) [][].
+[-]Instrumentação - Ler e processar material do relatório.
+[-]aerodinâmica - Começar a lista de aerodinâmica.
+
 # TODO (23/03)
 [x]TC2 - Ver aula assíncrona 4. -> https://youtu.be/9AOTLIBgxzM
 [x]TC2 - Ver aula assíncrona 5. -> https://youtu.be/-clrULsTJQk
