@@ -34,13 +34,19 @@
 - Iniciar procura de emprego no Canadá.
 
 -----------------------------------------------------
-# TODO (25/03)
+# TODO (28/03)
 []Instrumentação - Ver aula assíncrona (2) [][].
-[]Instrumentação - Fazer questões lista (2) [][].
-[]Instrumentação - Ler e processar material do relatório.
+[x]Instrumentação - Fazer questões lista (2) [][].
+[x]Instrumentação - Ler e processar material do relatório.
 []aerodinâmica - Começar a lista de aerodinâmica.
 
 -----------------------------------------------------
+# TODO (25/03)
+[-]Instrumentação - Ver aula assíncrona (2) [][].
+[-]Instrumentação - Fazer questões lista (2) [][].
+[-]Instrumentação - Ler e processar material do relatório.
+[-]aerodinâmica - Começar a lista de aerodinâmica.
+
 # TODO (23/03)
 [x]TC2 - Ver aula assíncrona 7. -> https://youtu.be/RG6aMIHLrMU
 [x]TC2 - Ver aula síncrona segunda -> baixar meets as tarefas resolvidas.
