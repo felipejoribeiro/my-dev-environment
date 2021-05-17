@@ -85,10 +85,6 @@ To create the disk partitions you must run the **fdisk** program. For that we us
 
 There is another option, that is creating a swap file. If that is what you want you don't need to create the swap partition. Just the EFI and the principal one. This is interesting as provide better size adjustment capabilities for your swap as it is a file, you can in any time delete it and create a new one. 
 
-Other good idea is to separate your root filer partition from you home partition. In that way, if you need to reinstall the system for any reason you can do that more easily by just formating the root and reinstalling it.A good size for it is 30Gb. So following these instructions we would end up with 3 partitions, one for the EFI, one for the root and one for the user.
-
-
-
 #### Making our file system
 We need to make three file systems for the three partitions we created. For the EFI partition we must make it FAT32. For that we run the command `mkfs.fat -F32 /dev/sda1`. For the swap partition we run the command `mkswap /dev/sda2` to create it and `swapon /dev/sda2` to enable it. And lastly we make the file system for the system partition with the command `mkfs.ext4 /dev/sda3` and then we must mount this partition with the command `mount /dev/sda3 /mnt`.
 
