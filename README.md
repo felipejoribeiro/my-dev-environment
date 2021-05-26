@@ -97,7 +97,7 @@ Install these things with:
 
 ```
     
-    pacstrap /mnt base linux-lts linux-lts-headers linux-headers linux-firmware intel-ucode
+    pacstrap /mnt base base-devel linux-lts linux-lts-headers linux-headers linux-firmware intel-ucode
 
 ```
 
@@ -142,7 +142,7 @@ And finally, we must add the new user in some groups to give it permissions (to 
 Them we can install the **sudo** program. With pacman by running the `pacman -S sudo` command. And after that you can edit the sudo configurations with the command `visudo`. Than search for the line `# %wheel ALL=(ALL) ALL` and uncomment it (line 82). That will give privileges to your new born user, as it is in the wheel group.
 
 #### Installing the bootloader
-Then BIOS checks the Master Boot Record (MBR), which is a 512 byte section located first on the Hard Drive. It looks for a bootloader (like GRUB). The hard drive's partition tables are also located here. If you remember, we created a partition for the EFI with this exact size. We will install the bootloader there now.
+The BIOS checks the Master Boot Record (MBR), which is a 512 byte section located first on the Hard Drive. It looks for a bootloader (like GRUB). The hard drive's partition tables are also located here. If you remember, we created a partition for the EFI with this exact size. We will install the bootloader there now.
 For installing the grub program you must run the `pacman -S grub` command. As we will manage EFI bios, we must install other programs: `pacman -S efibootmgr dosfstools os-prober mtools`.
 After that we must make our EFI directory and our boot directory. For that we use the commands `mkdir /boot/EFI` to create the directory and `mount /dev/sda1 /boot/EFI` to mount the EFI partition to the newborn directory.
 
