@@ -2,7 +2,6 @@
 "                        General Configuration                      "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General configs
-set nocompatible                        " Improved
 syntax enable                           " Enable syntax
 set t_Co=256                            " Supports 256 colors
 filetype indent plugin on               " enable file detection and plugins
