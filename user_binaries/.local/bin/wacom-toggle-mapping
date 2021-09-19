@@ -1,0 +1,15 @@
+#!/bin/bash
+#
+# Toggles which screen the cintiq is mapped to.
+if [ `cat ~/.wacom-mapping` -eq 0 ];
+then
+    echo 1
+    xsetwacom set "Wacom Cintiq 13HD Pen stylus" MapToOutput "HEAD-2"
+    xsetwacom set "Wacom Cintiq 13HD Pen eraser" MapToOutput "HEAD-2"
+    echo 1 > ~/.wacom-mapping
+else
+    echo 0
+    xsetwacom set "Wacom Cintiq 13HD Pen stylus" MapToOutput "desktop"
+    xsetwacom set "Wacom Cintiq 13HD Pen eraser" MapToOutput "desktop"
+    echo 0 > ~/.wacom-mapping
+fi

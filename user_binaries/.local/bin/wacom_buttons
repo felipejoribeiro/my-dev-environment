@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button  2 "key +ctrl z -ctrl"
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button  3 "key +super w -super" # Spread Windows     
+
+
+# Whell 
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button 1 "key +bracketright"   # Bigger brush                                                   
+
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button 10 "key +super z -super" # Toggle screens                                     
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button 11 "key plus"            # Zoom in                                                          
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button 13 "key minus"           # Zoom out                                                         
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button 12 "key +bracketleft"    # Smaller brush                                                    
+
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button  8 "key +shift"
+xsetwacom set "Wacom Cintiq 13HD Pad pad" Button  9 "key +ctrl"
