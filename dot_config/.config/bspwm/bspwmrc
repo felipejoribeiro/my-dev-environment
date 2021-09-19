@@ -15,7 +15,9 @@ if [[ $this_machine = *redspace* ]]; then
 	bspc monitor HDMI-0 -d 1 2 3 4
 	bspc monitor DP-3 -d 5 6 7 8
 	bspc monitor HDMI-0 -s DP-3
-else
+fi
+
+if [[ $this_machine = *redbox* ]]; then
 	if [[ $my_laptop_external_monitor = *disconnected* ]]; then
 		bspc monitor eDP1 -d 1 2 3 4 5 6
 	else
