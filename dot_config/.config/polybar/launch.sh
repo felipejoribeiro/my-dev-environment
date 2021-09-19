@@ -1,4 +1,5 @@
 #!/bin/bash
+# This file configures polybar
 
 # Terminate already running bar instances
 killall -q polybar
@@ -6,16 +7,23 @@ killall -q polybar
 # Wait until the processes have been shut down
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
-# set up the two monitors for bspwm
+# set up monitors for polybar, platform agnostic
 my_laptop_external_monitor=$(xrandr --query | grep 'HDMI-1-0')
-if [[ $my_laptop_external_monitor = *disconnected* ]]; then
+this_machine=$HOSTNAME
+
+if [[ $this_machine = *redspace* ]]; then
 	polybar mybar &
+	polybar external &
 else
-	if [[ $my_laptop_external_monitor = *connected* ]]; then
+	if [[ $my_laptop_external_monitor = *disconnected* ]]; then
 		polybar mybar &
-		polybar external &
 	else
-		polybar mybar &
+		if [[ $my_laptop_external_monitor = *connected* ]]; then
+			polybar mybar &
+			polybar external &
+		else
+			polybar mybar &
+		fi
 	fi
 fi
 
