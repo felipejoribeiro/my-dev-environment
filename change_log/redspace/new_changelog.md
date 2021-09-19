@@ -38,14 +38,18 @@ groupes: wheel,audio,video,optical,storage
 - openssh
 - htop
 - neofetch
-- nvidia nvidia-utils nvidia-settings mesa xf86-video-intel lib32-nvidia-utils lib32-opencl-nvidia opencl-nvidia libvdpau libxnvctrl vulkan-icd-loader lib32-vulkan-icd-loader
+- nvidia nvidia-utils nvidia-settings mesa xf86-video-intel lib32-nvidia-utils lib32-opencl-nvidia opencl-nvidia libvdpau libxnvctrl vulkan-icd-loader lib32-vulkan-icd-loader lib32-mesa
 - xorg xorg-server xorg-xinit xorg-apps xorg-xrandr
 - bspwm sxhkd picom nitrogen arandr alacritty
+- blender
 
 
 # Installed AUR packages:
 - yay
 - broadcom-bt-firmware-git
+- brave-bin
+- gotop
+- inxi
 
 
 # first error log after initialization:
