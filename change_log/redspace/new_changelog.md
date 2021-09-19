@@ -50,7 +50,8 @@ groupes: wheel,audio,video,optical,storage
 - brave-bin
 - gotop
 - inxi
-
+- polybar
+- fd
 
 # first error log after initialization:
 I runned `sudo journalctl -p 3 -xb` and got these errors:
