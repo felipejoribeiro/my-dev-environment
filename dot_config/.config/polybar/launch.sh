@@ -8,23 +8,15 @@ killall -q polybar
 while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # set up monitors for polybar, platform agnostic
-my_laptop_external_monitor=$(xrandr --query | grep 'HDMI-1-0')
-this_machine=$HOSTNAME
-
-if [[ $this_machine = *redspace* ]]; then
-	polybar mybar &
-	polybar external &
-else
-	if [[ $my_laptop_external_monitor = *disconnected* ]]; then
-		polybar mybar &
+echo "configuring polybar for multiple monitors..."
+for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
+	if [[ $m = *HDMI-0* || $m = *eDP1* ]]; then
+		MONITOR=$m polybar --reload mybar &
+		echo $m polybar --reload mybar &
 	else
-		if [[ $my_laptop_external_monitor = *connected* ]]; then
-			polybar mybar &
-			polybar external &
-		else
-			polybar mybar &
-		fi
+		MONITOR=$m polybar --reload external &
+		echo $m polybar --reload external &
 	fi
-fi
+done
 
 echo "Polybar launched..."
