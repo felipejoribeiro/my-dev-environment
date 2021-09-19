@@ -42,7 +42,9 @@ groupes: wheel,audio,video,optical,storage
 - xorg xorg-server xorg-xinit xorg-apps xorg-xrandr
 - bspwm sxhkd picom nitrogen arandr alacritty
 - blender
-
+- tmux
+- alsa-utils sof-firmware alsa-ucm-conf pulseaudio pulseaudio-alsa pulseaudio-jack pulseaudio-bluetooth pulseaudio-equalizer pulsemixer lib32-libpulse lib32-alsa-plugins pavucontrol
+- rofi
 
 # Installed AUR packages:
 - yay
@@ -92,6 +94,9 @@ https://github.com/felipejoribeiro/my-dev-environment.git
 
 # Created nvidia entries:
 - /etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf
+
+# Created audio entries:
+- `/etc/asound.conf` with: `/etc/asound.conf`
 
 
 
