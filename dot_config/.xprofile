@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Java variable
+export _JAVA_AWT_WM_NONREPARENTING=1
+export QT_QPA_PLATFORMTHEME=qt5ct
+
+# ClipboardManager
+clipster -d &
+
+# pulseeffects service
+pulseeffects --gapplication-service &
+
+# Compositor
+picom --experimental-backend &
+
+# Background image
+nitrogen --restore &
+
+# Disable mouse when not using it
+unclutter -idle 4 -root &
+
+# Keyring initialization
+eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
+export $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)
+dbus-update-activation-environment --systemd DISPLAY
+
+# Automount usb drives.
+udiskie &
+
+# Window manager
+exec dbus-launch bspwm
