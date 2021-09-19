@@ -85,6 +85,8 @@ Exec=/bin/sh -c 'while read -r trg; do case $trg in linux) exit 0; esac; done; /
 https://github.com/felipejoribeiro/my-dev-environment.git
 ```
 
+# Created nvidia entries:
+- /etc/X11/xorg.conf.d/10-nvidia-drm-outputclass.conf
 
 
 
