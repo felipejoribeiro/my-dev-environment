@@ -4,6 +4,10 @@ env:
 shell:
   program: /usr/bin/fish
 
+class:
+  instance: Alacritty
+  general: Alacritty
+
 background_opacity: 0.65
 
 window:

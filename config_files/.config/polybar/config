@@ -72,6 +72,9 @@ cursor-scroll = ns-resize
 monitor = HDMI-1-0
 width = 100%
 
+[bar/external2]
+monitor = VDI-I-1-2
+width = 100%
 
 
 [module/docker]
