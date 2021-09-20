@@ -99,6 +99,7 @@ groupes: wheel,audio,video,optical,storage
 - alsa-lib
 - udisks2
 - qbittorrent
+- dunst
 
 # Installed AUR packages:
 - yay
@@ -123,6 +124,7 @@ groupes: wheel,audio,video,optical,storage
 - otf-openmoji
 - ttf-symbola
 - tllocalmgr-git
+- postman-bin
 
 # first error log after initialization:
 I runned `sudo journalctl -p 3 -xb` and got these errors:
