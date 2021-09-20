@@ -321,7 +321,6 @@ fi
 And make it runable with `chmod +x /etc/lightdm/display_setup.sh`.
 
 And you need to edit the file `/etc/lightdm/lightdm.conf`:
-rasgado
 
 ```
 [Seat:*]
@@ -635,7 +634,7 @@ And other prograns:
 Then i configured latex, installing the following packages:
 - texlive-most
 - biber
-- tllocalmgr-git
+- tllocalmgr-git (aur)
 - latex-mk(aur)
 
 Then I disabled the wpa_supplicant service, as i use other network utility.

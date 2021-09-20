@@ -17,7 +17,7 @@ picom --experimental-backend &
 nitrogen --restore &
 
 # Disable mouse when not using it
-unclutter -idle 4 -root &
+unclutter -idle 10 -root &
 
 # Keyring initialization
 eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
