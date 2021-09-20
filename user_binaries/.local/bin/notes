@@ -1,0 +1,10 @@
+#!/bin/bash
+
+choice="$(ls -R ~/notes | grep -v README | grep .md | sed "s/;/ /g" | rofi -dmenu -p "Open")"
+
+if [[ -z $choice ]];then
+	echo "Nothing chosen"
+else
+	file=$(find ~/notes/ -name $choice)
+	kitty -e nvim "$file"&
+fi
