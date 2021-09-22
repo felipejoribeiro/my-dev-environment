@@ -6,7 +6,7 @@ export PATH=$HOME/.local/bin:$PATH
 export ZSH="/home/fejori/.oh-my-zsh"
 
 # Your theme
-ZSH_THEME="kolo"
+ZSH_THEME="gozilla"
 
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="true"
@@ -22,6 +22,7 @@ plugins=(
 	z
 	zsh-autosuggestions
 	zsh-syntax-highlighting
+	web-search
 	)
 
 source $ZSH/oh-my-zsh.sh
