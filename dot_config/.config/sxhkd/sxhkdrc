@@ -12,7 +12,7 @@ alt + @space
 
 # Lounch android emulator
 super + a
-	/opt/android-sdk/tools/emulator -avd snackin_app
+	/opt/android-sdk/tools/emulator -avd snackin_app -writable-system
 	# /opt/genymotion/player --vm-name "Samsung Galaxy Note 10+"
 
 # hide window
