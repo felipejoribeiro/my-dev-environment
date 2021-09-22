@@ -546,7 +546,7 @@ autocmd BufWinEnter *.f90 :IndentLinesEnable
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " open terminal command
 function! OpenTerminal()
-	split term://fish
+	split term://zsh
 	resize 10
 	setlocal scrolloff=0
 	setlocal nonumber

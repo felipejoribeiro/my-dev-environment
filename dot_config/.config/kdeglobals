@@ -149,7 +149,7 @@ Theme=breeze
 
 [KDE]
 ColorScheme=BreezeLight
-ShowDeleteCommand=false
+ShowDeleteCommand=true
 contrast=4
 widgetStyle=Breeze
 

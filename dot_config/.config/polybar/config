@@ -27,8 +27,49 @@ primary = #ffb52a
 secondary = #e60053
 alert = #bd2c40
 
-[bar/mybar]
-;monitor = eDP1;HDMI-0
+[bar/mybar_desk]
+;monitor = HDMI-0
+monitor = ${env:MONITOR:}
+width = 70%
+height = 30
+offset-x = 15%
+;offset-y = 1%
+radius = 6.0
+fixed-center = true
+wm-restack = bspwm
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+border-size = 4
+border-color = #00000000
+
+padding-left = 0
+padding-right = 1
+
+module-margin-left = 0
+module-margin-right = 2
+
+font-0 = Hack:pixelsize=10;2
+font-1 = NotoColorEmoji:scale=10;2
+font-2 = Iosevka:pixelsize=13:antialias=true;2
+font-3 = feather:pixelsize=13:antialias=true;3
+
+modules-left = bspwm
+modules-center = date
+modules-right = wlan temperature pulseaudio
+
+tray-offset-x = 22%
+tray-position = center
+tray-padding = 2
+
+scroll-up = bspwm-desknext
+scroll-down = bspwm-deskprev
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[bar/mybar_note]
+;monitor = eDP1
 monitor = ${env:MONITOR:}
 width = 70%
 height = 30
