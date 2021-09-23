@@ -100,6 +100,15 @@ groupes: wheel,audio,video,optical,storage
 - udisks2
 - qbittorrent
 - dunst
+- yarn
+- zsh
+- godot
+- mangohud
+- bluez bluez-utils blueman
+- qt5ct
+- lollypop
+- gst-plugins-good
+
 
 # Installed AUR packages:
 - yay
@@ -125,6 +134,8 @@ groupes: wheel,audio,video,optical,storage
 - ttf-symbola
 - tllocalmgr-git
 - postman-bin
+- pick-colour-picker
+- roficlip
 
 # first error log after initialization:
 I runned `sudo journalctl -p 3 -xb` and got these errors:

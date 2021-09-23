@@ -47,10 +47,6 @@ super + @space
 super + v
 	roficlip
 
-# Open email client
-super + alt + m
-	thunderbird
-
 # Move current window to a pre-selected space
 super + shift + m
     bspc node -n last.!automatic
