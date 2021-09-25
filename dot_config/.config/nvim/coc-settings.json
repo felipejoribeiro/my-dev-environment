@@ -190,6 +190,7 @@
         "journalctl",
         "jsonb",
         "jsonify",
+        "kolmogórov",
         "latexmk",
         "mflab",
         "mongodb",
