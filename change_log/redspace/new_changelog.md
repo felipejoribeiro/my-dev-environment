@@ -108,6 +108,9 @@ groupes: wheel,audio,video,optical,storage
 - qt5ct
 - lollypop
 - gst-plugins-good
+- mtpfs
+- gvfs
+- gvfs-mtp
 
 
 # Installed AUR packages:
@@ -136,6 +139,7 @@ groupes: wheel,audio,video,optical,storage
 - postman-bin
 - pick-colour-picker
 - roficlip
+
 
 # first error log after initialization:
 I runned `sudo journalctl -p 3 -xb` and got these errors:
