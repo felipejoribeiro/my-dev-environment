@@ -30,21 +30,16 @@ source $ZSH/oh-my-zsh.sh
 source ~/.cred/*
 
 # configurations of plugins
-bindkey '^l' autosuggest-accept
+bindkey '^f' autosuggest-accept
 
 # Preferred configurations for local and remote sessions
 export TERMINAL='kitty'
-if [[ -n $SSH_CONNECTION ]]; then
-	export EDITOR='vim'
-	export SUDO_EDITOR='vim'
-	export TERM='xterm-256color'
-else
-	export EDITOR='nvim'
-	export SUDO_EDITOR='nvim'
-	export TERM='xterm-kitty'
-fi
+export TERM='xterm-256color'
+export EDITOR='nvim'
+export SUDO_EDITOR='nvim'
 
 # aliases
+alias pi36='source ~/.virtualenvs/3_6_flask_app/bin/activate'
 alias gojo='TERM=xterm-256color ssh root@felipejoribeiro.com'
 alias ran='ranger --choosedir="$HOME/.rangerdir"; cd $( cat $HOME/.rangerdir );clear'
 alias ls='exa'
