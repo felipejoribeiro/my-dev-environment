@@ -7,6 +7,7 @@ set t_Co=256                            " Supports 256 colors
 filetype indent plugin on               " enable file detection and plugins
 set termguicolors                       " Use GUI colors always
 set encoding=utf-8                      " The encoding written to file
+set fileencoding=utf-8
 set fileformat=unix                     " Set file format to a global one
 
 set clipboard=unnamedplus               " Use system's clipboard

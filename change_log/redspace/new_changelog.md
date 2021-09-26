@@ -111,6 +111,8 @@ groupes: wheel,audio,video,optical,storage
 - mtpfs
 - gvfs
 - gvfs-mtp
+- mesa-demos
+- xorg-xlsfonts
 
 
 # Installed AUR packages:

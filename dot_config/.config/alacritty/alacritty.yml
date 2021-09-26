@@ -2,7 +2,7 @@ env:
   TERM: xterm-256color
 
 shell:
-  program: /usr/bin/fish
+  program: /usr/bin/zsh
 
 class:
   instance: Alacritty
@@ -31,7 +31,7 @@ mouse:
   hide_when_typing: true
 
 font:
-  size: 7
+  size: 13
   normal:
     family: hack
     style: Regular

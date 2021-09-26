@@ -31,7 +31,7 @@ alert = #bd2c40
 ;monitor = HDMI-0
 monitor = ${env:MONITOR:}
 width = 70%
-height = 30
+height = 25
 offset-x = 15%
 ;offset-y = 1%
 radius = 6.0
@@ -51,13 +51,13 @@ module-margin-left = 0
 module-margin-right = 2
 
 font-0 = Hack:pixelsize=10;2
-font-1 = NotoColorEmoji:scale=10;2
+font-1 = Noto Emoji Nerd Font:scale=10;2
 font-2 = Iosevka:pixelsize=13:antialias=true;2
-font-3 = feather:pixelsize=13:antialias=true;3
+font-4 = Font Awesome 5 Free:pixelsize=13:antialias=true;3
 
 modules-left = bspwm
 modules-center = date
-modules-right = wlan temperature pulseaudio
+modules-right = docker wlan temperature pulseaudio
 
 tray-offset-x = 22%
 tray-position = center
@@ -72,7 +72,7 @@ cursor-scroll = ns-resize
 ;monitor = eDP1
 monitor = ${env:MONITOR:}
 width = 70%
-height = 30
+height = 25
 offset-x = 15%
 ;offset-y = 1%
 radius = 6.0
@@ -92,10 +92,8 @@ module-margin-left = 0
 module-margin-right = 2
 
 font-0 = Hack:pixelsize=10;2
-font-1 = TwitterColorEmoji:scale=8;2
-font-2 = NotoColorEmoji:scale=10;2
-font-3 = Iosevka:pixelsize=13:antialias=true;2
-font-4 = feather:pixelsize=13:antialias=true;3
+font-1 = Noto Color Emoji:scale=10;2
+font-2 = Iosevka:pixelsize=13:antialias=true;2
 
 modules-left = bspwm
 modules-center = date
@@ -154,8 +152,7 @@ interval = 3.0
 format-connected = <label-connected> <ramp-signal>   
 label-connected = 直
 label-connected-foreground = ${colors.foreground}
-
-format-disconnected = 直 (off)
+format-disconnected = 睊
 
 ;format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
@@ -198,7 +195,7 @@ click-right = "kill -USR1 $(pgrep --oldest --parent %pid%)"
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume =  <label-volume>
+format-volume = 奔<label-volume>
 format-foreground = ${colors.foreground-alt}
 volume = 
 label-volume = %percentage%%
@@ -260,13 +257,13 @@ warn-temperature = 80
 format = <ramp> <label>
 format-warn = <ramp> <label-warn>
 
-label = %temperature-c%
-label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
+label=%temperature-c%
+label-warn=%temperature-c%
+label-warn-foreground=${colors.secondary}
 
 ramp-0 = 﨎
 ramp-1 = 﨎
-ramp-2 = !
+ramp-2 = 﨏
 ramp-foreground = ${colors.foreground}
 
 

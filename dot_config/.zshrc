@@ -9,7 +9,7 @@ export ZSH="/home/fejori/.oh-my-zsh"
 ZSH_THEME="gozilla"
 
 # Uncomment the following line to enable command auto-correction.
-ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="false"
 
 # History style
 HIST_STAMPS="mm/dd/yyyy"
@@ -23,14 +23,23 @@ plugins=(
 		zsh-autosuggestions
 		zsh-syntax-highlighting
 		web-search
+		zsh-history-substring-search
 	)
 
 # Some sources
 source $ZSH/oh-my-zsh.sh
 source ~/.cred/*
 
+# Rapid paste in terminal
+zstyle ':bracketed-paste-magic' active-widgets '.self-*'
+
 # configurations of plugins
 bindkey '^f' autosuggest-accept
+bindkey '^p' history-substring-search-up
+bindkey '^n' history-substring-search-down
+ZSH_AUTOSUGGEST_STRATEGY=history
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#2f2f2f,fg=#fff'
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=none,fg=#fff'
 
 # Preferred configurations for local and remote sessions
 export TERMINAL='kitty'
