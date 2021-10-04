@@ -10,6 +10,9 @@ clipster -d &
 # pulseeffects service
 pulseeffects --gapplication-service &
 
+# Configuring monitors
+bash ~/.screenlayout/arandr_base.sh
+
 # Compositor
 picom --experimental-backend &
 
@@ -18,6 +21,9 @@ nitrogen --restore &
 
 # Disable mouse when not using it
 unclutter -idle 10 -root &
+
+# Enable wacoom shortcuts
+bash ~/.local/bin/wacom_buttons &
 
 # Keyring initialization
 eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)

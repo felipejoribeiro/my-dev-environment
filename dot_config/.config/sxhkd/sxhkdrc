@@ -6,6 +6,10 @@
 alt + Return
 	kitty
 
+# Wacom toogle screen
+super + ctrl + alt + z
+	/home/fejori/.local/bin/wacom-toggle-mapping
+
 # program launcher
 alt + @space
 	rofi -modi drun,run -show drun -font "DejaVu Sans 10" -show-icons

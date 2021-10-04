@@ -113,6 +113,8 @@ groupes: wheel,audio,video,optical,storage
 - gvfs-mtp
 - mesa-demos
 - xorg-xlsfonts
+- xf86-input-wacom
+- krita
 
 
 # Installed AUR packages:
