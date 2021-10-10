@@ -351,6 +351,7 @@ let g:vim_markdown_math = 1
 " markdown preview ----
 let g:mkdp_refresh_slow = 0
 let g:mkdp_auto_close = 0
+" let g:mkdp_markdown_css = '/home/fejori/.config/nvim/retro_md_css.css'
 let g:mkdp_markdown_css = '/home/fejori/.config/nvim/dracula_md_css.css'
 " let g:mkdp_markdown_css = '/home/felipejoribeiro/.config/nvim/github_md_css.css'
 " let g:mkdp_markdown_css = '/home/felipejoribeiro/.config/nvim/prism_md.css'
@@ -573,19 +574,15 @@ augroup python_files
 	autocmd FileType python nmap <silent> gr <Plug>(coc-references)
 	autocmd FileType python highlight NonText guifg=#636363
 	" Execute command
-	autocmd FileType python nnoremap <buffer> <silent> <leader>j :w<CR> :AsyncRun kitty --working-directory %:p:h --hold -e fish -c "python %:p" &<CR>
+	autocmd FileType python nnoremap <buffer> <silent> <leader>j :w<CR> :AsyncRun kitty --working-directory %:p:h --hold -e zsh -c "python %:p" &<CR>
 augroup END
 
-python3 << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-    activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-    with open(activate_this) as f:
-        code = compile(f.read(), activate_this, 'exec')
-        exec(code, dict(__file__=activate_this))
-EOF
+" Figure out the system Python for Neovim.
+if exists("$VIRTUAL_ENV")
+    let g:python3_host_prog=substitute(system("which -a python3 | head -n2 | tail -n1"), "\n", '', 'g')
+else
+    let g:python3_host_prog=substitute(system("which python3"), "\n", '', 'g')
+endif
 
 "#####################################################################
 "##############################   MARK DOWN   ########################

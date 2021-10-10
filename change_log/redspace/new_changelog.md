@@ -115,6 +115,8 @@ groupes: wheel,audio,video,optical,storage
 - xorg-xlsfonts
 - xf86-input-wacom
 - krita
+- aws-cli
+- ripgrep
 
 
 # Installed AUR packages:
@@ -143,7 +145,14 @@ groupes: wheel,audio,video,optical,storage
 - postman-bin
 - pick-colour-picker
 - roficlip
+- python37
 
+# npm packages
+- npm install -g serverless
+
+
+# Created
+- the .aws config file with config and credentials
 
 # first error log after initialization:
 I runned `sudo journalctl -p 3 -xb` and got these errors:
