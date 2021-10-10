@@ -114,17 +114,18 @@
       "'.*'"
     ],
     "cSpell.enabledLanguageIds": [
-        "csharp",
-        "javascript",
-        "javascriptreact",
-        "python",
-        "latex",
-        "markdown",
-        "html",
-        "vim",
-        "typescript",
-        "typescriptreact",
-        "yml"
+      "csharp",
+      "html",
+      "javascript",
+      "javascriptreact",
+      "latex",
+      "markdown",
+      "python",
+      "shell",
+      "typescript",
+      "typescriptreact",
+      "vim",
+      "yml"
     ],
       "cSpell.userWords": [
         "Alsa",
