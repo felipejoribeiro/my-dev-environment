@@ -11,7 +11,7 @@ clipster -d &
 pulseeffects --gapplication-service &
 
 # Configuring monitors
-bash ~/.screenlayout/arandr_base.sh
+bash ~/.screenlayout/screen.sh
 
 # Compositor
 picom --experimental-backend &
