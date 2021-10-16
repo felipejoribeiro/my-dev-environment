@@ -126,7 +126,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'OmniSharp/omnisharp-vim', {'for' : 'cs'}                " ✔  Omnisharp capabilities
 
 	" Godot :
-	" Plug 'habamax/vim-godot'                                      " ✔ Godot ide capabilities
+	Plug 'habamax/vim-godot'                                      " ✔ Godot ide capabilities
 	Plug 'calviken/vim-gdscript3'
 
 	" Latex :
@@ -694,6 +694,25 @@ augroup css_files
 	autocmd BufNewFile,BufRead *.css setlocal softtabstop=0
 	autocmd BufNewFile,BufRead *.css setlocal shiftwidth=2
 	autocmd BufNewFile,BufRead *.css setlocal tabstop=2
+augroup END
+
+
+
+"#####################################################################
+"##################################    GODOT   #######################
+"#####################################################################
+augroup godot_script
+	autocmd!
+	autocmd BufNewFile,BufRead *.gd setlocal textwidth=79                            " Limit in text length
+	autocmd BufNewFile,BufRead *.gd setlocal foldmethod=indent                       " Limit in text length
+	autocmd BufNewFile,BufRead *.gd nmap <silent> gd <Plug>(coc-definition)
+	autocmd BufNewFile,BufRead *.gd nmap <silent> gy <Plug>(coc-type-definition)
+	autocmd BufNewFile,BufRead *.gd nmap <silent> gi <Plug>(coc-implementation)
+	autocmd BufNewFile,BufRead *.gd nmap <silent> gr <Plug>(coc-references)
+	autocmd BufNewFile,BufRead *.gd highlight NonText guifg=#636363
+	" Execute command
+	autocmd BufNewFile,BufRead *.gd nnoremap <buffer> <silent> <leader>j :w<CR> :GodotRun<CR>
+	autocmd BufNewFile,BufRead *.gd nnoremap <buffer> <silent> <leader>J :w<CR> :GodotRunFZF<CR>
 augroup END
 
 
