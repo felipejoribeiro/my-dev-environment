@@ -25,6 +25,9 @@ unclutter -idle 10 -root &
 # Enable wacoom shortcuts
 bash ~/.local/bin/wacom_buttons &
 
+# Enable mouse keybindings
+xbindkeys &
+
 # Keyring initialization
 eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
 export $(gnome-keyring-daemon --start --components=pkcs11,secrets,ssh,gpg)
