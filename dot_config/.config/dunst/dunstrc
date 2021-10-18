@@ -196,7 +196,7 @@
     max_icon_size = 32
 
     # Paths to default icons.
-    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    icon_path = /usr/share/icons/Papirus-Dark/24x24/status:/usr/share/icons/Papirus-Dark/24x24/devices
 
     ### History ###
 
@@ -300,7 +300,7 @@
     # dunst will attempt to calculate an appropriate dpi value for each monitor
     # using the resolution and physical size. This might be useful in setups
     # where there are multiple screens with very different dpi values.
-    per_monitor_dpi = false
+    per_monitor_dpi = true
 
 
 [urgency_low]

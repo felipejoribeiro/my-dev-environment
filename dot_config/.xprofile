@@ -14,7 +14,7 @@ pulseeffects --gapplication-service &
 bash ~/.screenlayout/screen.sh
 
 # Compositor
-picom --experimental-backend &
+picom &
 
 # Background image
 nitrogen --restore &
