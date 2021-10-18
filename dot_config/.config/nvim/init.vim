@@ -74,30 +74,31 @@ call plug#begin('~/.config/nvim/plugged')
 
 	" Indirect utilities
 	Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}   " 🏹 Visual tools for pluggins - dependence of rainbow
-	Plug 'tpope/vim-scriptease'                                   " ✔  Helps with source reloads
 	Plug 'nvim-lua/plenary.nvim'                                  " 🏹 Lua libs - dependence of telescope
 	Plug 'nvim-lua/popup.nvim'                                    " 🏹 Create windows - dependence of telescope
 	Plug 'kyazdani42/nvim-web-devicons'                           " 🏹 Icons of programing languages nd stuff
-	Plug 'kamykn/popup-menu.nvim'                                 " ✔  Create window too.
-	Plug 'skywind3000/asyncrun.vim'                               " ✔  Asynchronous commands
+	" Plug 'tpope/vim-scriptease'                                   " ✔  Helps with source reloads
+	Plug 'kamykn/popup-menu.nvim'                                 " 🏹  Create window too.
+	Plug 'skywind3000/asyncrun.vim'                               " 💚  Asynchronous commands
 
 	" History related stuff
 	Plug 'vim-scripts/restore_view.vim'                           " ✔ Save cursor position and folds
-	Plug 'mbbill/undotree'                                        " ✔ Undo tree creation visualization - bug with folds
+	Plug 'mbbill/undotree'                                        " 💚 Undo tree creation visualization - bug with folds
 
 	" Code dev direct enhancements
-	Plug 'jiangmiao/auto-pairs'                                   " ⏳ auto pairs functionality and movements
-	Plug 'tpope/vim-surround'                                     " ⏳ Auto pairs functions
-	Plug 'sirver/ultisnips'                                       " ⏳ Best snippets functions
-	Plug 'tomtom/tcomment_vim'                                    " ✔  Better comments with g c c too
+	Plug 'jiangmiao/auto-pairs'                                   " ⏳  auto pairs functionality and movements
+	Plug 'tpope/vim-surround'                                     " ⏳  Auto pairs functions
+	Plug 'sirver/ultisnips'                                       " ⏳  Best snippets functions
+	Plug 'tomtom/tcomment_vim'                                    " 💚  Better comments with g c c too
+	Plug 'KabbAmine/vCoolor.vim'                                  " 💚  GTK color picker
 
 	" Visual stuff
-	Plug 'yuttie/comfortable-motion.vim'                          " ✔  Best scrolling with keyboard
-	Plug 'vim-airline/vim-airline'                                " ✔  Beautiful bellow bar
-	Plug 'vim-airline/vim-airline-themes'                         " ✔  Themes for the airline bar
-	Plug 'dracula/vim', { 'as': 'dracula' }                       " ✔  Theme for Dracula
-	Plug 'yggdroot/indentLine'                                    " ✔  good indent lines
-	Plug 'folke/todo-comments.nvim'                               " ✔  Comments like todo
+	Plug 'yuttie/comfortable-motion.vim'                          " 💚  Best scrolling with keyboard
+	Plug 'vim-airline/vim-airline'                                " 💚  Beautiful bellow bar
+	Plug 'vim-airline/vim-airline-themes'                         " 💚  Themes for the airline bar
+	Plug 'dracula/vim', { 'as': 'dracula' }                       " 💚  Theme for Dracula
+	Plug 'yggdroot/indentLine'                                    " 💚  good indent lines with space
+	Plug 'folke/todo-comments.nvim'                               " 💚  Comments like todo
 
 	" IDE utilities
 	Plug 'zhimsel/vim-stay'                                       " 👀 Save folds for next session
@@ -175,9 +176,9 @@ set guicursor+=i:ver100-iCursor
 set guicursor+=n-v-c:blinkwait200-blinkon100-blinkoff50
 
 " Indent line
-let g:indentLine_char_list = ['┊']
+let g:indentLine_char_list = ['⨔']
 let g:indentLine_showFirstIndentLevel = 1
-let g:indentLine_first_char = '┊'
+let g:indentLine_first_char = '⨔'
 
 " sample settings
 hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#44ff41 guibg=NONE gui=NONE
@@ -271,13 +272,26 @@ let g:startify_lists = [
 
 " airline.vim ---- 
 set laststatus=2
-let g:airline_theme='dracula'
-let g:airline#extensions#whitespace#checks =
-	\  [ 'indent', 'conflicts' ]
+let g:airline_theme='raven'
 let g:airline_detect_spelllang=0
 let g:airline_detect_spell=0
-let g:airline_detect_spelllang=0
-let g:airline#extensions#keymap#enabled = 0
+let g:airline#extensions#whitespace#checks = [ 'indent', 'conflicts' ]
+let g:airline#extensions#keymap#enabled = 1
+let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
+let g:airline#extensions#tabline#formatter = 'unique_tail' " file-name.js
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {}
+	let g:airline_symbols.branch = ''
+	let g:airline_symbols.readonly = ''
+	let g:airline_symbols.linenr = '☰'
+	let g:airline_symbols.maxlinenr = ''
+	let g:airline_symbols.dirty='⚡'
+endif
 
 "vim-gitgutter ----
 let g:gitgutter_enabled=0
@@ -411,9 +425,6 @@ nnoremap <leader>u :UndotreeToggle<CR>
 " ##################################################
 " Use preset argument to open it
 nnoremap <space>e :CocCommand explorer --root-strategies keep --no-quit-on-open<CR>
-
-" List all presets
-nnoremap <space>el :CocList explPresets
 
 " <ALT> -----------------------------------
 
