@@ -7,7 +7,7 @@ set t_Co=256                            " Supports 256 colors
 filetype indent plugin on               " enable file detection and plugins
 set termguicolors                       " Use GUI colors always
 set encoding=utf-8                      " The encoding written to file
-set fileencoding=utf-8
+set fileencoding=utf-8                  " utf8 encoding
 set fileformat=unix                     " Set file format to a global one
 
 set clipboard=unnamedplus               " Use system's clipboard
@@ -23,6 +23,7 @@ set nobackup                            " Disable backup files
 set nowritebackup                       " Don't write to backup files
 set noswapfile                          " Disable swap file creation
 set viewoptions=cursor,folds,slash,unix " view options (for save state)
+set sessionoptions+=tabpages,globals    " Some options to session remember
 
 " Search options
 set incsearch                           " Incremental search highlight
@@ -38,12 +39,12 @@ set number                              " Creates the left column
 set nowrap                              " No word wrapping in general nvim
 set scrolloff=4                         " Make the cursor stay in center
 set sidescrolloff=4                     " Make cursor stay in center
-set cmdheight=2                         " Number of lines to display commands
+set cmdheight=1                         " Number of lines to display commands
 set noshowcmd                           " Don't show key pressed
 set title                               " Set window title
 set foldmethod=syntax                   " enable fold
 set foldlevelstart=99                   " disable all folds in open
-set list lcs=tab:\┊\                    " Enable tab character 
+set list lcs=tab:\⨒\                    " Enable tab character 
 
 " Update options
 set ttimeout                            " Makes things faster
@@ -55,9 +56,7 @@ set ttimeoutlen=80                      " Makes things faster
 let g:mapleader=" "                     " Map leader to space bar
 let maplocalleader=" "                  " More leader to space bar
 set backspace=indent,eol,start          " Makes sure back space works
-set splitright                          " Default split begaviour
 set splitbelow                          " Default split begaviour
-set signcolumn=number                   " Place signals in the numbers column
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                       Auto install vim-Plug                        "
@@ -120,8 +119,9 @@ call plug#begin('~/.config/nvim/plugged')
 	" Python :
 	" Plug 'vim-scripts/indentpython.vim', {'for' : 'python'}       " 👀 Create better indentation 
 	" Plug 'tmhedberg/SimpylFold', {'for' : 'python'}               " 👀 Create better code folding 
-	Plug 'jeetsukumaran/vim-pythonsense', {'for' : 'python'}      " ✔  More text objects for python
-	Plug 'liuchengxu/vista.vim', {'for' : 'python'}               " ✔ LSP tags and symbols
+	Plug 'jeetsukumaran/vim-pythonsense', {'for' : 'python'}       " ✔  More text objects for python
+	Plug 'liuchengxu/vista.vim', {'for' : 'python'}                " ✔ LSP tags and symbols
+	Plug 'jmcantrell/vim-virtualenv'                               " virtual env integration
 
 	" Csharp :
 	Plug 'OmniSharp/omnisharp-vim', {'for' : 'cs'}                " ✔  Omnisharp capabilities
@@ -161,14 +161,11 @@ call plug#end()
 " Color scheme definition
 colorscheme dracula
 
-" General background
-hi Normal guibg=NONE ctermbg=NONE
-
-" TODO: highlight
-hi clear Todo
-
 " Translate borders
 hi TranslatorBorder guibg=NONE ctermbg=NONE guifg=white
+
+" Gitgutter delete color option
+au BufEnter * hi GitGutterDelete guibg=NONE ctermbg=NONE guifg=#FF4877
 
 " Cursor customization
 set guicursor=n-v-c:block-Cursor
@@ -183,6 +180,12 @@ let g:indentLine_first_char = '⨔'
 " sample settings
 hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#44ff41 guibg=NONE gui=NONE
 hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#ffffff guibg=NONE gui=NONE
+
+" TODO: highlight
+hi clear Todo
+
+" General background
+hi Normal guibg=NONE ctermbg=NONE
 
 " Syntax highlight
 lua <<EOF
@@ -202,7 +205,7 @@ EOF
 lua << EOF
 require("todo-comments").setup {
 	keywords = {
-		FIX = {
+		BUG = {
 			icon = " ", -- icon used for the sign, and in search results
 			color = "error", -- can be a hex color, or a named color (see below)
 			alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
@@ -228,8 +231,8 @@ let g:comfortable_motion_scroll_up_key = "k"
 " vista.vim ----
 let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 let g:vista#renderer#icons = {
-	\   "function": "\uf794",
-	\   "variable": "\uf71b",
+	\   "function": "\UF794",
+	\   "variable": "\UF71B",
 	\   "augroup": "👀",
 	\  }
 
@@ -272,32 +275,52 @@ let g:startify_lists = [
 
 " airline.vim ---- 
 set laststatus=2
-let g:airline_theme='raven'
-let g:airline_detect_spelllang=0
-let g:airline_detect_spell=0
+" let g:airline_theme='dracula'
+let g:airline_section_c=''
+let g:airline_detect_spelllang=1
+let g:airline_detect_spell=1
 let g:airline#extensions#whitespace#checks = [ 'indent', 'conflicts' ]
 let g:airline#extensions#keymap#enabled = 1
 let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'unique_tail' " file-name.js
+let g:airline#extensions#tabline#show_splits = 0
+let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_close_button = 0
+let g:airline#extensions#tabline#buf_label_first = 0
+let g:airline#extensions#tabline#buffer_min_count = 2
+let g:airline#extensions#tabline#tab_min_count = 2
+let g:airline#extensions#tabline#buffers_label = 'BUF'
+let g:airline#extensions#tabline#tabs_label = ''
+let g:airline#extensions#scrollbar#enabled = 1
+let g:airline#extensions#virtualenv#enabled = 1
+let airline#extensions#coc#error_symbol = ' :'
+let airline#extensions#coc#warning_symbol = ' :'
 " powerline symbols
-let g:airline_left_sep = ''
-let g:airline_left_alt_sep = ''
-let g:airline_right_sep = ''
-let g:airline_right_alt_sep = ''
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
 if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 	let g:airline_symbols.branch = ''
 	let g:airline_symbols.readonly = ''
-	let g:airline_symbols.linenr = '☰'
-	let g:airline_symbols.maxlinenr = ''
-	let g:airline_symbols.dirty='⚡'
+	let g:airline_symbols.linenr = '  '
+	let g:airline_symbols.maxlinenr = ' '
+	let g:airline_symbols.colnr = '𥳐'
+	let g:airline_symbols.dirty=' '
 endif
 
 "vim-gitgutter ----
-let g:gitgutter_enabled=0
+let g:gitgutter_enabled=1
+let g:gitgutter_map_keys = 0
+let g:gitgutter_sign_added = ' '
+let g:gitgutter_sign_modified = '卵'
+let g:gitgutter_sign_removed = '嵐'
+let g:gitgutter_sign_modified_removed = ' '
 
 " coc.vim ----
-let g:OmniSharp_server_use_mono = 1
 let g:airline#extensions#coc#enabled = 1
 let g:coc_global_extensions=[
 	\ 'coc-spell-checker',
@@ -349,9 +372,9 @@ let g:vimtex_view_forward_search_on_start = 1
 let b:surround_{char2nr('i')} = "\"\"\"\r\"\"\"" 
 
 " ultisnips ----
-let g:UltiSnipsExpandTrigger=':u'
-let g:UltiSnipsJumpForwardTrigger = ':u'
-let g:UltiSnipsJumpBackwardTrigger = ':U'
+let g:UltiSnipsExpandTrigger='&u'
+let g:UltiSnipsJumpForwardTrigger = '&u'
+let g:UltiSnipsJumpBackwardTrigger = '&U'
 
 " SimpylFold ----
 let g:SimpylFold_docstring_preview=1
@@ -379,11 +402,10 @@ let g:tmux_navigator_no_mappings = 1
 " <LEADER> -----------------------------------
 " Search highlight toggle
 let hlstate=0
-nnoremap <leader>/ :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr>
+nnoremap <silent> <leader>/ :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr><cr>k
 
 " Open neovim configuration file
 nnoremap <leader>r :tabe $MYVIMRC<CR>
-nnoremap <leader>R :Runtime!<CR>
 
 " Easy quit
 map <silent> <leader>q :SClose<CR> :q<CR>
@@ -409,9 +431,6 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
 " Todo configuration
 nnoremap <leader>ft :TodoTelescope<cr>
-
-" Coc color picker
-nnoremap <silent> <leader>c :call CocAction("pickColor")<CR>
 
 " Coc code actions (correct spell for example)
 vmap <leader>a <Plug>(coc-codeaction-selected)
@@ -483,7 +502,12 @@ nnoremap <expr> j (v:count > 5 ? "m'" . v:count : "") . 'j'
 nmap zuz <Plug>(FastFoldUpdate)
 
 " Emmet
-let g:user_emmet_leader_key=':'
+let g:user_emmet_leader_key='<c-e>'
+let g:user_emmet_settings = {
+\  'javascript' : {
+\      'extends' : 'jsx',
+\  },
+\}
 
 " Go to mark that doesn't conflict with Tmux
 nnoremap 1 `
@@ -551,7 +575,10 @@ autocmd BufWinEnter * :IndentLinesDisable
 autocmd BufWinEnter *.py :IndentLinesEnable
 autocmd BufWinEnter *.js :IndentLinesEnable
 autocmd BufWinEnter *.ts :IndentLinesEnable
+autocmd BufWinEnter *.tex :IndentLinesEnable
+autocmd BufWinEnter *.json :IndentLinesEnable
 autocmd BufWinEnter *.html :IndentLinesEnable
+autocmd BufWinEnter *.css :IndentLinesEnable
 autocmd BufWinEnter *.f90 :IndentLinesEnable
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
