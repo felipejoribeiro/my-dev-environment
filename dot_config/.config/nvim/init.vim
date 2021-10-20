@@ -148,6 +148,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'junegunn/goyo.vim', {'for': ['markdown', 'latex']}      " ✏  For minimalistic view
 
 	" web_dev
+	Plug 'elzr/vim-json'                                          " 👀 Better jason support
 	Plug 'mattn/emmet-vim'                                        " ✔  Create html more ease
 	Plug 'AndrewRadev/tagalong.vim'                               " 👀 Better tag editing without vim surround
 	Plug 'MaxMEllon/vim-jsx-pretty', {'for': 'javascript'}        " 👀 React syntax highlight
@@ -284,12 +285,12 @@ let g:airline#extensions#keymap#enabled = 1
 let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'unique_tail' " file-name.js
+let g:airline#extensions#tabline#formatter = 'short_path' " file-name.js
 let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#show_buffers = 0
+let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_close_button = 0
 let g:airline#extensions#tabline#buf_label_first = 0
-let g:airline#extensions#tabline#buffer_min_count = 2
+let g:airline#extensions#tabline#buffer_min_count = 1
 let g:airline#extensions#tabline#tab_min_count = 2
 let g:airline#extensions#tabline#buffers_label = 'BUF'
 let g:airline#extensions#tabline#tabs_label = ''
@@ -306,11 +307,17 @@ if !exists('g:airline_symbols')
 	let g:airline_symbols = {}
 	let g:airline_symbols.branch = ''
 	let g:airline_symbols.readonly = ''
-	let g:airline_symbols.linenr = '  '
-	let g:airline_symbols.maxlinenr = ' '
-	let g:airline_symbols.colnr = '𥳐'
 	let g:airline_symbols.dirty=' '
 endif
+function! AirLineInit()
+	let g:airline_section_a = airline#section#create(['mode', 'crypt', 'paste', 'spell', 'iminsert'])
+	let g:airline_section_b = airline#section#create(['hunks', 'branch'])
+	let g:airline_section_c = airline#section#create([ 'readonly'])
+	let g:airline_section_x = airline#section#create(['tagbar', 'filetype'])
+	let g:airline_section_y = airline#section#create(['fileencoding', 'fileformat', 'bom', 'eol'])
+	let g:airline_section_z = airline#section#create(['%P', ' ', ' %l ', ' %c𥳐'])
+endfunction
+autocmd VimEnter * call AirLineInit()
 
 "vim-gitgutter ----
 let g:gitgutter_enabled=1
@@ -358,6 +365,9 @@ let g:OmniSharp_server_stdio = 1
 
 " vim-pencil ----
 let g:pencil#conceallevel = 0 
+
+" vim-json
+let g:vim_json_syntax_conceal = 0
 
 " Vimtex ----
 let g:vimtex_view_method = 'zathura'
