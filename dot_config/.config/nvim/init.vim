@@ -148,6 +148,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'junegunn/goyo.vim', {'for': ['markdown', 'latex']}      " ✏  For minimalistic view
 
 	" web_dev
+	Plug 'elzr/vim-json'                                          " 👀 Better jason support
 	Plug 'mattn/emmet-vim'                                        " ✔  Create html more ease
 	Plug 'AndrewRadev/tagalong.vim'                               " 👀 Better tag editing without vim surround
 	Plug 'MaxMEllon/vim-jsx-pretty', {'for': 'javascript'}        " 👀 React syntax highlight
@@ -358,6 +359,9 @@ let g:OmniSharp_server_stdio = 1
 
 " vim-pencil ----
 let g:pencil#conceallevel = 0 
+
+" vim-json
+let g:vim_json_syntax_conceal = 0
 
 " Vimtex ----
 let g:vimtex_view_method = 'zathura'
