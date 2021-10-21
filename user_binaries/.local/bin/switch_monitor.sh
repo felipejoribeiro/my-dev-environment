@@ -4,6 +4,9 @@
 my_laptop_external_monitor=$(xrandr --query | grep 'HDMI-1-0')
 this_machine=$HOSTNAME
 
+# rerun xrandr screen layout
+/bin/bash $HOME/.screenlayout/screen.sh
+
 if [[ $this_machine = *redspace* ]]; then
 	bspc monitor "HDMI-0" -d 1 2 3
 	bspc monitor "DP-3" -d 4 5
@@ -14,6 +17,8 @@ fi
 if [[ $this_machine = *redbox* ]]; then
 	if [[ $my_laptop_external_monitor = *disconnected* ]]; then
 		bspc monitor eDP1 -d 1 2 3 4 5 6
+		bspc monitor HDMI-1-0 -d 7
+		bspc wm -O eDP1 HDMI-1-0
 	else
 		if [[ $my_laptop_external_monitor = *connected* ]]; then
 			bspc monitor HDMI-1-0 -d 1 2 3
@@ -21,6 +26,8 @@ if [[ $this_machine = *redbox* ]]; then
 			bspc wm -O HDMI-1-0 eDP1
 		else
 			bspc monitor eDP1 -d 1 2 3 4 5 6
+			bspc monitor HDMI-1-0 -d 7
+			bspc wm -O eDP1 HDMI-1-0
 		fi
 	fi
 fi
