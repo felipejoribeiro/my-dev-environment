@@ -98,6 +98,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'dracula/vim', { 'as': 'dracula' }                       " 💚  Theme for Dracula
 	Plug 'yggdroot/indentLine'                                    " 💚  good indent lines with space
 	Plug 'folke/todo-comments.nvim'                               " 💚  Comments like todo
+	Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'} " 👀  code minimap
 
 	" IDE utilities
 	Plug 'zhimsel/vim-stay'                                       " 👀 Save folds for next session
@@ -224,6 +225,12 @@ EOF
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                    Plugins configurations                         "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" minimap ----
+let g:minimap_width = 10
+let g:minimap_auto_start = 0
+let g:minimap_auto_start_win_enter = 0
+let g:minimap_highlight_search = 1
+
 " comfortable-motion ----
 let g:comfortable_motion_no_default_key_mappings = 1
 let g:comfortable_motion_scroll_down_key = "j"
@@ -410,6 +417,9 @@ let g:tmux_navigator_no_mappings = 1
 "                   Mapping and auto command                        "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " <LEADER> -----------------------------------
+" Minimap toggle
+nnoremap <leader>m :MinimapToggle<CR>
+
 " Search highlight toggle
 let hlstate=0
 nnoremap <silent> <leader>/ :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr><cr>k
