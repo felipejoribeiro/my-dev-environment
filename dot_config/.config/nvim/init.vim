@@ -98,7 +98,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'dracula/vim', { 'as': 'dracula' }                       " 💚  Theme for Dracula
 	Plug 'yggdroot/indentLine'                                    " 💚  good indent lines with space
 	Plug 'folke/todo-comments.nvim'                               " 💚  Comments like todo
-	Plug 'wfxr/minimap.vim', {'do': ':!cargo install --locked code-minimap'} " 👀  code minimap
+	Plug 'wfxr/minimap.vim'                                       " 👀  code minimap
 
 	" IDE utilities
 	Plug 'zhimsel/vim-stay'                                       " 👀 Save folds for next session
