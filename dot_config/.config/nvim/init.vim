@@ -384,6 +384,8 @@ let g:tex_conceal = ''
 let g:vimtex_fold_manual = 0
 let g:vimtex_quickfix_mode = 0
 let g:vimtex_view_forward_search_on_start = 1
+let g:tex_conceal = ""
+set conceallevel=0
 
 " vim-surround ----
 let b:surround_{char2nr('i')} = "\"\"\"\r\"\"\"" 

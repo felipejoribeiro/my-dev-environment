@@ -64,3 +64,4 @@ bspc rule -a Pavucontrol state=tiled
 bspc rule -a UnityHub state=floating
 bspc rule -a Godot_Engine state=floating
 bspc rule -a piloto_2d state=floating
+bspc rule -a Peek state=floating
