@@ -709,7 +709,7 @@ augroup fortran_files
 	autocmd FileType fortran setlocal softtabstop=0
 	autocmd FileType fortran setlocal shiftwidth=2
 	autocmd FileType fortran setlocal tabstop=2
-	autocmd FileType fortran nnoremap <buffer> <silent> <leader>j :w<CR> :AsyncRun kitty --hold -e fish -c "gfortran %:p -o exe; ./exe" &<CR>
+	autocmd FileType fortran nnoremap <buffer> <silent> <leader>j :w<CR> :AsyncRun kitty --hold -e zsh -c "gfortran %:p -o exe && ./exe" &<CR>
 augroup END
 
 
