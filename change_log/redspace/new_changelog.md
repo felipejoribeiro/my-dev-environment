@@ -221,3 +221,28 @@ Created display_setup for lightdm and made a simple configuration.
 fixed the cedilla stuff.
 ç  --> yee
 
+
+# 21/11/21
+I was having trouble with the following message on shutdown:
+
+```
+Failed to unmount /oldroot: Device or resource busy
+
+```
+
+To solve that i did:
+
+```
+sudo nano /etc/mkinitcpio.conf
+
+change:
+HOOKS="base udev autodetect modconf block keyboard keymap filesystems fsck"
+to:
+HOOKS="base udev autodetect modconf block keyboard keymap filesystems fsck shutdown"
+
+sudo mkinitcpio -P
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+
+sudo systemctl restart systemd-coredump.socket
+sudo systemctl reset-failed
+```
