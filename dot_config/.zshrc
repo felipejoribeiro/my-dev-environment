@@ -28,7 +28,7 @@ plugins=(
 
 # Some sources
 source $ZSH/oh-my-zsh.sh
-source ~/.cred/*
+source ~/.cred/snackin.sh
 
 # Rapid paste in terminal
 zstyle ':bracketed-paste-magic' active-widgets '.self-*'

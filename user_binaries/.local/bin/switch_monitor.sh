@@ -35,5 +35,8 @@ fi
 # relaunch polybar
 $HOME/.config/polybar/launch.sh &
 
+# relaunch picom
+picom &
+
 # reload nitrogen
 nitrogen --restore &
