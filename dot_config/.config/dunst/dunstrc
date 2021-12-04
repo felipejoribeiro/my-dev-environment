@@ -31,7 +31,7 @@
     # the top and down respectively.
     # The width can be negative.  In this case the actual width is the
     # screen width minus the width defined in within the geometry option.
-    geometry = "282x5-7+5"
+    geometry = "300x5-7+5"
 
     # Turn on the progess bar. It appears when a progress hint is passed with
     # for example dunstify -h int:value:12
@@ -66,7 +66,7 @@
     # The height of the entire notification.  If the height is smaller
     # than the font height and padding combined, it will be raised
     # to the font height and padding.
-    notification_height = 0
+    notification_height = 100
 
     # Draw a line of "separator_height" pixel height between two
     # notifications.
@@ -300,7 +300,7 @@
     # dunst will attempt to calculate an appropriate dpi value for each monitor
     # using the resolution and physical size. This might be useful in setups
     # where there are multiple screens with very different dpi values.
-    per_monitor_dpi = true
+    per_monitor_dpi = false
 
 
 [urgency_low]
