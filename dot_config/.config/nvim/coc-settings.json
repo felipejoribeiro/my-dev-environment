@@ -33,6 +33,8 @@
   "eslint.options": {
     "allowIndentationTabs": true
   },
+  "eslint.autoFixOnSave": true,
+  "eslint.filetypes": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
 
   /* godot */
   /*https://github.com/godotengine/godot/issues/34523#issuecomment-582144661*/
@@ -128,12 +130,15 @@
       "yml"
     ],
       "cSpell.userWords": [
+        "Aeroacústica",
         "Alsa",
         "Asus",
         "Cebeci",
         "Clarifai",
+        "Dustfy",
         "EPTA",
         "Fanshawe",
+        "Figma",
         "Gameficação",
         "Gmail",
         "Goyo",
@@ -152,6 +157,7 @@
         "Pychache",
         "Realtek",
         "Referer",
+        "Reslley",
         "Rofi",
         "Runge",
         "Simpyl",
@@ -188,11 +194,13 @@
         "exrc",
         "favicon",
         "fdisk",
+        "fedex",
         "felipejoribeiro",
         "gevent",
         "gfortran",
         "gpio",
         "happytobehonest",
+        "hashicorp",
         "hwclock",
         "initdb",
         "jojo",

@@ -1,6 +1,7 @@
 # Path
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
+export PATH=/home/fejori/.local/share/gem/ruby/3.0.0/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/fejori/.oh-my-zsh"
@@ -47,9 +48,21 @@ export TERM='xterm-256color'
 export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 
+# android studio path
+export ANDROID_HOME=/opt/android-sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+
 # aliases
 alias pi36='source ~/.virtualenvs/3_6_flask_app/bin/activate'
 alias gojo='TERM=xterm-256color ssh root@felipejoribeiro.com'
 alias ran='ranger --choosedir="$HOME/.rangerdir"; cd $( cat $HOME/.rangerdir );clear'
 alias ls='exa'
 alias vim='nvim'
+alias SET='export'
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/vault vault

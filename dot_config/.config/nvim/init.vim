@@ -112,6 +112,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'szw/vim-g'                                              " ✔  Easy Google search from Vim
 	Plug 'voldikss/vim-translator'                                " ✔  Translation tool from google trans.
 	Plug 'tpope/vim-fugitive'                                     " ✔  Git super powers
+	Plug 'tpope/vim-rhubarb'                                      " 👀 Enable github integration
 	Plug 'airblade/vim-gitgutter'                                 " ✔  Some more git functionalities
 	Plug 'wakatime/vim-wakatime'                                  " ✔  Time monitoring software
 	Plug 'editorconfig/editorconfig-vim'                          " ✔  Integrate vim with .editorconfig file
@@ -152,8 +153,13 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'elzr/vim-json'                                          " 👀 Better jason support
 	Plug 'mattn/emmet-vim'                                        " ✔  Create html more ease
 	Plug 'AndrewRadev/tagalong.vim'                               " 👀 Better tag editing without vim surround
+	Plug 'ianks/vim-tsx'                                          " 👀 Typescrit syntax highlight
+	Plug 'leafgarland/typescript-vim'
+	Plug 'yuezk/vim-js'                                           " 👀 React syntax highlight
+	Plug 'HerringtonDarkholme/yats.vim'                     
 	Plug 'MaxMEllon/vim-jsx-pretty', {'for': 'javascript'}        " 👀 React syntax highlight
 	Plug 'pangloss/vim-javascript', {'for': 'javascript'}         " 👀 React syntax highlight 
+	Plug 'styled-components/vim-styled-components', { 'branch': 'main' } " 👀 React styled components support
 
 call plug#end()
 
@@ -348,15 +354,25 @@ let g:coc_global_extensions=[
 	\ 'coc-tsserver',
 	\ 'coc-tslint-plugin',
 	\ 'coc-fzf-preview',
+	\ 'coc-emmet',
 	\ 'coc-css',
 	\ 'coc-html',
+	\ 'coc-yank',
 	\ 'coc-yaml',
+	\ 'coc-sh',
 	\ 'coc-eslint',
 	\ 'coc-prettier',
 	\ 'coc-json',
 	\ 'coc-explorer',
 	\ 'coc-discord',
 	\]
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  let g:coc_global_extensions += ['coc-eslint']
+endif
 
 " vim-move ----
 let g:move_key_modifier = 'c'
@@ -419,6 +435,12 @@ let g:tmux_navigator_no_mappings = 1
 "                   Mapping and auto command                        "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " <LEADER> -----------------------------------
+" Git related shortcuts
+nmap <leader>gl :diffget //3<CR>
+nmap <leader>gh :diffget //2<CR>
+nmap <leader>gs :G<CR>
+nmap <leader>gb :Git blame<CR>
+
 " Minimap toggle
 nnoremap <leader>m :MinimapToggle<CR>
 
@@ -592,6 +614,10 @@ inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
 " Source init.vim in save
 au! bufwritepost init.vim :source $MYVIMRC
 
+" Support for typescript syntax
+au BufNewFile,BufRead *.ts setlocal filetype=typescript
+au BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+
 " turn of indent line in file explorer
 autocmd BufWinEnter * :IndentLinesDisable
 autocmd BufWinEnter *.py :IndentLinesEnable
@@ -678,7 +704,6 @@ augroup END
 "#####################################################################
 "##############################   javascript  ########################
 "#####################################################################
-
 augroup javascript_files
 	autocmd!
 	autocmd FileType javascript setlocal nowrap
