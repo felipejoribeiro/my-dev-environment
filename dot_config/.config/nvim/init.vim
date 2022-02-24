@@ -106,6 +106,11 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'mhinz/vim-startify'                                     " ✔  Start screen for neovim
 	Plug 'nvim-telescope/telescope.nvim'                          " ✔  DAMN fuzzy finder
 	Plug 'nvim-telescope/telescope-fzy-native.nvim'               " ✔  Makes fuzzy finder faster
+	Plug 'puremourning/vimspector'                                " 👀 Debugging capabilities for vim 
+	Plug 'mfussenegger/nvim-dap'                                  " 👀 Debugging capabilities for vim 
+	Plug 'Pocco81/DAPInstall.nvim'                                " 👀 Install debuggers
+	Plug 'David-Kunz/jester'                                      " 👀 test suit
+	Plug 'vim-test/vim-test'
 
 	" Some Third party integration
 	Plug 'christoomey/vim-tmux-navigator'                         " ✔  tmux integration
@@ -227,6 +232,68 @@ require("todo-comments").setup {
 	},
 }
 EOF
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                    debuggers configurations                       "
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua <<EOF
+EOF
+lua << EOF
+local dap = require('dap')
+local dap_install = require("dap-install")
+
+vim.fn.sign_define('DapBreakpoint', {text='🛑', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='✅', texthl='', linehl='', numhl=''})
+
+dap_install.setup({
+	installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
+})
+
+dap.adapters.node2 = {
+    type = "executable",
+    command = "node",
+    args = {vim.fn.stdpath("data") .. "/dapinstall/jsnode/vscode-node-debug2/out/src/nodeDebug.js"},
+}
+
+local function map(mode, lhs, rhs, opts)
+  local options = {noremap = true}
+  if opts then options = vim.tbl_extend('force', options, opts) end
+  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+end
+
+map('n', '<leader>dh', ':lua require"dap".toggle_breakpoint()<CR>')
+map('n', '<leader>dH', ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
+map('n', '<c-k>', ':lua require"dap".step_out()<CR>')
+map('n', "<c-l>", ':lua require"dap".step_into()<CR>')
+map('n', '<c-j>', ':lua require"dap".step_over()<CR>')
+map('n', '<c-h>', ':lua require"dap".continue()<CR>')
+map('n', '<leader>dn', ':lua require"dap".run_to_cursor()<CR>')
+map('n', '<leader>dk', ':lua require"dap".up()<CR>')
+map('n', '<leader>dj', ':lua require"dap".down()<CR>')
+map('n', '<leader>dc', ':lua require"dap".terminate()<CR>')
+map('n', '<leader>dr', ':lua require"dap".repl.toggle({}, "vsplit")<CR><C-w>l')
+map('n', '<leader>dR', ':lua require"dap".clear_breakpoints()<CR>')
+map('n', '<leader>de', ':lua require"dap".set_exception_breakpoints({"all"})<CR>')
+map('n', '<leader>da', ':lua require"debugHelper".attach()<CR>')
+map('n', '<leader>dA', ':lua require"debugHelper".attachToRemote()<CR>')
+map('n', '<leader>di', ':lua require"dap.ui.widgets".hover()<CR>')
+map('n', '<leader>d?', ':lua local widgets=require"dap.ui.widgets";widgets.centered_float(widgets.scopes)<CR>')
+
+map('n', '<leader>tt', ':lua require"jester".run({ path_to_jest = "/home/fejori/.yarn/bin/jest" })<cr>')
+map('n', '<leader>t_', ':lua require"jester".run_last({ path_to_jest = "/home/fejori/.yarn/bin/jest" })<cr>')
+map('n', '<leader>tf', ':lua require"jester".run_file({ path_to_jest = "/home/fejori/.yarn/bin/jest" })<cr>')
+-- " map('n', '<leader>dd', ':lua require"jester".debug({ path_to_jest = "/home/fejori/.yarn/bin/jest" })<cr>')
+map('n', '<leader>d_', ':lua require"jester".debug_last({ path_to_jest = "/home/fejori/.yarn/bin/jest" })<cr>')
+map('n', '<leader>df', ':lua require"jester".debug_file({ path_to_jest = "/home/fejori/.yarn/bin/jest" })<cr>')
+
+EOF
+nnoremap <leader>dd :TestNearest -strategy=jest<CR>
+function! JestStrategy(cmd)
+	let testName = matchlist(a:cmd, '\v -t ''(.*)''')[1]
+	let fileName = matchlist(a:cmd, '\v'' -- (.*)$')[1]
+	call luaeval("require'debugHelper'.debugJest([[" . testName . "]], [[" .fileName. "]])")
+endfunction
+let g:test#custom_strategies = {'jest': function('JestStrategy')}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                    Plugins configurations                         "
@@ -440,6 +507,19 @@ nmap <leader>gl :diffget //3<CR>
 nmap <leader>gh :diffget //2<CR>
 nmap <leader>gs :G<CR>
 nmap <leader>gb :Git blame<CR>
+
+" Debbuging
+" nnoremap <Leader>dd :call vimspector#Launch()<CR>
+" nnoremap <Leader>de :call vimspector#Reset()<CR>
+" nnoremap <Leader>dc :call vimspector#Continue()<CR>
+"
+" nnoremap <Leader>dt :call vimspector#ToggleBreakpoint()<CR>
+" nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
+"
+" nmap <Leader>dk <Plug>VimspectorRestart
+" nmap <Leader>dh <Plug>VimspectorStepOut
+" nmap <Leader>dl <Plug>VimspectorStepInto
+" nmap <Leader>dj <Plug>VimspectorStepOver
 
 " Minimap toggle
 nnoremap <leader>m :MinimapToggle<CR>
