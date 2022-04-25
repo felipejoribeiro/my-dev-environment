@@ -45,6 +45,5 @@ end
 return {
   debugJest = debugJest,
   attach = attach,
-  attachToChrome = attachToChrome,
   attachToRemote = attachToRemote,
 }

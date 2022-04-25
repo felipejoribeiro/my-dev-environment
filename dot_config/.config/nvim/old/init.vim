@@ -90,6 +90,7 @@ call plug#begin('~/.config/nvim/plugged')
 	Plug 'sirver/ultisnips'                                       " ⏳  Best snippets functions
 	Plug 'tomtom/tcomment_vim'                                    " 💚  Better comments with g c c too
 	Plug 'KabbAmine/vCoolor.vim'                                  " 💚  GTK color picker
+	Plug 'phaazon/hop.nvim'                                       " 👀  fast travel
 
 	" Visual stuff
 	Plug 'yuttie/comfortable-motion.vim'                          " 💚  Best scrolling with keyboard
@@ -231,6 +232,7 @@ require("todo-comments").setup {
 		NOTE = { icon = " ", color = "#9192ff", alt = { "INFO" } },
 	},
 }
+require'hop'.setup()
 EOF
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -286,7 +288,11 @@ map('n', '<leader>tf', ':lua require"jester".run_file({ path_to_jest = "/home/fe
 map('n', '<leader>d_', ':lua require"jester".debug_last({ path_to_jest = "/home/fejori/.yarn/bin/jest" })<cr>')
 map('n', '<leader>df', ':lua require"jester".debug_file({ path_to_jest = "/home/fejori/.yarn/bin/jest" })<cr>')
 
+-- mapping for hop
+map('n', '<leader>/', ':HopChar1')
+
 EOF
+
 nnoremap <leader>dd :TestNearest -strategy=jest<CR>
 function! JestStrategy(cmd)
 	let testName = matchlist(a:cmd, '\v -t ''(.*)''')[1]
@@ -306,8 +312,8 @@ let g:minimap_highlight_search = 1
 
 " comfortable-motion ----
 let g:comfortable_motion_no_default_key_mappings = 1
-let g:comfortable_motion_scroll_down_key = "j"
-let g:comfortable_motion_scroll_up_key = "k"
+" let g:comfortable_motion_scroll_down_key = "j"
+" let g:comfortable_motion_scroll_up_key = "k"
 
 " vista.vim ----
 let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
