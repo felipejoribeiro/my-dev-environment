@@ -42,7 +42,22 @@ local function attachToRemote()
       })
 end
 
+local function attachToReactNative()
+  print("attaching")
+  dap.run({
+	type = "node2",
+	request = "attach",
+	program = "${file}",
+	cwd = vim.fn.getcwd(),
+	sourceMaps = true,
+	protocol = "inspector",
+	console = "integratedTerminal",
+	port = 35000
+      })
+end
+
 return {
+  attachToReactNative = attachToReactNative,
   debugJest = debugJest,
   attach = attach,
   attachToChrome = attachToChrome,
