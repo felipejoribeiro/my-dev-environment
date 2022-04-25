@@ -60,6 +60,5 @@ return {
   attachToReactNative = attachToReactNative,
   debugJest = debugJest,
   attach = attach,
-  attachToChrome = attachToChrome,
   attachToRemote = attachToRemote,
 }
