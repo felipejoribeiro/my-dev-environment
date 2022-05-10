@@ -1,10 +1,11 @@
 # Path
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
-export PATH=/home/fejori/.local/share/gem/ruby/3.0.0/bin:$PATH
+export PATH=$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH
+export PATH=$HOME/Library/Python/3.8/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/fejori/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Your theme
 ZSH_THEME="gozilla"
@@ -29,7 +30,7 @@ plugins=(
 
 # Some sources
 source $ZSH/oh-my-zsh.sh
-source ~/.cred/snackin.sh
+# source ~/.cred/snackin.sh
 
 # Rapid paste in terminal
 zstyle ':bracketed-paste-magic' active-widgets '.self-*'
@@ -49,7 +50,8 @@ export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 
 # android studio path
-export ANDROID_HOME=/opt/android-sdk
+# export ANDROID_HOME=/opt/android-sdk
+export ANDROID_HOME=$HOME/library/Android/sdk
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
@@ -66,3 +68,7 @@ alias SET='export'
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/vault vault
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
