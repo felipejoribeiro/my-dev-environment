@@ -16,7 +16,7 @@ alt + @space
 
 # Lounch android emulator
 super + a
-	/opt/android-sdk/emulator/emulator -avd snackin -writable-system
+	/home/fejori/.Android/Sdk/emulator/emulator -avd dev_2 -writable-system
 
 # hide window
 super + i

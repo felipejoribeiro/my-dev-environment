@@ -69,11 +69,12 @@ Packer.startup(function(use)
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
-  use 'hrsh7th/cmp-nvim-lsp-signature-help'
+  use 'ray-x/lsp_signature.nvim'
   use 'saadparwaiz1/cmp_luasnip'
   use 'L3MON4D3/LuaSnip'
   use 'rafamadriz/friendly-snippets'
   use 'blitmap/lua-snippets'
+  use 'mbpowers/nvimager'
 
   use { 'startup-nvim/startup.nvim', requires = {'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'} }
 
@@ -151,7 +152,7 @@ require("indent_blankline").setup {
   show_current_context = true,
 }
 require'nvim-treesitter.configs'.setup {
-	ensure_installed = {"lua","python", "javascript"},
+	ensure_installed = {"lua","python", "javascript", "markdown"},
 	highlight = {
 		enable = true,
 		disable = {""},
@@ -266,6 +267,9 @@ require('which-key').setup({
       suggestions = 20,
     },
   }
+})
+require "lsp_signature".setup({
+  hint_enabled=false,
 })
 require("luasnip/loaders/from_vscode").lazy_load()
 local cmp = require('cmp')
