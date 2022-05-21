@@ -12,7 +12,7 @@ opt.mouse = "a"                                    -- enable mouse support
 opt.completeopt="menu,menuone,noselect"            -- complete options
 
 opt.undofile = true                                -- persistent undo
-opt.undodir = '/home/fejori/.config/nvim/undodir'  -- where to save undo
+opt.undodir = vim.env.HOME .. '/.config/nvim/undodir' -- where to save undo
 opt.viewoptions = 'folds,cursor,curdir,slash,unix' -- for save state
 opt.backup = false                                 -- disable backup files
 opt.writebackup = false                            -- prevents writing backup
@@ -51,6 +51,7 @@ require('maps')
 vim.cmd('colorscheme dracula')       -- set colorscheme
 vim.api.nvim_exec(
 [[
+  hi Visual term=reverse cterm=reverse guibg=#595CA8
   hi GitGutterDelete guibg=NONE ctermbg=NONE guifg=#FF4877
   au BufEnter * hi GitGutterDelete guibg=NONE ctermbg=NONE guifg=#FF4877
   hi TranslatorBorder guibg=NONE ctermbg=NONE guifg=white
