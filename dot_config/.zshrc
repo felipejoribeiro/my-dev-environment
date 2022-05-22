@@ -31,7 +31,7 @@ plugins=(
 
 # Some sources
 source $ZSH/oh-my-zsh.sh
-# source ~/.cred/snackin.sh
+source /usr/share/nvm/init-nvm.sh
 
 # Rapid paste in terminal
 zstyle ':bracketed-paste-magic' active-widgets '.self-*'
@@ -51,8 +51,12 @@ export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 
 # android studio path
+export ANDROID_SDK_ROOT=$HOME/.Android/Sdk
+export ANDROID_HOME=$HOME/.Android/Sdk
+# export ANDROID_SDK_ROOT=$HOME/library/Android/sdk
+# export ANDROID_HOME=$HOME/library/Android/sdk
 # export ANDROID_HOME=/opt/android-sdk
-export ANDROID_HOME=$HOME/library/Android/sdk
+
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
