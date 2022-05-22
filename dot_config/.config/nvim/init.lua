@@ -13,7 +13,7 @@ opt.completeopt="menu,menuone,noselect"            -- complete options
 
 opt.undofile = true                                -- persistent undo
 opt.undodir = vim.env.HOME .. '/.config/nvim/undodir' -- where to save undo
-opt.viewoptions = 'folds,cursor,curdir,slash,unix' -- for save state
+opt.viewoptions = 'folds,cursor,slash'             -- for save state
 opt.backup = false                                 -- disable backup files
 opt.writebackup = false                            -- prevents writing backup
 opt.swapfile = false                               -- disable swap file creation

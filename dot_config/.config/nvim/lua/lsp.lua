@@ -17,8 +17,8 @@ local on_attach = function(_, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>aw', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 end
@@ -44,7 +44,7 @@ end
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nvim_lsp = require('lspconfig')
 local lsp_servers = {
-  'tsserver', -- npm install -g typescript typescript-language-server
+  -- 'tsserver', -- npm install -g typescript typescript-language-server
 }
 
 for _, lsp in ipairs(lsp_servers) do
@@ -58,8 +58,6 @@ require('nvim-lsp-installer').on_server_ready(function(server)
   local opt = {}
 
   if server.name == "sumneko_lua" then
-    opt.on_attach = on_attach
-    opt.capabilities = capabilities
     opt.settings = {
       Lua = {
         diagnostics = {
@@ -68,6 +66,8 @@ require('nvim-lsp-installer').on_server_ready(function(server)
       }
     }
   end
+  opt.on_attach = on_attach
+  opt.capabilities = capabilities
 
   server:setup(opt)
 end)
