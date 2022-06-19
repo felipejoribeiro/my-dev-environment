@@ -1,4 +1,5 @@
--- source old Config
+-- Felipe J. O. Ribeiro lua config for neovim
+-- Works perfectly on MAC and LINUX
 
 -- aliases
 local opt = vim.opt
@@ -10,6 +11,7 @@ opt.clipboard = vim.o.clipboard .. "unnamedplus"   -- use system's clipboard
 opt.shortmess = vim.o.shortmess .. "c"             -- don't print short messages
 opt.mouse = "a"                                    -- enable mouse support
 opt.completeopt="menu,menuone,noselect"            -- complete options
+opt.cursorline=true                                -- highlight cursor line
 
 opt.undofile = true                                -- persistent undo
 opt.undodir = vim.env.HOME .. '/.config/nvim/undodir' -- where to save undo
@@ -30,7 +32,7 @@ opt.sidescrolloff = 4                              -- make cursor stay in center
 opt.cmdheight = 1                                  -- number of lines for commands
 opt.title = true                                   -- set window title
 opt.splitbelow = true                              -- default split behaviour
-opt.spell = true                                   -- enable spell
+opt.spell = false                                  -- enable spell
 opt.spelllang = 'en,pt,cjk'                        -- spell languages
 
 opt.ttimeout = true                                -- makes things faster
@@ -49,12 +51,15 @@ require('maps')
 
 -- cosmetics
 vim.cmd('colorscheme dracula')       -- set colorscheme
+
+vim.api.nvim_set_hl(0, "CmpItemKindCopilot", {fg ="#6CC644"})
 vim.api.nvim_exec(
 [[
-  hi Visual term=reverse cterm=reverse guibg=#595CA8
-  hi GitGutterDelete guibg=NONE ctermbg=NONE guifg=#FF4877
-  au BufEnter * hi GitGutterDelete guibg=NONE ctermbg=NONE guifg=#FF4877
+  hi Visual term=reverse cterm=reverse guibg=#6C76D7
   hi TranslatorBorder guibg=NONE ctermbg=NONE guifg=white
-  hi clear Todo
-  hi Normal guibg=NONE ctermbg=NONE
+  hi CursorLine guibg=NONE
+  hi GitGutterAdd guifg=#00FF00
+  hi GitGutterChange guifg=#FFFF00
+  hi GitGutterDelete guifg=#FF0000
+  au BufEnter * hi GitGutterDelete guibg=NONE ctermbg=NONE guifg=#FF4877
 ]], false)

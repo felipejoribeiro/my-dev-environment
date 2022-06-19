@@ -41,9 +41,11 @@ end
 ---------------------------------------------------------
 --- Initializing servers
 ---------------------------------------------------------
+local eslint_config = require("lspconfig.server_configurations.eslint")
 local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local nvim_lsp = require('lspconfig')
 local lsp_servers = {
+  -- 'eslint', --npm install -g eslint
   -- 'tsserver', -- npm install -g typescript typescript-language-server
 }
 
@@ -60,12 +62,16 @@ require('nvim-lsp-installer').on_server_ready(function(server)
   if server.name == "sumneko_lua" then
     opt.settings = {
       Lua = {
+        runtime = {
+          version = 'LuaJIT'
+        },
         diagnostics = {
-          globals = { 'vim' }
+          globals = { 'vim', 'use' }
         }
       }
     }
   end
+
   opt.on_attach = on_attach
   opt.capabilities = capabilities
 

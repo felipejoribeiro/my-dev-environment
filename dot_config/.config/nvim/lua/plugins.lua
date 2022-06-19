@@ -1,3 +1,7 @@
+-- Utils
+local utils = require('utils')
+local os, _ = utils.get_os_name()
+
 -- aliases
 local glo = vim.g
 
@@ -33,7 +37,6 @@ Packer.startup(function(use)
   use {"akinsho/toggleterm.nvim"}
   use 'tpope/vim-fugitive'
   use 'airblade/vim-gitgutter'
-  use 'folke/which-key.nvim'
 
   -- NAVIGATION
   use 'christoomey/vim-tmux-navigator'
@@ -55,28 +58,47 @@ Packer.startup(function(use)
   -- cosmetics
   use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
   use 'lukas-reineke/indent-blankline.nvim'
-  use { 'dracula/vim', as = 'dracula' }
+  use 'Mofiqul/dracula.nvim'
   use { "folke/todo-comments.nvim", requires = "nvim-lua/plenary.nvim" }
   use 'norcalli/nvim-colorizer.lua'
 
   -- LSP
   use 'neovim/nvim-lspconfig'
   use 'williamboman/nvim-lsp-installer'
-  use 'ray-x/lsp_signature.nvim'
-  use 'hrsh7th/nvim-cmp'
+  use "hrsh7th/nvim-cmp"
+  use {"petertriho/cmp-git", requires = "nvim-lua/plenary.nvim"}
   use 'hrsh7th/cmp-nvim-lsp'
+  use 'nvim-lua/lsp-status.nvim'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
   use 'hrsh7th/cmp-cmdline'
+  use 'f3fora/cmp-spell'
+  use 'ray-x/lsp_signature.nvim'
+  -- use {
+  --   "zbirenbaum/copilot-cmp",
+  --   module = "copilot_cmp",
+  -- }
+  -- use {
+  --   "zbirenbaum/copilot.lua",
+  --   event = "InsertEnter",
+  --   config = function ()
+  --     vim.schedule(function() require("copilot").setup({
+  --       cmp = {
+  --         enabled = true,
+  --         method = "getPanelCompletions",
+  --       },
+  --     }) end)
+  --   end,
+  -- }
+  use 'github/copilot.vim'
 
   -- OVER OBSERVATION
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
   use 'rafamadriz/friendly-snippets'
   use 'blitmap/lua-snippets'
-  use 'mbpowers/nvimager'
-
   use { 'startup-nvim/startup.nvim', requires = {'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'} }
+  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 
   if Packer_bootstrap then
     Packer.sync()
@@ -86,26 +108,21 @@ end)
 ----------------------------------------------------
 -- plugins config
 ----------------------------------------------------
+-- Copilot config
+glo.copilot_node_command = '~/.nvm/versions/node/v16.15.0/bin/node'
+glo.copilot_no_tab_map = true
+glo.copilot_assume_mapped = true
+glo.copilot_tab_fallback = ''
+
 -- bookmarks on start screen
 glo.startup_bookmarks = {
   ["I"] = '~/.config/nvim/init.lua',
   ["K"] = '~/.config/kitty/kitty.conf',
 }
 
--- NvimTree icons configuration
-glo.nvim_tree_icons = {
-  default = "㈯",
-  symlink = "🗘",
-  git = {
-    unstaged = "✗",
-    staged = "✓",
-    unmerged = "",
-    renamed = "➜",
-    untracked = "★",
-    deleted = "",
-    ignored = "◌"
-  }
-}
+-- dracula config
+glo.dracula_transparent_bg = true
+glo.dracula_italic_comment = true
 
 -- minimap config
 glo.minimap_highlight_range = true
@@ -114,7 +131,9 @@ glo.minimap_highlight_range = true
 glo.translator_target_lang = 'english'
 
 -- vim-g
-glo.vim_g_open_command = "xdg-open"
+if os ~= 'Mac' then
+  glo.vim_g_open_command = "xdg-open"
+end
 glo.vim_g_python_command = "python3"
 glo.vim_g_query_url = "https://duckduckgo.com/?q="
 
@@ -122,7 +141,7 @@ glo.vim_g_query_url = "https://duckduckgo.com/?q="
 glo.gitgutter_enabled=1
 glo.gitgutter_map_keys = 0
 glo.gitgutter_sign_added = ' '
-glo.gitgutter_sign_modified = '卵'
+glo.gitgutter_sign_modified = '⚡'
 glo.gitgutter_sign_removed = '嵐'
 glo.gitgutter_sign_modified_removed = ' '
 
@@ -217,7 +236,42 @@ require('nvim-tree').setup({
         edge = "│ ",
         none = "  ",
       },
-    }
+    },
+    icons = {
+      webdev_colors = true,
+      git_placement = "before",
+      padding = " ",
+      symlink_arrow = " ➛ ",
+      show = {
+        file = true,
+        folder = true,
+        folder_arrow = true,
+        git = true,
+      },
+      glyphs = {
+        default = "",
+        symlink = "",
+        folder = {
+          arrow_closed = "",
+          arrow_open = "",
+          default = "",
+          open = "",
+          empty = "",
+          empty_open = "",
+          symlink = "",
+          symlink_open = "",
+        },
+        git = {
+          unstaged = "✗",
+          staged = "✓",
+          unmerged = "",
+          renamed = "➜",
+          untracked = "★",
+          deleted = "",
+          ignored = "◌",
+        },
+      },
+    },
   },
   diagnostics = {
     enable = false,
@@ -259,17 +313,13 @@ require('dressing').setup({
     winblend = 10,
   }
 })
-require('which-key').setup({
-  plugins = {
-    marks = true,
-    spelling = {
-      enabled = true,
-      suggestions = 20,
-    },
-  }
-})
 require "lsp_signature".setup({
-  hint_enabled=false,
+  bind= true,
+  -- transparency= 10,
+  handler_opts= {
+    border = "rounded"
+  },
+  hint_enable=false,
 })
 require("luasnip/loaders/from_vscode").lazy_load()
 local cmp = require('cmp')
@@ -312,36 +362,66 @@ cmp.setup({
     end,
   },
   sources = cmp.config.sources({
-    { name = 'luasnip' },
-    { name = 'nvim_lsp_signature_help' },
-    { name = 'nvim_lsp' },
-    { name = 'buffer' },
-    { name = 'path' }
+    -- { name = 'copilot', group_index = 2 },
+    { name = 'nvim_lsp', group_index = 2 },
+    { name = 'path', group_index = 2 },
+    { name = 'luasnip', group_index = 2 },
+    { name = 'spell', group_index = 2 },
+    { name = 'gitlint', group_index = 2 }
   }),
+  sorting = {
+    priority_weight = 2,
+    comparators = {
+      cmp.config.compare.offset,
+      cmp.config.compare.score,
+      cmp.config.compare.recently_used,
+      cmp.config.compare.sort_text,
+      cmp.config.compare.length,
+      cmp.config.compare.order,
+    },
+  },
   confirm_opts = {
     behavior = cmp.ConfirmBehavior.Replace,
     select = false
   },
+  style = {
+    winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+  },
   window = {
     fields = { "kind", "abbr", "menu" },
+    completion = {
+      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      scrollbar = "║",
+      autocomplete = {
+        require("cmp.types").cmp.TriggerEvent.InsertEnter,
+        require("cmp.types").cmp.TriggerEvent.TextChanged,
+      },
+    },
+    documentation = {
+      border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+      scrollbar = "║",
+    },
   },
   experimental = {
-    ghost_text = false,
+    ghost_text = true,
     native_menu = false,
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-k>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-j>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = cmp.mapping(function(fallback)
+      local copilot_keys = vim.fn['copilot#Accept']()
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expandable() then
         luasnip.expand()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
+      elseif copilot_keys ~= "" then
+        vim.api.nvim_feedkeys(copilot_keys, "i", true)
       elseif check_backspace() then
         fallback()
       else
@@ -360,6 +440,12 @@ cmp.setup({
   }),
   formatting = {
     format = function(entry, vim_item)
+      -- copilot formatting
+      -- if entry.source.name == "copilot" then
+      --   vim_item.kind = "[] Copilot"
+      --   vim_item.kind_hl_group = "CmpItemKindCopilot"
+      --   return vim_item
+      -- end
       -- Kind icons
       vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
       vim_item.menu = ({
@@ -374,7 +460,7 @@ cmp.setup({
 })
 cmp.setup.filetype('gitcommit', {
   sources = cmp.config.sources({
-    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you were installed it.
+    { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you installed it.
   }, {
     { name = 'buffer' },
   })
