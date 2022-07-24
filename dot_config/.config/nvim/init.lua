@@ -55,6 +55,7 @@ vim.cmd('colorscheme dracula')       -- set colorscheme
 vim.api.nvim_set_hl(0, "CmpItemKindCopilot", {fg ="#6CC644"})
 vim.api.nvim_exec(
 [[
+  hi CopilotSuggestion guifg=#CC88FF ctermfg=8
   hi Visual term=reverse cterm=reverse guibg=#6C76D7
   hi TranslatorBorder guibg=NONE ctermbg=NONE guifg=white
   hi CursorLine guibg=NONE

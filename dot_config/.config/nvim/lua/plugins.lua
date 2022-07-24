@@ -1,14 +1,11 @@
--- Utils
-local utils = require('utils')
-local os, _ = utils.get_os_name()
-
 -- aliases
 local glo = vim.g
+local fn = vim.fn
+local os, _ = require('utils').get_os_name()
 
 ----------------------------------------------------
 -- plugins installation
 ----------------------------------------------------
-local fn = vim.fn
 local install_path = fn.stdpath('data')..'/site/pack/packer/start/packer.nvim'
 if fn.empty(fn.glob(install_path)) > 0 then
   Packer_bootstrap = fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
@@ -74,30 +71,15 @@ Packer.startup(function(use)
   use 'hrsh7th/cmp-cmdline'
   use 'f3fora/cmp-spell'
   use 'ray-x/lsp_signature.nvim'
-  -- use {
-  --   "zbirenbaum/copilot-cmp",
-  --   module = "copilot_cmp",
-  -- }
-  -- use {
-  --   "zbirenbaum/copilot.lua",
-  --   event = "InsertEnter",
-  --   config = function ()
-  --     vim.schedule(function() require("copilot").setup({
-  --       cmp = {
-  --         enabled = true,
-  --         method = "getPanelCompletions",
-  --       },
-  --     }) end)
-  --   end,
-  -- }
   use 'github/copilot.vim'
 
   -- OVER OBSERVATION
+  use 'styled-components/vim-styled-components'
+  use 'glepnir/dashboard-nvim'
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
   use 'rafamadriz/friendly-snippets'
   use 'blitmap/lua-snippets'
-  use { 'startup-nvim/startup.nvim', requires = {'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim'} }
   use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
 
   if Packer_bootstrap then
@@ -113,12 +95,6 @@ glo.copilot_node_command = '~/.nvm/versions/node/v16.15.0/bin/node'
 glo.copilot_no_tab_map = true
 glo.copilot_assume_mapped = true
 glo.copilot_tab_fallback = ''
-
--- bookmarks on start screen
-glo.startup_bookmarks = {
-  ["I"] = '~/.config/nvim/init.lua',
-  ["K"] = '~/.config/kitty/kitty.conf',
-}
 
 -- dracula config
 glo.dracula_transparent_bg = true
@@ -215,7 +191,6 @@ require('telescope').setup{
     }
   }
 }
-require('startup').setup({theme = "startify"})
 require('nvim-tree').setup({
   auto_reload_on_write = true,
   view = {
@@ -315,7 +290,6 @@ require('dressing').setup({
 })
 require "lsp_signature".setup({
   bind= true,
-  -- transparency= 10,
   handler_opts= {
     border = "rounded"
   },

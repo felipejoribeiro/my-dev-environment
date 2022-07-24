@@ -12,7 +12,7 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- mappings
-map("i", "<C-e>", "copilot#Accept('')", {expr=true, silent = true})
+map("i", "<A-o>", "copilot#Accept('')", {expr=true, silent = true})
 map("n", "<leader>ff", "<cmd>Telescope find_files<CR>")
 map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>")
 map("n", "<leader>fi", "<cmd>Telescope media_files <CR>")
@@ -22,24 +22,21 @@ map("n", "<leader>e", "<cmd>NvimTreeFindFileToggle<CR>")
 map("n", "<leader>m", "<cmd>MinimapToggle<CR>")
 map('n', '<leader>h', "<cmd>HopChar2<CR>")
 map('n', '<leader>H', "<cmd>HopChar1<CR>")
-map('n', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>")
-map('n', 'F', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.BEFORE_CURSOR, current_line_only = true })<cr>")
 map("n", "<Leader>w", "<cmd>TranslateW --engines=google --target_lang=pt<CR>", { silent = true })
-map("v", "<Leader>w", "<cmd>TranslateW --engines=google --target_lang=pt<CR>", { silent = true })
 map("n", "<Leader>W", "<cmd>TranslateW --engines=google --target_lang=en<CR>", { silent = true })
-map("v", "<Leader>W", "<cmd>TranslateW --engines=google --target_lang=en<CR>", { silent = true })
+map("v", "<Leader>w", ":'<,'>TranslateW --engines=google --target_lang=pt<CR>", { silent = true })
+map("v", "<Leader>W", ":'<,'>TranslateW --engines=google --target_lang=en<CR>", { silent = true })
 map("v", "<leader>s", ":Google<CR>")
 map("n", "<leader>s", ":Google<CR>")
-map('n', '<leader>gl', '<cmd>diffget //3<CR>')
-map('n', '<leader>gh', '<cmd>diffget //2<CR>')
 map('n', '<leader>gs', '<cmd>G<CR>')
-map('n', '<leader>gB', '<cmd>Git blame<CR>')
+map('n', '<leader>gb', '<cmd>Git blame<CR>')
 
 -- General life enhancements
 map("i", "jj", "<esc>")
-map("n", "c", '"_c')
-map("v", "c", '"_c')
+map("n", "c", '"_c')     -- doesn't override ctrl-c
+map("v", "c", '"_c')     -- doesn't override ctrl-c
 map("n", "<leader>r", '<cmd>tabe $MYVIMRC<CR>')
+map("n", "<leader>q", '<cmd>qa!<CR>')
 
 -- Spell check
 map("n", "<leader>c", '<cmd>set spell!<CR>')
