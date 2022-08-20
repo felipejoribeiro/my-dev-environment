@@ -43,6 +43,7 @@ opt.ttimeoutlen = 80                               -- makes things faster
 opt.tabstop = 2                                    -- number of spaces in tab
 opt.shiftwidth = 2                                 -- size of indentation
 opt.expandtab = true                               -- make tabs become spaces
+opt.smartindent = true                             -- smart indentation
 
 -- loading configs
 require('plugins')

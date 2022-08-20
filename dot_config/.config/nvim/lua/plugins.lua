@@ -31,9 +31,10 @@ Packer.startup(function(use)
   use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
   use { 'nvim-telescope/telescope.nvim', requires = {'nvim-lua/plenary.nvim', 'kyazdani42/nvim-web-devicons'} }
   use 'nvim-telescope/telescope-media-files.nvim'
-  use {"akinsho/toggleterm.nvim"}
+  use {"akinsho/toggleterm.nvim", tag = 'v2.*'}
   use 'tpope/vim-fugitive'
   use 'airblade/vim-gitgutter'
+  use {'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim'}
 
   -- NAVIGATION
   use 'christoomey/vim-tmux-navigator'
@@ -74,13 +75,12 @@ Packer.startup(function(use)
   use 'github/copilot.vim'
 
   -- OVER OBSERVATION
-  use 'styled-components/vim-styled-components'
   use 'glepnir/dashboard-nvim'
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
   use 'rafamadriz/friendly-snippets'
   use 'blitmap/lua-snippets'
-  use { 'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim' }
+  use 'styled-components/vim-styled-components'
 
   if Packer_bootstrap then
     Packer.sync()
@@ -387,15 +387,12 @@ cmp.setup({
     ['<C-e>'] = cmp.mapping.abort(),
     ['<CR>'] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = cmp.mapping(function(fallback)
-      local copilot_keys = vim.fn['copilot#Accept']()
       if cmp.visible() then
         cmp.select_next_item()
       elseif luasnip.expandable() then
         luasnip.expand()
       elseif luasnip.expand_or_jumpable() then
         luasnip.expand_or_jump()
-      elseif copilot_keys ~= "" then
-        vim.api.nvim_feedkeys(copilot_keys, "i", true)
       elseif check_backspace() then
         fallback()
       else
@@ -414,12 +411,6 @@ cmp.setup({
   }),
   formatting = {
     format = function(entry, vim_item)
-      -- copilot formatting
-      -- if entry.source.name == "copilot" then
-      --   vim_item.kind = "[] Copilot"
-      --   vim_item.kind_hl_group = "CmpItemKindCopilot"
-      --   return vim_item
-      -- end
       -- Kind icons
       vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
       vim_item.menu = ({
