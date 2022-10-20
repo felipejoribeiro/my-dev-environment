@@ -35,14 +35,16 @@ Packer.startup(function(use)
   use 'tpope/vim-fugitive'
   use 'airblade/vim-gitgutter'
   use {'sindrets/diffview.nvim', requires = 'nvim-lua/plenary.nvim'}
+  use 'habamax/vim-godot'
+  use { "iamcco/markdown-preview.nvim", run = function() vim.fn["mkdp#util#install"]() end }
 
   -- NAVIGATION
   use 'christoomey/vim-tmux-navigator'
   use 'mbbill/undotree'
   use 'phaazon/hop.nvim'
   use 'karb94/neoscroll.nvim'
-  use 'wfxr/minimap.vim'
   use 'matze/vim-move'
+  use 'wfxr/minimap.vim'
   use 'szw/vim-g'
 
   -- EDITING
@@ -73,14 +75,34 @@ Packer.startup(function(use)
   use 'f3fora/cmp-spell'
   use 'ray-x/lsp_signature.nvim'
   use 'github/copilot.vim'
-
-  -- OVER OBSERVATION
-  use 'glepnir/dashboard-nvim'
   use 'L3MON4D3/LuaSnip'
   use 'saadparwaiz1/cmp_luasnip'
   use 'rafamadriz/friendly-snippets'
   use 'blitmap/lua-snippets'
+
+  -- javascript
   use 'styled-components/vim-styled-components'
+
+  -- OVER OBSERVATION
+  use 'glepnir/dashboard-nvim'
+  use { "brymer-meneses/grammar-guard.nvim", requires = { "neovim/nvim-lspconfig", "williamboman/nvim-lsp-installer"} }
+  use { "barreiroleo/ltex-extra.nvim" }
+  use { "kamykn/spelunker.vim", requires = { "kamykn/popup-menu.nvim" } }
+  use { "preservim/vim-pencil" }
+  use {
+    "ThePrimeagen/refactoring.nvim",
+    requires = {
+        {"nvim-lua/plenary.nvim"},
+        {"nvim-treesitter/nvim-treesitter"}
+    }
+  }
+  use { 'mrshmllow/document-color.nvim', config = function()
+      require("document-color").setup {
+        -- Default options
+        mode = "background", -- "background" | "foreground" | "single"
+      }
+    end
+  }
 
   if Packer_bootstrap then
     Packer.sync()
@@ -96,9 +118,8 @@ glo.copilot_no_tab_map = true
 glo.copilot_assume_mapped = true
 glo.copilot_tab_fallback = ''
 
--- dracula config
-glo.dracula_transparent_bg = true
-glo.dracula_italic_comment = true
+-- spelunker
+glo.enable_spelunker_vim = 0
 
 -- minimap config
 glo.minimap_highlight_range = true
@@ -129,18 +150,25 @@ glo.move_key_modifier_visualmode = 'C'
 glo.tmux_navigator_no_mappings = 1
 
 -- auto-pairs-surround
-vim.api.nvim_exec(
-[[
-  let b:surround_{char2nr('i')} = "\"\"\"\r\"\"\"" 
-  au FileType html let b:AutoPairs = AutoPairsDefine({'<\!--' : '-->'})
-  au BufNewFile,BufRead *.vim let g:AutoPairsMultilineClose = 0
-]], false)
+glo.AutoPairsMultilineClose = 0
 
 -- blanck-line
 glo.indent_blankline_max_indent_increase = 2
 glo.indent_blankline_use_treesitter = true
 glo.indent_blankline_show_trailing_blankline_indent = false
 glo.indent_blankline_show_end_of_line = false
+
+
+-- dracula config
+glo.dracula_italic_comment = true
+
+require('dracula').setup({
+  transparent_bg = true,
+  italic_comments = true,
+})
+
+-- godot config
+glo.godot_executable = '/Applications/Godot.app/Contents/MacOS/Godot'
 
 require("indent_blankline").setup {
   space_char_blankline = " ",
@@ -157,6 +185,7 @@ require'nvim-treesitter.configs'.setup {
   }
 }
 require('Comment').setup()
+require('refactoring').setup({})
 require('todo-comments').setup {
 	keywords = {
 		BUG = { icon = " ", color = "error", alt = { "FIXME", "BUG", "ISSUE" }},
@@ -276,7 +305,20 @@ require('colorizer').setup()
 require('lualine').setup({
   options = {
     theme = 'dracula'
-  }
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch', 'diff', 'diagnostics'},
+    lualine_c = {
+      {
+        'filename',
+        path = 1,
+      }
+    },
+    lualine_x = {'encoding', 'fileformat', 'filetype'},
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
 })
 require('spellsitter').setup({
   enable = true,
@@ -294,6 +336,9 @@ require "lsp_signature".setup({
     border = "rounded"
   },
   hint_enable=false,
+  transparency = 50,
+  floating_window = false,
+  toggle_key = '<M-f>',
 })
 require("luasnip/loaders/from_vscode").lazy_load()
 local cmp = require('cmp')
@@ -336,8 +381,8 @@ cmp.setup({
     end,
   },
   sources = cmp.config.sources({
-    -- { name = 'copilot', group_index = 2 },
     { name = 'nvim_lsp', group_index = 2 },
+    { name = 'buffer', group_index = 2 },
     { name = 'path', group_index = 2 },
     { name = 'luasnip', group_index = 2 },
     { name = 'spell', group_index = 2 },
@@ -381,11 +426,9 @@ cmp.setup({
     native_menu = false,
   },
   mapping = cmp.mapping.preset.insert({
-    ['<C-k>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-j>'] = cmp.mapping.scroll_docs(4),
     ['<C-Space>'] = cmp.mapping.complete(),
     ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    ['<C-p>'] = cmp.mapping.confirm({ select = true }),
     ["<Tab>"] = cmp.mapping(function(fallback)
       if cmp.visible() then
         cmp.select_next_item()

@@ -1,0 +1,2 @@
+{"rule":"MORFOLOGIK_RULE_EN_US","sentence":"^\\QAuthor - Felipe J. O. Ribeiro\nDiscord - @Felipe_Ribeiro\\E$"}
+{"rule":"PASSIVE_VOICE","sentence":"^\\QPull requests and issues are always appreciated.\\E$"}

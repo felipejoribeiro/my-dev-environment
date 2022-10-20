@@ -1,0 +1,2 @@
+{"rule":"DASH_RULE","sentence":"^\\QAuthor - Felipe J. O. Ribeiro\nDiscord - @Felipe_Ribeiro\\E$"}
+{"rule":"DASH_RULE","sentence":"^\\QAuthor - Felipe J. O. Ribeiro\nDiscord - @Felipe_Ribeiro\\E$"}

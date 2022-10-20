@@ -195,7 +195,6 @@ let g:indentLine_first_char = '⨔'
 hi Pmenu ctermfg=254 ctermbg=237 cterm=NONE guifg=#44ff41 guibg=NONE gui=NONE
 hi PmenuSel ctermfg=135 ctermbg=239 cterm=NONE guifg=#ffffff guibg=NONE gui=NONE
 
-" TODO: highlight
 hi clear Todo
 
 " General background

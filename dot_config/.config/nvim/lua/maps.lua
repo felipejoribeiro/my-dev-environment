@@ -1,3 +1,6 @@
+-- All global mappings for my nvim config
+-- Author: @felipejoribeiro
+
 -- Functional wrapper for mapping custom keybindings
 local map = function(mode, lhs, rhs, opts)
   local options = { noremap = true }
@@ -6,13 +9,19 @@ local map = function(mode, lhs, rhs, opts)
   end
   vim.api.nvim_set_keymap(mode, lhs, rhs, options)
 end
+local buf_map = function(mode, lhs, rhs, opts)
+  local options = { noremap = true }
+  if opts then
+    options = vim.tbl_extend("force", options, opts)
+  end
+  vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, options)
+end
 
 -- map the leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
 -- mappings
-map("i", "<A-o>", "copilot#Accept('')", {expr=true, silent = true})
 map("n", "<leader>ff", "<cmd>Telescope find_files<CR>")
 map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>")
 map("n", "<leader>fi", "<cmd>Telescope media_files <CR>")
@@ -35,18 +44,8 @@ map('n', '<leader>gb', '<cmd>Git blame<CR>')
 map("i", "jj", "<esc>")
 map("n", "c", '"_c')     -- doesn't override ctrl-c
 map("v", "c", '"_c')     -- doesn't override ctrl-c
-map("n", "<leader>r", '<cmd>tabe $MYVIMRC<CR>')
+map("n", "<leader>R", '<cmd>tabe $MYVIMRC<CR>')
 map("n", "<leader>q", '<cmd>qa!<CR>')
-
--- Spell check
-map("n", "<leader>c", '<cmd>set spell!<CR>')
-
--- Hide search highlight
-vim.api.nvim_exec(
-[[
-  let hlstate=0
-  nnoremap <silent> <leader>/ :if (hlstate%2 == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=hlstate+1<cr><cr>k
-]], false)
 
 -- keep screen centralized when jumping
 map("n", "n", 'nzzzv')
@@ -60,6 +59,7 @@ map("i", "!", '!<c-g>u')
 map("i", "?", '?<c-g>u')
 
 -- Alt movements
+map("i", "<A-o>", "copilot#Accept('')", {expr=true, silent = true})
 map("n", "<A-J>", "<C-w>-")
 map("n", "<A-K>", "<C-w>+")
 map("n", "<A-L>", "<C-w>>")
@@ -69,28 +69,34 @@ map("n", "<A-k>", "<cmd>TmuxNavigateUp<CR>", { silent = true })
 map("n", "<A-l>", "<cmd>TmuxNavigateRight<CR>", { silent = true })
 map("n", "<A-h>", "<cmd>TmuxNavigateLeft<CR>", { silent = true })
 
--- Terminal maps
-map('n', '<leader>t', '<cmd>ToggleTerm<CR>', { silent = true })
-map('n', '<leader>ts', '<cmd>ToggleTermSendVisualLines<CR>', { silent = true })
-map('n', '<leader>T', '<cmd>ToggleTermToggleAll<CR>', { silent = true })
-function _G.set_terminal()
-  local opts = {noremap = true}
-  vim.api.nvim_buf_set_keymap(0, 't', '<esc><esc>', [[<C-\><C-n>]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
-  vim.wo.spell = false
+-- toogle search highlight
+map("n", "<leader>/", ":set hlsearch!<CR>")
+
+-- toogle relative line numbers
+map("n", "<leader>n", "<cmd>set relativenumber!<CR>")
+
+-- Remaps for the refactoring operations currently offered by the plugin
+vim.api.nvim_set_keymap("v", "<leader>re", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<leader>rf", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Function To File')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<leader>rv", [[ <Esc><Cmd>lua require('refactoring').refactor('Extract Variable')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("v", "<leader>ri", [[ <Esc><Cmd>lua require('refactoring').refactor('Inline Variable')<CR>]], {noremap = true, silent = true, expr = false})
+
+-- Extract block doesn't need visual mode
+vim.api.nvim_set_keymap("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("n", "<leader>rbf", [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]], {noremap = true, silent = true, expr = false})
+
+-- File type dependent commands
+local function file_type_commands()
+  local ft = vim.bo.filetype
+  if ft == "markdown" then
+    buf_map("n", "<leader>j", "<cmd>MarkdownPreviewToggle<CR>", {noremap = true, silent = true})
+  end
 end
-vim.cmd('autocmd! TermOpen term://* lua set_terminal()')
+vim.api.nvim_create_autocmd("FileType", { callback = file_type_commands })
 
 -- comments:
 -- gco, gcO, gcA, gcc, gbc
 
-
 -- info:
 -- to turn everything into tabs ==> :%s/  /\t/g
 -- to turn everything into tabs ==> set noet ci pi sts=0 sw=2 ts=2
-
-

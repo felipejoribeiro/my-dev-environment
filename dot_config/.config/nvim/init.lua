@@ -1,5 +1,6 @@
--- Felipe J. O. Ribeiro lua config for neovim
+-- Nvim lua configuration
 -- Works perfectly on MAC and LINUX
+-- Author: @felipejoribeiro
 
 -- aliases
 local opt = vim.opt
@@ -25,6 +26,7 @@ opt.smartcase = true                               -- smartly ignore case
 
 opt.showcmd = false                                -- don't show key pressed
 opt.number = true                                  -- create number column
+opt.relativenumber = true                          -- relative number
 opt.wrap = false                                   -- disable line wrap by default
 opt.scrolloff = 1                                  -- make the cursor stay in center
 opt.sidescrolloff = 4                              -- make cursor stay in center
@@ -49,19 +51,4 @@ opt.smartindent = true                             -- smart indentation
 require('plugins')
 require('lsp')
 require('maps')
-
--- cosmetics
-vim.cmd('colorscheme dracula')       -- set colorscheme
-
-vim.api.nvim_set_hl(0, "CmpItemKindCopilot", {fg ="#6CC644"})
-vim.api.nvim_exec(
-[[
-  hi CopilotSuggestion guifg=#CC88FF ctermfg=8
-  hi Visual term=reverse cterm=reverse guibg=#6C76D7
-  hi TranslatorBorder guibg=NONE ctermbg=NONE guifg=white
-  hi CursorLine guibg=NONE
-  hi GitGutterAdd guifg=#00FF00
-  hi GitGutterChange guifg=#FFFF00
-  hi GitGutterDelete guifg=#FF0000
-  au BufEnter * hi GitGutterDelete guibg=NONE ctermbg=NONE guifg=#FF4877
-]], false)
+require('colorscheme')
