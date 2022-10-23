@@ -50,5 +50,6 @@ opt.smartindent = true                             -- smart indentation
 -- loading configs
 require('plugins')
 require('lsp')
+require('dap')
 require('maps')
 require('colorscheme')

@@ -1,3 +1,145 @@
+-- LSP configuration
+-- Author: @felipejoribeiro
+
+-- utils
+local kind_icons = {
+  Text = "",
+  Method = "m",
+  Function = "",
+  Constructor = "",
+  Field = "",
+  Variable = "",
+  Class = "",
+  Interface = "",
+  Module = "",
+  Property = "",
+  Unit = "",
+  Value = "",
+  Enum = "",
+  Keyword = "",
+  Snippet = "",
+  Color = "",
+  File = "",
+  Reference = "",
+  Folder = "",
+  EnumMember = "",
+  Constant = "",
+  Struct = "",
+  Event = "",
+  Operator = "",
+  TypeParameter = "",
+}
+
+local check_backspace = function()
+  local col = vim.fn.col "." - 1
+  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+end
+
+
+---------------------------------------------------------
+--- Language server plugging configuration
+---------------------------------------------------------
+local has_cmp, cmp = pcall(require, 'cmp')
+local has_luasnip, luasnip = pcall(require, 'luasnip')
+if has_luasnip then
+  require('luasnip/loaders/from_vscode').lazy_load()
+end
+if has_cmp then
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        require('luasnip').lsp_expand(args.body)
+      end,
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp', group_index = 2 },
+      { name = 'buffer', group_index = 2 },
+      { name = 'path', group_index = 2 },
+      { name = 'luasnip', group_index = 2 },
+      { name = 'spell', group_index = 2 },
+      { name = 'gitlint', group_index = 2 }
+    }),
+    sorting = {
+      priority_weight = 2,
+      comparators = {
+        cmp.config.compare.offset,
+        cmp.config.compare.score,
+        cmp.config.compare.recently_used,
+        cmp.config.compare.sort_text,
+        cmp.config.compare.length,
+        cmp.config.compare.order,
+      },
+    },
+    confirm_opts = {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = false
+    },
+    style = {
+      winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+    },
+    window = {
+      fields = { "kind", "abbr", "menu" },
+      completion = {
+        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
+        scrollbar = "║",
+        autocomplete = {
+          require("cmp.types").cmp.TriggerEvent.InsertEnter,
+          require("cmp.types").cmp.TriggerEvent.TextChanged,
+        },
+      },
+      documentation = { border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, scrollbar = "║" },
+    },
+    experimental = { ghost_text = false, native_menu = false },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<M-e>'] = cmp.mapping.abort(),
+      ['<M-p>'] = cmp.mapping.confirm({ select = true }),
+      ["<Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        elseif luasnip.expandable() then
+          luasnip.expand()
+        elseif luasnip.expand_or_jumpable() then
+          luasnip.expand_or_jump()
+        elseif check_backspace() then
+          fallback()
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+        if cmp.visible() then
+          cmp.select_prev_item()
+        elseif luasnip.jumpable(-1) then
+          luasnip.jump(-1)
+        else
+          fallback()
+        end
+      end, { "i", "s" }),
+    }),
+    formatting = {
+      format = function(entry, vim_item)
+        -- Kind icons
+        vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
+        vim_item.menu = ({
+          luasnip = "[Snippet]",
+          buffer = "[Buffer]",
+          path = "[Path]",
+          nvim_lsp = "[LSP]",
+        })[entry.source.name]
+        return vim_item
+      end,
+    },
+  })
+  cmp.setup.filetype('gitcommit', {
+    sources = cmp.config.sources({
+      { name = 'cmp_git' }, -- You can specify the `cmp_git` source if you installed it.
+    }, {
+      { name = 'buffer' },
+    })
+  })
+end
+
 -- Mappings.
 local home = os.getenv("HOME")
 
@@ -23,10 +165,6 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-  if client.server_capabilities.colorProvider then
-    require("document-color").buf_attach(bufnr)
-  end
 end
 
 ---------------------------------------------------------

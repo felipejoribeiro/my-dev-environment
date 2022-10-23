@@ -539,9 +539,6 @@ nnoremap <leader>r :tabe $MYVIMRC<CR>
 " Easy quit
 map <silent> <leader>q :SClose<CR> :q<CR>
 
-" Spawn terminal
-nnoremap <leader>t :call OpenTerminal()<CR>
-
 " Google search
 vnoremap <leader>s :Google<CR>
 nnoremap <leader>s :Google<CR> 

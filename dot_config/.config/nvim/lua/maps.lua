@@ -85,6 +85,12 @@ vim.api.nvim_set_keymap("v", "<leader>ri", [[ <Esc><Cmd>lua require('refactoring
 vim.api.nvim_set_keymap("n", "<leader>rb", [[ <Cmd>lua require('refactoring').refactor('Extract Block')<CR>]], {noremap = true, silent = true, expr = false})
 vim.api.nvim_set_keymap("n", "<leader>rbf", [[ <Cmd>lua require('refactoring').refactor('Extract Block To File')<CR>]], {noremap = true, silent = true, expr = false})
 
+-- Tests
+vim.api.nvim_set_keymap("n", "<leader>tt", [[ <Cmd>lua require("neotest").run.run()<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("n", "<leader>tf", [[ <Cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("n", "<leader>to", [[ <Cmd>lua require("neotest").output.open()<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("n", "<leader>ts", [[ <Cmd>lua require("neotest").summary.toggle()<CR>]], {noremap = true, silent = true, expr = false})
+
 -- File type dependent commands
 local function file_type_commands()
   local ft = vim.bo.filetype
