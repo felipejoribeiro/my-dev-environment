@@ -46,6 +46,7 @@ map("n", "c", '"_c')     -- doesn't override ctrl-c
 map("v", "c", '"_c')     -- doesn't override ctrl-c
 map("n", "<leader>R", '<cmd>tabe $MYVIMRC<CR>')
 map("n", "<leader>q", '<cmd>qa!<CR>')
+map("n", "<leader>x", '<cmd>q<CR>')
 
 -- keep screen centralized when jumping
 map("n", "n", 'nzzzv')
@@ -88,8 +89,10 @@ vim.api.nvim_set_keymap("n", "<leader>rbf", [[ <Cmd>lua require('refactoring').r
 -- Tests
 vim.api.nvim_set_keymap("n", "<leader>tt", [[ <Cmd>lua require("neotest").run.run()<CR>]], {noremap = true, silent = true, expr = false})
 vim.api.nvim_set_keymap("n", "<leader>tf", [[ <Cmd>lua require("neotest").run.run(vim.fn.expand("%"))<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("n", "<leader>td", [[ <Cmd>lua require("neotest").run.run({strategy = "dap"})<CR>]], {noremap = true, silent = true, expr = false})
 vim.api.nvim_set_keymap("n", "<leader>to", [[ <Cmd>lua require("neotest").output.open()<CR>]], {noremap = true, silent = true, expr = false})
 vim.api.nvim_set_keymap("n", "<leader>ts", [[ <Cmd>lua require("neotest").summary.toggle()<CR>]], {noremap = true, silent = true, expr = false})
+vim.api.nvim_set_keymap("n", "<leader>ta", [[ <Cmd>lua require("neotest").run.attach())<CR>]], {noremap = true, silent = true, expr = false})
 
 -- File type dependent commands
 local function file_type_commands()

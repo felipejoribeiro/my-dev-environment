@@ -3,12 +3,72 @@
 
 local glo = vim.g
 local fn = vim.fn
+local home = os.getenv('HOME')
 local os, _ = require('utils').get_os_name()
 
 ----------------------------------------------------
 -- plugins configuration
 ----------------------------------------------------
 local dashboardSetup = function ()
+  local db = require('dashboard')
+  db.session_directory = fn.stdpath('data') .. '/session'
+  db.preview_command = 'cat | lolcat -F 0.3'
+  db.preview_file_path = home .. '/.config/nvim/octopus.txt'
+  db.preview_file_height = 25
+  db.preview_file_width = 60
+  db.custom_center = {
+      {icon = '  ',
+      desc = 'Find  File                              ',
+      action = 'Telescope find_files find_command=rg,--hidden,--files',
+      shortcut = 'SPC f f'},
+      {icon = '  ',
+      desc = 'Find  word                              ',
+      action = 'Telescope live_grep',
+      shortcut = 'SPC f g'},
+    }
+  db.custom_footer = {' マインドキラー '}
+  --
+  -- db.custom_header = {
+  --   [[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡄⠀⢀⠀⠈⠻⢿⣿⣿⢿⣿⣿⢿⣿⢻⣆⠀⢻⣿⣿⣯⣼⣿⣯⣿⣷⡀⠘⡿⢿⣿⣿⣧⠀⠹⣿⣿⣿⣿⣿⡿⠟⠋⠀⣠⣿⣿⣿⣿⣿]],
+  --   [[⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠑⢦⣀⠀⠉⠻⢾⣿⣿⣿⣿⣿⣿⡀⠀⢻⣟⣿⣿⣻⣿⣿⣿⣧⠀⠹⣿⣿⣿⡟⠀⣸⣿⣿⣿⡿⠋⠀⣠⣴⣿⠿⢿⢿⣿⣿⣿]],
+  --   [[⣿⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣧⣄⠈⠙⢷⣤⡀⠀⠙⢷⣿⣿⣿⣶⠧⡀⠈⢻⣿⣿⣿⣿⣿⣿⣿⠆⠀⢿⣿⠟⠀⣰⣿⣿⣿⡟⠁⢠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿]],
+  --   [[⣿⣿⣷⣿⡿⠿⠿⣿⣿⣿⣿⣿⣿⣿⣶⡀⠀⠹⣿⣦⠀⠈⣿⣯⣽⣿⡟⣇⠀⠀⣿⣿⣿⣿⣿⡿⠟⠀⣠⠟⠁⢀⣼⣿⡿⠟⠁⢀⣴⣿⣿⣿⣿⣟⣿⣿⣿⣿⣯⠿]],
+  --   [[⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠛⠛⠋⠀⠀⣿⡋⠀⢰⡿⣿⣿⣿⣿⣿⠀⠀⣿⣿⣿⡿⠋⠀⢀⠔⠁⣀⣴⣿⣿⠋⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠉⢀⣠]],
+  --   [[⠀⣠⣤⣤⣤⣤⣤⣤⣤⣄⣀⣀⠀⠀⠀⠀⠀⠀⠉⠀⠀⣿⣿⣿⢿⢻⣿⡟⠀⠀⣯⣽⡽⠁⠀⢠⠁⣀⣬⣿⣯⡟⠁⠀⣴⣿⣿⣿⣽⣿⣾⣿⣿⡿⠟⠁⢀⣴⣿⣿]],
+  --   [[⣾⣿⣿⣿⣿⣷⣿⡻⢿⣿⣿⠿⠛⠉⢀⠀⠀⠀⠀⠀⠀⠻⣿⣿⣾⡿⠿⠃⠀⠀⡿⣿⠁⠀⠀⡎⣸⣿⣿⠿⠃⠀⣠⣾⣿⣿⣿⣿⣿⣿⡿⠟⠋⠀⣠⣾⣿⣿⣿⣿]],
+  --   [[⣿⣿⣿⣿⣿⡿⣿⣷⡿⠛⢁⣠⣶⣿⣯⣿⣿⣶⣷⣄⠀⠀⠀⠙⠓⠙⠉⠀⠀⠀⠑⠚⠀⠀⠀⠀⠉⠋⠁⠀⢀⣴⣿⣿⣿⣿⣿⠟⠋⠀⢀⣀⣴⣾⣿⣿⣿⡟⠿⠿]],
+  --   [[⣿⣿⣿⣿⡿⣿⣿⠟⢁⣴⣿⣿⣿⣿⣿⣿⣿⣟⣿⣿⣷⡆⠀⠀⠀⢀⣠⣤⣶⣶⣶⣶⣤⣄⡀⠀⠀⠀⠠⣈⣿⣿⣿⣛⣿⠟⠁⠀⣠⠾⣿⣿⠿⠛⠉⠀⠀⠀⠀⠀]],
+  --   [[⠀⠀⠉⠉⠙⠉⠋⠀⠺⣿⣿⣛⣿⣿⣿⣿⣟⣿⣿⣿⣽⣿⡷⣶⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⢴⣿⣿⠟⠛⠉⠀⠀⣠⡾⢿⠿⠋⠁⠀⠀⠀⠀⢀⣀⣀⡀]],
+  --   [[⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠉⠻⣿⣿⣿⣿⣿⣏⣿⣿⡟⣿⣿⣿⣿⡟⠉⣛⢿⣿⣿⣿⡿⠿⣿⣿⡇⠁⠒⠀⠠⠄⠒⢀⣡⠾⠿⠋⠀⠀⠀⢀⣠⣤⣾⣿⣿⣿⣿⣿]],
+  --   [[⣿⣿⣾⣿⣶⣶⣤⡀⠀⠀⠀⠀⠈⠚⢿⡷⡿⡿⠿⠤⠏⠋⠁⠀⢻⣧⣀⣈⣾⣿⣿⣿⠀⠂⢨⣿⠇⠀⠀⠀⠀⠒⠈⠉⠈⠀⠀⠀⠀⠀⠖⠛⠛⠉⠉⣉⡉⠉⠉⢉]],
+  --   [[⣿⣿⣿⣿⣿⣿⣧⣍⣇⣄⠀⠀⠀⠀⠀⣀⣀⣀⣠⣴⠖⠒⠀⠀⠀⠉⡛⠿⠿⣿⣿⣿⡷⠶⠛⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣤⣴⣶⣻⣿⣿⣿⣿⣿⣿]],
+  --   [[⠿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣷⣄⡀⠀⠸⠿⡿⠿⠟⠋⠀⠀⠀⠀⠴⠚⠁⠀⠀⠀⠀⠀⢠⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⡖⣿⣿⣿⣿⣿⣿⣿⣿⣾⣿⣿⣿]],
+  --   [[⣤⣄⣀⡈⠉⠉⠉⠉⠉⠁⠛⠛⠛⠛⠲⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠄⠀⢀⠀⠳⠀⠀⠀⠀⠀⢀⣀⠀⣀⡠⢤⣾⣾⣿⣿⡿⠿⠓⠛⠿⢿⣽⣿⣿⣽⣿]],
+  --   [[⣿⣻⣿⣿⣿⣯⣿⣿⣿⠷⣶⣤⣄⣀⠀⠀⠀⠀⠀⢀⣤⡀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⡇⠀⠀⠀⠀⠀⠀⠀⠉⠛⠛⠓⠚⠛⠉⠉⠁⠀⢀⣀⢀⣀⡀⠀⠉⠉⠉⠉]],
+  --   [[⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡶⠟⠁⠀⠀⠀⢀⣴⣿⡶⠟⠁⠀⠀⣰⣶⠀⠀⠀⠀⠀⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣠⡤⣤⣶⣾⣏⣿⣿⣿⣿⣾⣷⣶⣦⣤]],
+  --   [[⠀⠘⠿⢿⣿⣿⢿⡽⠟⠊⠉⠀⠀⠀⠀⣀⣼⣿⣿⣽⣿⠦⠀⠀⣴⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⡀⠀⠀⠀⠙⠻⣿⣿⣿⣿⣿⣿⣷⣾⣿⣿⣿⣷⣿⣿]],
+  --   [[⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⣟⠂⠀⢸⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⣒⣄⠀⠀⠙⢾⡦⠀⠀⠀⠀⠀⠉⠙⠛⠛⠛⠿⠿⠿⢿⣿⣿⣿⣿]],
+  --   [[⣶⣤⣀⣀⣀⣀⣀⣀⣤⣴⣶⣿⣿⣿⣿⣿⣿⣿⣿⡿⠂⠀⢠⡿⠁⠀⠀⠀⠀⢠⣶⣦⡀⠀⠀⠙⣿⣧⠀⠀⠈⠿⣾⣷⣤⣀⡀⠀⠀⠀⠈⠉⠉⠛⠚⠲⠶⢭⡛⢿]],
+  --   [[⠻⢿⣿⣿⣻⣿⣿⡿⣿⣿⣿⣿⣿⣿⣻⣿⢿⡿⠟⠁⠀⠀⠜⠁⢀⣦⠀⠀⠀⠸⣯⣿⣆⠀⠀⠀⠸⣿⣷⣤⡀⠀⠀⠀⠀⠈⠙⠿⣿⣿⣶⣶⣶⣶⣤⣄⡀⠀⠈⠓]],
+  --   [[⠀⠀⠀⠉⠉⠙⠛⠛⠛⠛⠛⠛⠛⠛⠋⠉⠀⠀⠀⠀⠀⠀⠀⢰⣿⣻⡄⠀⠀⠀⣿⣿⣿⣇⠀⠀⠀⠹⣿⣿⣿⣦⡀⠑⠶⣶⣄⣀⣀⣀⠉⠙⠛⠿⢿⣿⣿⣶⣄⡀]],
+  --   [[⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⣀⣠⣿⣿⣛⣧⡀⠀⠀⠸⣏⣿⣿⣷⡀⠀⠀⠹⣿⣿⣿⣾⣶⣤⣀⠉⠉⠙⠛⠿⢷⣦⣤⣄⣀⣀⠉⠉⠉]],
+  --   [[⣿⠀⢸⣿⣿⣿⣶⣶⣶⣶⢶⣶⠶⠶⠆⠀⣠⣄⠀⠻⣿⣿⣿⣿⣿⣿⣿⣓⡄⠀⠀⠹⣿⣿⣿⣷⡀⠀⠀⠹⣿⣿⣿⠿⣿⣿⣷⣶⠦⣄⡀⠀⠙⢿⣯⡽⠟⠋⠀⢀]],
+  --   [[⣿⡀⠸⣿⣿⣿⣿⡿⢿⡿⠋⠀⣀⣤⠴⣾⣿⣿⣷⣄⠉⠻⣿⣿⣿⣿⣿⣿⣷⡀⠀⠀⠹⣿⣹⣯⣹⠀⠀⠀⠈⠻⣿⣿⣿⣭⣿⣿⣿⡷⣽⣦⣀⠀⠀⠀⠀⠀⢀⣻]],
+  --   [[⠻⣷⡀⠹⣿⣿⡿⣿⣿⠁⢠⣾⣷⣻⣿⣿⣿⣿⣿⣿⣷⡄⠈⢿⣿⣷⣾⣧⣿⣷⠀⠀⢀⣿⣿⣿⣿⣟⣰⣄⠀⠀⠈⠻⣿⢿⣿⣹⣿⣷⠿⠛⠁⠀⣀⣵⣴⣾⣿⣿]],
+  --   [[⣀⡘⠧⠀⢼⣿⣟⣿⡇⠀⣞⣿⣿⣿⣿⣻⣿⣿⣷⣿⣿⣿⡄⠀⢻⣟⣿⣿⣿⠟⠀⠀⠀⠛⢿⣿⣿⣿⣿⣿⣳⣄⡀⠀⠀⠉⠉⠉⠉⣀⡠⠤⣒⣋⡁⠈⠛⢿⣿⣿]],
+  --   [[⣿⣽⣷⣄⠈⢿⣿⣿⡇⢸⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⡇⠀⣸⣿⣿⠟⠁⢀⣴⣾⣁⡄⠀⢿⣾⣿⣿⣿⣯⣿⣿⣆⡄⠀⢀⣤⣤⣶⣾⣿⢻⣿⣿⣦⣄⣀⢀⠀]],
+  --   [[⣿⣿⣿⣿⣶⣄⡙⠻⣧⠈⢿⣿⣿⣿⣷⣾⣛⣿⣿⣿⣯⣿⠀⢀⣿⡛⠃⢀⣾⣏⣿⣿⣿⣷⡀⢼⣾⣿⢟⣿⡿⢿⣿⣿⣿⠀⣿⣿⣽⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⢀]],
+  --   [[⣻⣿⣿⣿⣿⣿⣿⣦⣌⠓⠀⠙⢿⣿⢿⣿⣿⡿⣿⣿⡿⠃⢀⣾⡿⠃⢠⡿⣿⣿⢿⣿⢻⣿⠀⣿⣻⣿⣿⣿⣿⣿⢿⢿⣿⠀⣿⢻⣿⡿⠛⠛⠋⠉⠉⠀⢀⣀⣤⣾]],
+  -- }
+end
+
+local asyncRunSetup = function()
+  glo.asyncrun_open = 6
+end
+
+local asyncRunTaskSetup = function()
+  glo.asynctasks_term_pos = 'tmux'
+  glo.asynctasks_term_pos = 'TAB'
 end
 
 local nvimTreesitterSetup = function()
@@ -144,6 +204,10 @@ local vimTranslatorSetup = function()
   glo.translator_target_lang = 'english'
 end
 
+local grammarGuardSetup = function ()
+  require("grammar-guard").init()
+end
+
 local nvimTreeSetup = function()
   require('nvim-tree').setup({
     auto_reload_on_write = true,
@@ -202,6 +266,10 @@ local vimCopilotSetup = function()
   glo.copilot_no_tab_map = true
   glo.copilot_assume_mapped = true
   glo.copilot_tab_fallback = ''
+  glo.copilot_filetypes = {
+    ['dap-repl'] = false,
+    ['dapui_watches'] = false
+  }
 end
 
 local vimTmuxNavigationSetup = function()
@@ -267,6 +335,27 @@ local neotestSetup = function ()
   })
 end
 
+local nvimDapVscodeJsSetup = function ()
+  require("dap-vscode-js").setup({
+    adapters = { 'pwa-node', 'pwa-chrome', 'node-terminal', 'pwa-extensionHost' },
+  })
+end
+
+local nvimDapUiSetup = function ()
+  require("dapui").setup({
+    icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
+    mappings = {
+      expand = { "<CR>", "<2-LeftMouse>" },
+      open = "o",
+      remove = "d",
+      edit = "e",
+      repl = "r",
+      toggle = "t",
+    },
+    expand_lines = true,
+  })
+end
+
 ----------------------------------------------------
 -- plugins installation
 ----------------------------------------------------
@@ -288,10 +377,10 @@ Packer.init {
 -- plugins installation
 ----------------------------------------------------
 Packer.startup(function(use)
-
   -- INTERNALS
   use { 'wbthomason/packer.nvim' }
-  use { 'skywind3000/asyncrun.vim' }
+  use { 'skywind3000/asyncrun.vim', config = asyncRunSetup() }
+  use { 'skywind3000/asynctasks.vim', config = asyncRunTaskSetup(), requires = { 'skywind3000/asyncrun.vim', 'preservim/vimux' } }
   use { 'zhimsel/vim-stay' }
 
   -- COSMETICS
@@ -313,6 +402,7 @@ Packer.startup(function(use)
   use { 'numToStr/Comment.nvim', config = commentNvimSetup() }
   use { 'voldikss/vim-translator', config = vimTranslatorSetup() }
   use { 'mbbill/undotree' }
+  use { 'brymer-meneses/grammar-guard.nvim', config = grammarGuardSetup(), requires = { 'neovim/nvim-lspconfig', 'williamboman/nvim-lsp-installer' } }
 
   -- FILE MANAGEMENT
   use { 'kyazdani42/nvim-tree.lua', config = nvimTreeSetup(), requires = { 'kyazdani42/nvim-web-devicons' } }
@@ -346,7 +436,11 @@ Packer.startup(function(use)
 
 
   -- DEBUGGING
+  use { "mfussenegger/nvim-dap" }
   use { "nvim-neotest/neotest", config = neotestSetup(), requires = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter", "antoinemadec/FixCursorHold.nvim", 'haydenmeade/neotest-jest' } }
+  use { "mxsdev/nvim-dap-vscode-js", config = nvimDapVscodeJsSetup(), requires = {"mfussenegger/nvim-dap"} }
+  use { 'microsoft/vscode-js-debug', opt = true, run = "npm install --legacy-peer-deps && npm run compile" }
+  use { "rcarriga/nvim-dap-ui", config = nvimDapUiSetup(), requires = {"mfussenegger/nvim-dap"} }
 
   -- LSP (CONFIG IN DADICATED FILE LSP)
   use { 'neovim/nvim-lspconfig' }
@@ -363,7 +457,6 @@ Packer.startup(function(use)
   -- OVER OBSERVATION
   use { 'nvim-lua/lsp-status.nvim' }
   use { 'ray-x/lsp_signature.nvim' }
-  use { 'brymer-meneses/grammar-guard.nvim', requires = { 'neovim/nvim-lspconfig', 'williamboman/nvim-lsp-installer' } }
   use { 'barreiroleo/ltex-extra.nvim' }
   use { 'kamykn/spelunker.vim', requires = { 'kamykn/popup-menu.nvim' } }
   use { 'preservim/vim-pencil' }
