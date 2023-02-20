@@ -131,7 +131,7 @@ local mason_servers = {
 	"jsonls",
 	"fortls",
 	"tailwindcss",
-	"sumneko_lua",
+	"lua_ls",
 	"ltex",
 }
 

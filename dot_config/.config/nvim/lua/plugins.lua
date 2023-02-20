@@ -121,6 +121,10 @@ local draculaSetup = function()
 end
 
 local indentBlankLineSetup = function()
+	local setup, _ = pcall(require, "indent_blankline")
+	if not setup then
+		return
+	end
 	glo.indent_blankline_char = "▏"
 	glo.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard", "NvimTree" }
 	glo.indent_blankline_buftype_exclude = { "terminal", "dashboard" }
@@ -143,6 +147,10 @@ local indentBlankLineSetup = function()
 end
 
 local luaLineSetup = function()
+	local setup, _ = pcall(require, "lualine")
+	if not setup then
+		return
+	end
 	require("lualine").setup({
 		options = {
 			theme = "dracula",
@@ -178,6 +186,10 @@ local luaLineSetup = function()
 end
 
 local todoCommentsSetup = function()
+	local setup, _ = pcall(require, "todo-comments")
+	if not setup then
+		return
+	end
 	require("todo-comments").setup({
 		keywords = {
 			BUG = { icon = " ", color = "error", alt = { "FIXME", "BUG", "ISSUE" } },
@@ -191,10 +203,18 @@ local todoCommentsSetup = function()
 end
 
 local nvimColorizerSetup = function()
+	local setup, _ = pcall(require, "colorizer")
+	if not setup then
+		return
+	end
 	require("colorizer").setup()
 end
 
 local nvimWebDevIconsSetup = function()
+	local setup, _ = pcall(require, "nvim-web-devicons")
+	if not setup then
+		return
+	end
 	require("nvim-web-devicons").setup()
 	require("nvim-web-devicons").setup({
 		override = {
@@ -211,16 +231,26 @@ local nvimWebDevIconsSetup = function()
 end
 
 local dressingSetup = function()
+	local setup, _ = pcall(require, "dressing")
+	if not setup then
+		return
+	end
 	require("dressing").setup({
 		input = {
 			enabled = true,
 			border = "rounded",
-			winblend = 10,
+			win_options = {
+				winblend = 10,
+			},
 		},
 	})
 end
 
 local nvimSurroundSetup = function()
+	local setup, _ = pcall(require, "nvim-surround")
+	if not setup then
+		return
+	end
 	require("nvim-surround").setup()
 end
 
@@ -232,6 +262,10 @@ local autoPairsSetup = function()
 end
 
 local commentNvimSetup = function()
+	local setup, _ = pcall(require, "Comment")
+	if not setup then
+		return
+	end
 	require("Comment").setup()
 end
 
@@ -345,10 +379,18 @@ local vimTmuxNavigationSetup = function()
 end
 
 local hopSetup = function()
+	local setup, _ = pcall(require, "hop")
+	if not setup then
+		return
+	end
 	require("hop").setup()
 end
 
 local neoscrollSetup = function()
+	local setup, _ = pcall(require, "neoscroll")
+	if not setup then
+		return
+	end
 	require("neoscroll").setup()
 end
 
@@ -382,6 +424,10 @@ local nvimTsAutotagSetup = function()
 end
 
 local neotestSetup = function()
+	local setup, _ = pcall(require, "neotest")
+	if not setup then
+		return
+	end
 	require("neotest").setup({
 		adapters = {
 			require("neotest-jest")({
@@ -412,12 +458,20 @@ local neotestSetup = function()
 end
 
 local nvimDapVscodeJsSetup = function()
+	local setup, _ = pcall(require, "dap-vscode-js")
+	if not setup then
+		return
+	end
 	require("dap-vscode-js").setup({
 		adapters = { "pwa-node", "pwa-chrome", "node-terminal", "pwa-extensionHost" },
 	})
 end
 
 local nvimDapUiSetup = function()
+	local setup, _ = pcall(require, "dapui")
+	if not setup then
+		return
+	end
 	require("dapui").setup({
 		icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
 		mappings = {
@@ -438,7 +492,7 @@ local lspSagaConfig = function()
 		return
 	end
 
-	saga.init_lsp_saga({
+	saga.setup({
 		move_in_saga = {
 			next = "<Tab>",
 			prev = "<S-Tab>",
@@ -456,7 +510,7 @@ local lspSagaConfig = function()
 			quit = "<space>x",
 		},
 		code_action_icon = "  ",
-		code_action_lightbulb = { enable = false },
+		lightbulb = { enable = false },
 	})
 end
 
@@ -601,7 +655,12 @@ packer.startup(function(use)
 	use({ "williamboman/mason.nvim" })
 	use({ "williamboman/mason-lspconfig.nvim" })
 	use({ "neovim/nvim-lspconfig" })
-	use({ "glepnir/lspsaga.nvim", config = lspSagaConfig(), branch = "main" })
+	use({
+		"glepnir/lspsaga.nvim",
+		config = lspSagaConfig(),
+		branch = "main",
+		requires = { { "nvim-tree/nvim-web-devicons" }, { "nvim-treesitter/nvim-treesitter" } },
+	})
 	use({ "jose-elias-alvarez/typescript.nvim" })
 	use({ "onsails/lspkind.nvim" })
 
@@ -618,10 +677,6 @@ packer.startup(function(use)
 	use({ "kamykn/spelunker.vim", requires = { "kamykn/popup-menu.nvim" } })
 	use({ "preservim/vim-pencil" })
 	use({ "lervag/vimtex" })
-	use({
-		"ThePrimeagen/refactoring.nvim",
-		requires = { { "nvim-lua/plenary.nvim" }, { "nvim-treesitter/nvim-treesitter" } },
-	})
 	use({
 		"vuki656/package-info.nvim",
 		requires = "MunifTanjim/nui.nvim",
@@ -651,9 +706,6 @@ vim.g["pencil#autoformat"] = 0
 
 -- spelunker
 glo.enable_spelunker_vim = 0
-
--- refactoring
-require("refactoring").setup({})
 
 -- lsp signature
 require("lsp_signature").setup({
