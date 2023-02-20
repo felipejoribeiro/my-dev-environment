@@ -4,240 +4,225 @@
 -- utils
 local home = os.getenv("HOME")
 
-local check_backspace = function()
-  local col = vim.fn.col "." - 1
-  return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+local path = vim.fn.stdpath("config") .. "/spell/en.utf-8.add"
+local words = {}
+
+for word in io.open(path, "r"):lines() do
+	table.insert(words, word)
 end
 
-local kind_icons = {
-  Text = "",
-  Method = "m",
-  Function = "",
-  Constructor = "",
-  Field = "",
-  Variable = "",
-  Class = "",
-  Interface = "",
-  Module = "",
-  Property = "",
-  Unit = "",
-  Value = "",
-  Enum = "",
-  Keyword = "",
-  Snippet = "",
-  Color = "",
-  File = "",
-  Reference = "",
-  Folder = "",
-  EnumMember = "",
-  Constant = "",
-  Struct = "",
-  Event = "",
-  Operator = "",
-  TypeParameter = "",
+---------------------------------------------------------
+--- Language server configuration
+---------------------------------------------------------
+local cmp_nvim_lsp_status, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
+if not cmp_nvim_lsp_status then
+	return
+end
+local lspconfig_status, lspconfig = pcall(require, "lspconfig")
+if not lspconfig_status then
+	return
+end
+local tsstatus, typescript = pcall(require, "typescript")
+if not tsstatus then
+	return
+end
+local mason_status, mason = pcall(require, "mason")
+if not mason_status then
+	return
+end
+local mason_lspc_status, mason_lspconfig = pcall(require, "mason-lspconfig")
+if not mason_lspc_status then
+	return
+end
+local setup, null_ls = pcall(require, "null-ls")
+if not setup then
+	return
+end
+local mason_null_ls_status, mason_null_ls = pcall(require, "mason-null-ls")
+if not mason_null_ls_status then
+	return
+end
+
+mason_null_ls.setup({
+	ensure_installed = {
+		"prettier",
+		"stylua",
+		"eslint_d",
+	},
+})
+
+local formatting = null_ls.builtins.formatting
+local diagnostics = null_ls.builtins.diagnostics
+local code_actions = null_ls.builtins.code_actions
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+
+null_ls.setup({
+	sources = {
+		formatting.eslint_d,
+		formatting.stylua,
+		diagnostics.eslint_d.with({
+			condition = function(utils)
+				return utils.root_has_file(".eslintrc.json") or utils.root_has_file(".eslintrc.js")
+			end,
+		}),
+		code_actions.gitsigns,
+		code_actions.eslint_d.with({
+			condition = function(utils)
+				return utils.root_has_file(".eslintrc.json") or utils.root_has_file(".eslintrc.js")
+			end,
+		}),
+	},
+	on_attach = function(current_client, bufnr)
+		if current_client.supports_method("textDocument/formatting") then
+			vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = augroup,
+				buffer = bufnr,
+				callback = function()
+					vim.lsp.buf.format({
+						filter = function(client)
+							return client.name == "null-ls"
+						end,
+						bufnr = bufnr,
+					})
+				end,
+			})
+		end
+	end,
+})
+
+---------------------------------------------------------
+--- Initializing servers with on_attach and capabilities
+---------------------------------------------------------
+local opts = { noremap = true, silent = true }
+-- vim.api.nvim_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+-- vim.api.nvim_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+
+local on_attach = function(client, bufnr)
+	-- Enable completion triggered by <c-x><c-o>
+	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+	-- Mappings.
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>aw", "<cmd>Lspsaga code_action<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>rn", "<cmd>Lspsaga rename<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>d", "<cmd>Lspsaga show_line_diagnostics<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>d", "<cmd>Lspsaga show_cursor_diagnostics<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "[g", "<cmd>Lspsaga diagnostic_jump_prev<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "]g", "<cmd>Lspsaga diagnostic_jump_next<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>f", "<cmd>lua vim.lsp.buf.format({ async = true })<CR>", opts)
+
+	-- language server specifi configuration
+	if client.name == "tsserver" then
+		vim.api.nvim_buf_set_keymap(bufnr, "n", "<space>rf", "<cmd>TypescriptRenameFile<CR>", opts)
+	end
+end
+
+local capabilities = cmp_nvim_lsp.default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+local mason_servers = {
+	"tsserver",
+	"html",
+	"cssls",
+	"jsonls",
+	"fortls",
+	"tailwindcss",
+	"sumneko_lua",
+	"ltex",
 }
 
----------------------------------------------------------
---- Language server plugging configuration
----------------------------------------------------------
-local has_cmp, cmp = pcall(require, 'cmp')
-local has_luasnip, luasnip = pcall(require, 'luasnip')
-if has_cmp then
-  if has_luasnip then
-    require('luasnip/loaders/from_vscode').lazy_load()
-  end
+local lsp_servers = {
+	"bashls", -- npm install -g bash-language-server
+	"gdscript", -- install the godot editor https://github.com/habamax/vim-godot
+	"jedi_language_server",
+}
 
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        require('luasnip').lsp_expand(args.body)
-      end,
-    },
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp', group_index = 2 },
-      { name = 'buffer', group_index = 2 },
-      { name = 'path', group_index = 2 },
-      { name = 'luasnip', group_index = 2 },
-      { name = 'spell', group_index = 2 },
-      { name = 'gitlint', group_index = 2 }
-    }),
-    sorting = {
-      priority_weight = 2,
-      comparators = {
-        cmp.config.compare.offset,
-        cmp.config.compare.score,
-        cmp.config.compare.recently_used,
-        cmp.config.compare.sort_text,
-        cmp.config.compare.length,
-        cmp.config.compare.order,
-      },
-    },
-    confirm_opts = {
-      behavior = cmp.ConfirmBehavior.Replace,
-      select = false
-    },
-    style = {
-      winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-    },
-    window = {
-      fields = { "kind", "abbr", "menu" },
-      completion = {
-        border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" },
-        scrollbar = "║",
-        autocomplete = {
-          require("cmp.types").cmp.TriggerEvent.InsertEnter,
-          require("cmp.types").cmp.TriggerEvent.TextChanged,
-        },
-      },
-      documentation = { border = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }, scrollbar = "║" },
-    },
-    experimental = { ghost_text = false, native_menu = false },
-    mapping = cmp.mapping.preset.insert({
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<M-e>'] = cmp.mapping.abort(),
-      ['<M-p>'] = cmp.mapping.confirm({ select = true }),
-      ["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        elseif luasnip.expandable() then
-          luasnip.expand()
-        elseif luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        elseif check_backspace() then
-          fallback()
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-      ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          cmp.select_prev_item()
-        elseif luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        else
-          fallback()
-        end
-      end, { "i", "s" }),
-    }),
-    formatting = {
-      format = function(entry, vim_item)
-        -- Kind icons
-        vim_item.kind = string.format('%s %s', kind_icons[vim_item.kind], vim_item.kind)
-        vim_item.menu = ({
-          luasnip = "[Snippet]",
-          buffer = "[Buffer]",
-          path = "[Path]",
-          nvim_lsp = "[LSP]",
-        })[entry.source.name]
-        return vim_item
-      end,
-    },
-  })
+mason.setup()
+mason_lspconfig.setup({ ensure_installed = mason_servers })
 
-  cmp.setup.filetype('gitcommit', {
-    sources = cmp.config.sources({
-      { name = 'cmp_git' },
-      { name = 'gitlint'},
-      { name = 'spell' },
-      { name = 'buffer' },
-    })
-  })
-
-  ---------------------------------------------------------
-  --- Language server configuration
-  ---------------------------------------------------------
-  local opts = { noremap=true, silent=true }
-  vim.api.nvim_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-  vim.api.nvim_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
-  vim.api.nvim_set_keymap('n', ']G', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-  vim.api.nvim_set_keymap('n', '[G', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
-
-  local on_attach = function(client, bufnr)
-    -- Enable completion triggered by <c-x><c-o>
-    vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-    -- Mappings.
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>aw', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '<space>f', '<cmd>lua vim.lsp.buf.format({ async = true })<CR>', opts)
-  end
-
-  local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
-  ---------------------------------------------------------
-  --- Initializing servers installed manually with on_attach and capabilities
-  ---------------------------------------------------------
-  local nvim_lsp = require('lspconfig')
-  local lsp_servers = {
-    'bashls', -- npm install -g bash-language-server
-    'gdscript', -- install the godot editor https://github.com/habamax/vim-godot
-  }
-
-  for _, lsp in ipairs(lsp_servers) do
-    nvim_lsp[lsp].setup({
-      on_attach = on_attach,
-      capabilities = capabilities,
-    })
-  end
-
-  ---------------------------------------------------------
-  --- Initializing servers installed with lsp-installer with on_attach and capabilities
-  ---------------------------------------------------------
-  require('nvim-lsp-installer').on_server_ready(
-    function(server)
-      local opt = {}
-      opt.on_attach = on_attach
-      opt.capabilities = capabilities
-
-      -- LUA LSP configuration
-      if server.name == "sumneko_lua" then
-        opt.settings = {
-          Lua = {
-            runtime = {
-              version = 'LuaJIT'
-            },
-            diagnostics = {
-              globals = { 'vim', 'use' }
-            }
-          }
-        }
-      end
-
-      -- LATEX LSP configuration
-      if server.name == "ltex" then
-        opt.settings = {
-          ltex = {
-            enabled = { "latex", "tex", "bib", "markdown" },
-            language = "en-US",
-            diagnosticSeverity = "information",
-            setenceCacheSize = 2000,
-            checkFrequency = "edit",
-            trace = { server = "verbose" },
-            additionalRules = {
-              enablePickyRules = true,
-              motherTongue = "pt-BR",
-            },
-          }
-        }
-
-        opt.on_attach = function(client, bufnr)
-          require("ltex_extra").setup{
-            load_langs = { "pt-BR", "en-US" }, -- table <string> : languages for witch dictionaries will be loaded
-            init_check = true, -- boolean : whether to load dictionaries on startup
-            path = home .. '/.config/nvim/grammar', -- string : path to store dictionaries. Relative path uses current working directory
-            log_level = "none", -- string : "none", "trace", "debug", "info", "warn", "error", "fatal"
-          }
-          on_attach(client, bufnr)
-        end
-      end
-    server:setup(opt)
-  end)
+-- concatenate lsp_servers and mason_servers
+for _, v in ipairs(mason_servers) do
+	table.insert(lsp_servers, v)
 end
+
+for _, server in ipairs(lsp_servers) do
+	local opt = {}
+	opt.on_attach = on_attach
+	opt.capabilities = capabilities
+
+	if server == "gdscript" then
+		opt.flags = {
+			debounce_text_changes = 150,
+		}
+		opt.on_attach = function(client, bufnr)
+			on_attach(client, bufnr)
+			local _notify = client.notify
+			client.notify = function(method, params)
+				if method == "textDocument/didClose" then
+					-- Godot doesn't implement didClose yet
+					return
+				end
+				_notify(method, params)
+			end
+		end
+	end
+
+	if server == "sumneko_lua" then
+		opt.settings = {
+			Lua = {
+				runtime = {
+					version = "LuaJIT",
+				},
+				diagnostics = {
+					globals = { "vim", "use" },
+				},
+				workspace = {
+					library = {
+						[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+						[vim.fn.expand("config") .. "/lua"] = true,
+					},
+				},
+			},
+		}
+	end
+
+	if server == "ltex" then
+		opt.settings = {
+			ltex = {
+				enabled = { "latex", "tex", "bib", "markdown" },
+				language = "auto",
+				diagnosticSeverity = "information",
+				setenceCacheSize = 2000,
+				checkFrequency = "edit",
+				trace = { server = "off" },
+				dictionary = {
+					["pt-BR"] = words,
+				},
+				additionalRules = {
+					enablePickyRules = true,
+					motherTongue = "pt-BR",
+				},
+			},
+		}
+
+		opt.on_attach = function(client, bufnr)
+			on_attach(client, bufnr)
+			require("ltex_extra").setup({
+				load_langs = { "en-US", "pt-BR" }, -- table <string> : languages for witch dictionaries will be loaded
+				init_check = true, -- boolean : whether to load dictionaries on startup
+				path = home .. "/.config/nvim/grammar", -- string : path to store dictionaries. Relative path uses current working directory
+				log_level = "error", -- string : "none", "trace", "debug", "info", "warn", "error", "fatal"
+			})
+		end
+	end
+	lspconfig[server].setup(opt)
+end
+
+typescript.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})

@@ -32,6 +32,7 @@ map t toggle_statusbar
 set scroll-page-aware "true"
 set scroll-full-overlap 0.01
 set scroll-step 100
+# set scroll-step 10
 
 
 # zathurarc-dark
@@ -72,3 +73,6 @@ set recolor                     true
 set recolor-lightcolor          "#0f081c"
 set recolor-darkcolor           "#D7D0C7"
 set recolor-keephue             true
+
+
+set guioptions "" 
