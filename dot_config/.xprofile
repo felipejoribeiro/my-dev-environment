@@ -13,6 +13,9 @@ pulseeffects --gapplication-service &
 # Configuring monitors
 bash ~/.screenlayout/screen.sh
 
+# set dpi of monitors
+xrandr --dpi 96
+
 # Compositor
 picom &
 
@@ -21,9 +24,6 @@ nitrogen --restore &
 
 # Disable mouse when not using it
 unclutter -idle 10 -root &
-
-# Enable wacoom shortcuts
-bash ~/.local/bin/wacom_buttons &
 
 # Enable mouse keybindings
 xbindkeys &
@@ -35,6 +35,9 @@ dbus-update-activation-environment --systemd DISPLAY
 
 # Automount usb drives.
 udiskie &
+
+# Enable wacoom shortcuts
+wacom_buttons &
 
 # Window manager
 exec dbus-launch bspwm
