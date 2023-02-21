@@ -493,24 +493,19 @@ local lspSagaConfig = function()
 	end
 
 	saga.setup({
-		move_in_saga = {
-			next = "<Tab>",
-			prev = "<S-Tab>",
-		},
-		finder_action_keys = {
-			edit = "<space>o",
-			vsplit = "<space>sv",
-			split = "<space>sh",
-			quit = "<space>x",
-		},
-		definition_action_keys = {
-			edit = "<space>o",
-			vsplit = "<space>sv",
-			split = "<space>sh",
-			quit = "<space>x",
-		},
-		code_action_icon = "  ",
 		lightbulb = { enable = false },
+		definition = {
+			edit = "<space>o",
+			vsplit = "<space>sv",
+			split = "<space>sh",
+			tabe = "<space>t",
+			quit = "<space>x",
+			back = "<space>b",
+			next = "<space>n",
+		},
+		code_actions = {
+			show_server_name = true,
+		},
 	})
 end
 
@@ -708,13 +703,16 @@ vim.g["pencil#autoformat"] = 0
 glo.enable_spelunker_vim = 0
 
 -- lsp signature
-require("lsp_signature").setup({
-	bind = true,
-	handler_opts = {
-		border = "rounded",
-	},
-	hint_enable = false,
-	transparency = 50,
-	floating_window = false,
-	toggle_key = "<M-f>",
-})
+local setup, _ = pcall(require, "lsp_signature")
+if setup then
+	require("lsp_signature").setup({
+		bind = true,
+		handler_opts = {
+			border = "rounded",
+		},
+		hint_enable = false,
+		transparency = 50,
+		floating_window = false,
+		toggle_key = "<M-f>",
+	})
+end

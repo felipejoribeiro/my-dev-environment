@@ -103,22 +103,33 @@ if pcall(require, "dap") then
 
 	attachToReactNative = function()
 		vim.fn.system("adb shell input keyevent 82")
-		openTmuxPane("node ~/.config/nvim/local_dap/nvim-dap-reactnative/src/standalone.js")
+		openTmuxPane(
+			"export RN_DEBBUGER_WD="
+				.. vim.fn.system("pwd")
+				.. "; node ~/.config/nvim/local_dap/nvim-dap-reactnative/src/standalone.js"
+		)
 	end
 
 	startReactNative = function()
-		openTmuxPane([[zsh -c "/Users/fejori/.nvm/versions/node/v14.19.1/bin/yarn start"]])
-		openTmuxPane([[/Users/fejori/.nvm/versions/node/v14.19.1/bin/react-native run-android]])
+		openTmuxPane([[zsh -c "yarn start"]])
+		openTmuxPane([[react-native run-android]])
 	end
 
 	compileAndroidApp = function()
-		openTmuxPane([[/Users/fejori/.nvm/versions/node/v14.19.1/bin/react-native run-android --verbose]])
+		openTmuxPane([[react-native run-android --verbose]])
 	end
 
 	local function set_keymaps_for_react_native()
 		local isReactNativeProject = function()
-			local path = vim.fn.expand("%:p")
-			return string.find(path, "snackin") ~= nil
+			local current_dir = vim.fn.expand("%:p:h")
+			local is_react_native_project = vim.fn.filereadable(current_dir .. "/package.json")
+			if is_react_native_project == 1 then
+				local package_json = vim.fn.json_decode(vim.fn.readfile(current_dir .. "/package.json"))
+				if package_json.dependencies["react-native"] ~= nil then
+					return true
+				end
+			end
+			return false
 		end
 
 		if isReactNativeProject() then
