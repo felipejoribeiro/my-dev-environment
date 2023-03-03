@@ -4,7 +4,8 @@
 
 # terminal emulator
 alt + Return
-	kitty
+  alacritty
+	# kitty
 
 # Wacom toogle screen
 super + ctrl + alt + z
