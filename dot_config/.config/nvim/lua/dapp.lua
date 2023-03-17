@@ -68,6 +68,12 @@ if pcall(require, "dap") then
 		args = { os.getenv("HOME") .. "/.config/nvim/local_dap/vscode-node-debug2/out/src/nodeDebug.js" },
 	}
 
+	dap.adapters.godot = {
+		type = "server",
+		host = "127.0.0.1",
+		port = 6006,
+	}
+
 	for _, language in ipairs({ "typescript", "javascript" }) do
 		require("dap").configurations[language] = {
 			-- debugger used in jest tests
@@ -100,6 +106,16 @@ if pcall(require, "dap") then
 			},
 		}
 	end
+
+	require("dap").configurations.gdscript = {
+		{
+			type = "godot",
+			request = "launch",
+			name = "Launch scene",
+			project = "${workspaceFolder}",
+			launch_scene = true,
+		},
+	}
 
 	attachToReactNative = function()
 		vim.fn.system("adb shell input keyevent 82")

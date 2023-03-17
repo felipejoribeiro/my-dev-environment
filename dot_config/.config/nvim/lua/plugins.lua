@@ -572,7 +572,7 @@ packer.startup(function(use)
 	use({ "numToStr/Comment.nvim", config = commentNvimSetup() })
 	use({ "voldikss/vim-translator", config = vimTranslatorSetup() })
 	use({ "mbbill/undotree" })
-	use({ "brymer-meneses/grammar-guard.nvim", config = grammarGuardSetup(), requires = { "neovim/nvim-lspconfig" } })
+	-- use({ "brymer-meneses/grammar-guard.nvim", config = grammarGuardSetup(), requires = { "neovim/nvim-lspconfig" } })
 
 	-- FILE MANAGEMENT
 	use({ "nvim-tree/nvim-tree.lua", config = nvimTreeSetup(), requires = { "kyazdani42/nvim-web-devicons" } })
@@ -661,6 +661,15 @@ packer.startup(function(use)
 
 	-- OVER OBSERVATION
 	use({
+		"jedrzejboczar/toggletasks.nvim",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"akinsho/toggleterm.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+		rocks = "lyaml",
+	})
+	use({
 		"glacambre/firenvim",
 		run = function()
 			vim.fn["firenvim#install"](0)
@@ -703,9 +712,9 @@ vim.g["pencil#autoformat"] = 0
 glo.enable_spelunker_vim = 0
 
 -- lsp signature
-local setup, _ = pcall(require, "lsp_signature")
-if setup then
-	require("lsp_signature").setup({
+local lsetup, lsp_signature = pcall(require, "lsp_signature")
+if lsetup then
+	lsp_signature.setup({
 		bind = true,
 		handler_opts = {
 			border = "rounded",
@@ -715,4 +724,62 @@ if setup then
 		floating_window = false,
 		toggle_key = "<M-f>",
 	})
+end
+
+local tosetup, toggletasks = pcall(require, "toggletasks")
+if tosetup then
+	toggletasks.setup({
+		debug = false,
+		silent = false,
+		short_paths = true,
+		search_paths = {
+			"nvimTasks",
+			".nvimTasks",
+			".nvim/toggletasks",
+		},
+		scan = {
+			global_cwd = true,
+			tab_cwd = true,
+			win_cwd = true,
+			lsp_root = true,
+			dirs = {},
+			rtp = false,
+			rtp_ftplugin = false,
+		},
+		tasks = {},
+		lsp_priorities = {
+			["null-ls"] = -10,
+		},
+		toggleterm = {
+			close_on_exit = false,
+			hidden = true,
+		},
+		telescope = {
+			spawn = {
+				open_single = true,
+				show_running = true,
+				mappings = {
+					select_float = "<C-f>",
+					spawn_smart = "<C-a>",
+					spawn_all = "<M-a>",
+					spawn_selected = nil,
+				},
+			},
+			select = {
+				mappings = {
+					select_float = "<C-f>",
+					open_smart = "<C-a>",
+					open_all = "<M-a>",
+					open_selected = nil,
+					kill_smart = "<C-q>",
+					kill_all = "<M-q>",
+					kill_selected = nil,
+					respawn_smart = "<C-s>",
+					respawn_all = "<M-s>",
+					respawn_selected = nil,
+				},
+			},
+		},
+	})
+	require("telescope").load_extension("toggletasks")
 end
