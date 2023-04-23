@@ -33,6 +33,7 @@ opt.scrolloff = 4 -- make the cursor stay in center
 opt.sidescrolloff = 4 -- make cursor stay in center
 opt.cmdheight = 1 -- number of lines for commands
 opt.showcmd = false -- don't show key pressed
+opt.scl = "yes" -- show cursor line
 -- opt.filetype = "detect" -- detect file type
 
 -- function
@@ -49,11 +50,20 @@ opt.updatetime = 300 -- faster completion
 opt.timeoutlen = 400 -- by default 1000ms
 opt.ttimeoutlen = 80 -- makes things faster
 
--- indent
-opt.tabstop = 2 -- number of spaces in tab
-opt.shiftwidth = 2 -- size of indentation
-opt.expandtab = true -- make tabs become spaces
-opt.smartindent = true -- smart indentation
+if vim.bo.filetype == "python" then
+	opt.tabstop = 4 -- number of spaces in tab
+	opt.shiftwidth = 4 -- size of indentation
+	opt.expandtab = true -- make tabs become spaces
+elseif vim.bo.filetype == "yaml" then
+	opt.tabstop = 2 -- number of spaces in tab
+	opt.shiftwidth = 2 -- size of indentation
+	opt.expandtab = true -- make tabs become spaces
+else
+	opt.tabstop = 2 -- number of spaces in tab
+	opt.shiftwidth = 2 -- size of indentation
+	opt.expandtab = true -- make tabs become spaces
+	opt.smartindent = true -- smart indentation
+end
 
 -- keyword keys
 opt.iskeyword = opt.iskeyword + "-" -- treat dash separated words as a word text object"

@@ -21,6 +21,14 @@ end
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+-- function to show hidden characters
+SHOW_HIDDEN = function()
+	local show = vim.wo.list
+	vim.wo.list = not show
+	vim.opt.listchars = { space = ".", tab = ">~", eol = "¬", trail = "·" }
+end
+map("n", "<leader>s", "<cmd>lua SHOW_HIDDEN()<CR>")
+
 -- pluggin mappings
 map("n", "<leader>ff", "<cmd>Telescope find_files<CR>")
 map("n", "<leader>fg", "<cmd>Telescope live_grep<CR>")

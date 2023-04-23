@@ -151,9 +151,12 @@ local luaLineSetup = function()
 	if not setup then
 		return
 	end
+	local custom_dracula = require("lualine.themes.dracula")
+	custom_dracula.normal.c.bg = "#000"
+
 	require("lualine").setup({
 		options = {
-			theme = "dracula",
+			theme = custom_dracula,
 			always_divide_middle = true,
 			ignore_filetypes = { "dashboard", "NvimTree", "help" },
 			ignore_focus = { "dashboard", "NvimTree", "help" },
@@ -177,8 +180,20 @@ local luaLineSetup = function()
 				"diff",
 				"diagnostics",
 			},
-			lualine_c = { { "filename", path = 1 } },
-			lualine_x = { "encoding", "fileformat", "filetype" },
+			lualine_c = {
+				{
+					"filename",
+					fmt = function(name)
+						local se, lsp = pcall(require, "lspsaga.symbolwinbar")
+						if se then
+							return lsp:get_winbar()
+						else
+							return name
+						end
+					end,
+				},
+			},
+			lualine_x = {},
 			lualine_y = { "progress" },
 			lualine_z = { "location" },
 		},
@@ -255,10 +270,10 @@ local nvimSurroundSetup = function()
 end
 
 local autoPairsSetup = function()
-	glo.AutoPairsFlyMode = 1
+	glo.AutoPairsFlyMode = 0
 	glo.AutoPairsShortcutBackInsert = "<M-b>"
 	glo.AutoPairsShortcutToggle = "<M-P>"
-	glo.AutoPairsMultilineClose = 1
+	glo.AutoPairsMultilineClose = 0
 end
 
 local commentNvimSetup = function()
@@ -493,6 +508,16 @@ local lspSagaConfig = function()
 	end
 
 	saga.setup({
+		symbol_in_winbar = {
+			enable = false,
+			separator = " ",
+			ignore_patterns = {},
+			hide_keyword = true,
+			show_file = true,
+			folder_level = 2,
+			respect_root = false,
+			color_mode = true,
+		},
 		lightbulb = { enable = false },
 		definition = {
 			edit = "<space>o",
@@ -524,6 +549,9 @@ if not status then
 end
 
 packer.init({
+	luarocks = {
+		python_cmd = "python3",
+	},
 	display = {
 		open_fn = function()
 			return require("packer.util").float({ border = "rounded" })
@@ -661,15 +689,6 @@ packer.startup(function(use)
 
 	-- OVER OBSERVATION
 	use({
-		"jedrzejboczar/toggletasks.nvim",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"akinsho/toggleterm.nvim",
-			"nvim-telescope/telescope.nvim",
-		},
-		rocks = "lyaml",
-	})
-	use({
 		"glacambre/firenvim",
 		run = function()
 			vim.fn["firenvim#install"](0)
@@ -681,15 +700,114 @@ packer.startup(function(use)
 	use({ "kamykn/spelunker.vim", requires = { "kamykn/popup-menu.nvim" } })
 	use({ "preservim/vim-pencil" })
 	use({ "lervag/vimtex" })
+	use({ "vuki656/package-info.nvim", requires = "MunifTanjim/nui.nvim" })
 	use({
-		"vuki656/package-info.nvim",
-		requires = "MunifTanjim/nui.nvim",
+		"jackMort/ChatGPT.nvim",
+		requires = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim", "nvim-telescope/telescope.nvim" },
 	})
 end)
 
 ----------------------------------------------------
 -- OVER OBSERVATION configs
 ----------------------------------------------------
+--chatgpt config
+local chatsetup, chatgpt = pcall(require, "chatgpt")
+if chatsetup then
+	chatgpt.setup({
+		welcome_message = WELCOME_MESSAGE,
+		loading_text = "loading",
+		question_sign = "", -- you can use emoji if you want e.g. 🙂
+		answer_sign = "ﮧ", -- 🤖
+		max_line_length = 120,
+		yank_register = "+",
+		chat_layout = {
+			relative = "editor",
+			position = "50%",
+			size = {
+				height = "80%",
+				width = "80%",
+			},
+		},
+		settings_window = {
+			border = {
+				style = "rounded",
+				text = {
+					top = " Settings ",
+				},
+			},
+		},
+		popup_input = {
+			submit = "<C-s>",
+		},
+		chat_window = {
+			filetype = "chatgpt",
+			border = {
+				highlight = "FloatBorder",
+				style = "rounded",
+				text = {
+					top = " ChatGPT ",
+				},
+			},
+		},
+		chat_input = {
+			prompt = "  ",
+			border = {
+				highlight = "FloatBorder",
+				style = "rounded",
+				text = {
+					top_align = "center",
+					top = " Prompt ",
+				},
+			},
+		},
+		openai_params = {
+			model = "gpt-3.5-turbo",
+			frequency_penalty = 0,
+			presence_penalty = 0,
+			max_tokens = 300,
+			temperature = 0,
+			top_p = 1,
+			n = 1,
+		},
+		openai_edit_params = {
+			model = "code-davinci-edit-001",
+			temperature = 0,
+			top_p = 1,
+			n = 1,
+		},
+		chat = {
+			keymaps = {
+				close = { "<C-c>" },
+				yank_last = "<C-y>",
+				yank_last_code = "<C-k>",
+				scroll_up = "<C-u>",
+				scroll_down = "<C-d>",
+				toggle_settings = "<C-o>",
+				new_session = "<C-n>",
+				cycle_windows = "<Tab>",
+				-- in the Sessions pane
+				select_session = "<Space>",
+				rename_session = "r",
+				delete_session = "d",
+			},
+		},
+		keymaps = {
+			close = { "<C-c>" },
+			yank_last = "<C-y>",
+			yank_last_code = "<C-k>",
+			scroll_up = "<C-u>",
+			scroll_down = "<C-d>",
+			toggle_settings = "<C-o>",
+			new_session = "<C-n>",
+			cycle_windows = "<Tab>",
+			-- in the Sessions pane
+			select_session = "<Space>",
+			rename_session = "r",
+			delete_session = "d",
+		},
+	})
+end
+
 -- package-info
 vim.api.nvim_set_keymap(
 	"n",
