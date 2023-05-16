@@ -101,7 +101,7 @@ local opts = { noremap = true, silent = true }
 local on_attach = function(client, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-	-- Mappings.
+	-- Mappings
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gf", "<cmd>Lspsaga lsp_finder<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "gd", "<cmd>Lspsaga peek_definition<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "K", "<cmd>Lspsaga hover_doc<CR>", opts)
@@ -150,6 +150,7 @@ for _, v in ipairs(mason_servers) do
 end
 
 for _, server in ipairs(lsp_servers) do
+	local file_type = vim.api.nvim_buf_get_option(0, "filetype")
 	local opt = {}
 	opt.on_attach = on_attach
 	opt.capabilities = capabilities
@@ -169,6 +170,7 @@ for _, server in ipairs(lsp_servers) do
 				_notify(method, params)
 			end
 		end
+		opt.filetypes = { "gd", "gdscript", "gdscript3" }
 	end
 
 	if server == "sumneko_lua" then
@@ -190,7 +192,7 @@ for _, server in ipairs(lsp_servers) do
 		}
 	end
 
-	if server == "ltex" then
+	if server == "ltex" and (file_type == "tex" or file_type == "md") then
 		opt.settings = {
 			ltex = {
 				enabled = { "latex", "tex", "bib", "markdown" },
@@ -199,11 +201,7 @@ for _, server in ipairs(lsp_servers) do
 				setenceCacheSize = 2000,
 				checkFrequency = "edit",
 				trace = { server = "off" },
-				dictionary = {
-					["pt-BR"] = words,
-				},
 				additionalRules = {
-					enablePickyRules = true,
 					motherTongue = "pt-BR",
 				},
 			},
@@ -213,9 +211,9 @@ for _, server in ipairs(lsp_servers) do
 			on_attach(client, bufnr)
 			require("ltex_extra").setup({
 				load_langs = { "en-US", "pt-BR" }, -- table <string> : languages for witch dictionaries will be loaded
-				init_check = true, -- boolean : whether to load dictionaries on startup
-				path = home .. "/.config/nvim/grammar", -- string : path to store dictionaries. Relative path uses current working directory
-				log_level = "error", -- string : "none", "trace", "debug", "info", "warn", "error", "fatal"
+				init_check = true,
+				path = home .. "/.config/nvim/grammar",
+				log_level = "error",
 			})
 		end
 	end
