@@ -138,7 +138,8 @@ if pcall(require, "dap") then
 	local function set_keymaps_for_react_native()
 		local isReactNativeProject = function()
 			local current_dir = vim.fn.expand("%:p:h")
-			local is_react_native_project = vim.fn.filereadable(current_dir .. "/package.json")
+			local is_react_native_project =
+				vim.fn.system("ls " .. current_dir .. "/node_modules/react-native/package.json")
 			if is_react_native_project == 1 then
 				local package_json = vim.fn.json_decode(vim.fn.readfile(current_dir .. "/package.json"))
 				if package_json.dependencies["react-native"] ~= nil then

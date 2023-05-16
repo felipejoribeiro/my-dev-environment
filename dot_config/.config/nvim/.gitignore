@@ -2,5 +2,6 @@ plugged/
 plugin/
 undodir/
 autoload/
-spell/
+spell
 local_dap/
+grammar/
