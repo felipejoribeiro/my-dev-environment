@@ -4,12 +4,20 @@
 if [ `cat ~/.wacom-mapping` -eq 0 ];
 then
     echo 1
-    xsetwacom set "Wacom Cintiq 13HD Pen stylus" MapToOutput "HEAD-2"
-    xsetwacom set "Wacom Cintiq 13HD Pen eraser" MapToOutput "HEAD-2"
+    xsetwacom set "Huion Tablet_GT1562 Stylus stylus" MapToOutput "HEAD-1"
+    xsetwacom set "Huion Tablet_GT1562 Stylus eraser" MapToOutput "HEAD-1"
+    xsetwacom set "Huion Tablet_GT1562 Pen stylus" MapToOutput "HEAD-1"
+
+    # xsetwacom set "Wacom Cintiq 13HD Pen stylus" MapToOutput "HEAD-2"
+    # xsetwacom set "Wacom Cintiq 13HD Pen eraser" MapToOutput "HEAD-2"
     echo 1 > ~/.wacom-mapping
 else
     echo 0
-    xsetwacom set "Wacom Cintiq 13HD Pen stylus" MapToOutput "desktop"
-    xsetwacom set "Wacom Cintiq 13HD Pen eraser" MapToOutput "desktop"
+    xsetwacom set "Huion Tablet_GT1562 Stylus stylus" MapToOutput "desktop"
+    xsetwacom set "Huion Tablet_GT1562 Stylus eraser" MapToOutput "desktop"
+    xsetwacom set "Huion Tablet_GT1562 Pen stylus" MapToOutput "desktop"
+
+    # xsetwacom set "Wacom Cintiq 13HD Pen stylus" MapToOutput "desktop"
+    # xsetwacom set "Wacom Cintiq 13HD Pen eraser" MapToOutput "desktop"
     echo 0 > ~/.wacom-mapping
 fi

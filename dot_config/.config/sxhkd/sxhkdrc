@@ -28,16 +28,14 @@ super + e
     rofimoji
 
 # notes easy access
-super + n
+super + N
     /home/fejori/.local/bin/notes
 
 # screen shot with flame 
-super + p
-	flameshot gui
 super + P
-	peek
+	flameshot gui
 super + ctrl + p
-	pick-colour-picker
+	peek
 
 # Initiate lollypop
 super + u
@@ -111,17 +109,15 @@ super + ctrl + {m,x,y,z}
 super + {_,shift + }{h,j,k,l}
 	bspc node -{f,s} {west,south,north,east}
 
-# focus the node for the given path jump
-super + {p,b,comma,period}
-	bspc node -f @{parent,brother,first,second}
-
 # focus the next/previous window in the current desktop
 super + {_,shift + }z
 	bspc node -f {next,prev}.local.!hidden.window
 
 # focus the next/previous desktop in the current monitor
-super + bracket{left,right}
-	bspc desktop -f {prev,next}.local
+super + n
+	bspc desktop -f next.local
+super + p
+	bspc desktop -f prev.local
 
 # focus the last node/desktop
 super + {grave,Tab}

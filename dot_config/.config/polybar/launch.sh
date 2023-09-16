@@ -28,9 +28,10 @@ if [[ $THIS_MACHINE == *"redbox"* ]]; then
 	done
 fi
 
+echo $THIS_MACHINE
 if [[ $THIS_MACHINE == *"redspace"* ]]; then
 	for m in $(xrandr --query | grep " connected" | cut -d" " -f1); do
-		if [[ $m = *HDMI-0* ]]; then
+		if [[ $m = *DP-3* ]]; then
 			MONITOR=$m polybar --reload mybar_desk &
 			echo $m polybar --reload mybar_desk &
 		else
