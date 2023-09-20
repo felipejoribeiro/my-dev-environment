@@ -1,6 +1,0 @@
-{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qasdf\\E$"}
-{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qhwa\\E$"}
-{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qasdf.\\E$"}
-{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qasdf.\\E$"}
-{"rule":"UPPERCASE_SENTENCE_START","sentence":"^\\Qasdf.\\E$"}
-{"rule":"WHITESPACE_RULE","sentence":"^\\Qvirtual team                                 co-located team\\E$"}

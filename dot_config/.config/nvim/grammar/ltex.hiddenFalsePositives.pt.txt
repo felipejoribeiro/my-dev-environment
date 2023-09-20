@@ -1,2 +1,0 @@
-{"rule":"FINAL_STOPS","sentence":"^\\QAskdf,\\E$"}
-{"rule":"PT_WORDINESS_REPLACE","sentence":"^\\QQuanto maior o número de elementos, maior a precisão do resultado.\\E$"}
