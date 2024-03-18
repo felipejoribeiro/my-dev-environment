@@ -54,6 +54,7 @@ source $ZSH/oh-my-zsh.sh
 # Credentials
 if [ -f $HOME/.credentials.sh ]; then
   source $HOME/.credentials.sh
+  source $HOME/.cred/dustdune.sh
 fi
 
 # Rapid paste in terminal
@@ -68,7 +69,7 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#2f2f2f,fg=#fff'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=none,fg=#fff'
 
 # Preferred configurations for local and remote sessions
-export TERMINAL='kitty'
+# export TERMINAL='kitty'
 export TERM='xterm-256color'
 export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
@@ -115,5 +116,9 @@ source ~/.zshrc.credentials
 
 # NVM setup in zsh
 # source /usr/share/nvm/init-nvm.sh --no-use
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+if [[ "$(uname)" != "Darwin" ]]; then
+  source /usr/share/nvm/init-nvm.sh --no-use
+fi
+nvm use default --silent

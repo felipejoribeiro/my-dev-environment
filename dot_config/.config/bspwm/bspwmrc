@@ -58,6 +58,7 @@ bspc rule -a Peek state=floating
 bspc rule -a Lxappearance state=floating
 bspc rule -a Pcmanfm state=floating
 bspc rule -a dolphin state=floating
+bspc rule -a nemo state=floating
 bspc rule -a Nvidia-settings state=floating
 bspc rule -a Zathura state=tiled
 bspc rule -a Pavucontrol state=tiled
