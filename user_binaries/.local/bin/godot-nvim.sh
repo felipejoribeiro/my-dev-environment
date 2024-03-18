@@ -9,13 +9,13 @@
 is_nvim_godot_running=$(pgrep -x 'nvim-godot')
 
 if [ -n "$is_nvim_godot_running" ]; then
-  nvim-godot --server ~/.cache/nvim/godot.pipe --remote-send ':e '$file'<CR>'
+  nvim --server /tmp/nvim.pipe --remote-send ':e '$file'<CR>'
 else
   if [ -z "$line" ]; then
-    alacritty -e zsh -c "source /home/fejori/.zshrc && nvim-godot --listen ~/.cache/nvim/godot.pipe $file"
+    alacritty -e zsh -c "source /home/fejori/.zshrc && nvim-godot --listen /tmp/nvim.pipe $file"
   elif [ -z "$col" ]; then
-    alacritty -e zsh -c "source /home/fejori/.zshrc && nvim-godot +'call cursor($line,1)' --listen ~/.cache/nvim/godot.pipe $file"
+    alacritty -e zsh -c "source /home/fejori/.zshrc && nvim-godot +'call cursor($line,1)' --listen /tmp/nvim.pipe $file"
   else
-    alacritty -e zsh -c "source /home/fejori/.zshrc && nvim-godot +'call cursor($line,$col)' --listen ~/.cache/nvim/godot.pipe $file"
+    alacritty -e zsh -c "source /home/fejori/.zshrc && nvim-godot +'call cursor($line,$col)' --listen /tmp/nvim.pipe $file"
   fi
 fi

@@ -36,6 +36,7 @@ source $ZSH/oh-my-zsh.sh
 # Credentials
 if [ -f $HOME/.credentials.sh ]; then
   source $HOME/.credentials.sh
+  source $HOME/.cred/dustdune.sh
 fi
 
 # Rapid paste in terminal
@@ -81,6 +82,7 @@ complete -o nospace -C /usr/bin/vault vault
 
 # NVM setup in zsh
 source /usr/share/nvm/init-nvm.sh --no-use
+nvm use default --silent
 # if [ -s "$HOME/.nvm/nvm.sh" ]; then
 #   export NVM_DIR="$HOME/.nvm"
 #   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
