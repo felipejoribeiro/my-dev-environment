@@ -22,3 +22,5 @@
 	required = true
 [protocol "file"]
 	allow = always
+[remote "origin"]
+	receivepack = git receive-pack
