@@ -1,4 +1,8 @@
 # Path
+if [[ "$(uname)" == "Darwin" ]]; then
+  export PATH=/opt/homebrew/:$PATH
+  export PATH=$HOME/.pyenv/shims:$PATH
+fi
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH
@@ -18,6 +22,19 @@ ENABLE_CORRECTION="false"
 # History style
 HIST_STAMPS="mm/dd/yyyy"
 
+if [[ "$(uname)" == "Darwin" ]]; then
+  # Assuring locale
+  export LC_ALL=en_US.UTF-8
+  export LANG=en_US.UTF-8
+
+  # nvm
+  export NVM_LAZY_LOAD=true
+  export NVM_DIR="$HOME/.nvm"
+
+  # ruby
+  eval "$(rbenv init - zsh)"
+fi
+
 # Plugins
 plugins=(
 		npm
@@ -28,6 +45,7 @@ plugins=(
 		zsh-syntax-highlighting
 		web-search
 		zsh-history-substring-search
+    zsh-nvm
 	)
 
 # Some sources
@@ -56,11 +74,14 @@ export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 
 # android studio path
-export ANDROID_SDK_ROOT=$HOME/.Android/Sdk
-export ANDROID_HOME=$HOME/.Android/Sdk
-# export ANDROID_SDK_ROOT=$HOME/library/Android/sdk
-# export ANDROID_HOME=$HOME/library/Android/sdk
-# export ANDROID_HOME=/opt/android-sdk
+if [[ "$(uname)" == "Darwin" ]]; then
+  export ANDROID_SDK_ROOT=$HOME/library/Android/sdk
+  export ANDROID_HOME=$HOME/library/Android/sdk
+else
+  export ANDROID_SDK_ROOT=$HOME/.Android/Sdk
+  export ANDROID_HOME=$HOME/.Android/Sdk
+  export ANDROID_HOME=/opt/android-sdk
+fi
 
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
@@ -70,26 +91,29 @@ export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
 # aliases
 alias pi36='source ~/.virtualenvs/3_6_flask_app/bin/activate'
-alias gojo='TERM=xterm-256color ssh root@felipejoribeiro.com'
 alias ran='ranger --choosedir="$HOME/.rangerdir"; cd $( cat $HOME/.rangerdir );clear'
-alias ls='exa'
 alias vim='nvim'
 alias SET='export'
+alias ls='eza'
+alias newsed='export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"'
+
+# gnu utils for macos
+function gnutils {
+  for bindir in $(find /opt/homebrew/opt -type d -follow -name gnubin -print); do
+    export PATH=$bindir:$PATH
+    echo "Added $bindir to PATH"
+  done;
+}
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/vault vault
 
+export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
+
+# aditional credentials
+source ~/.zshrc.credentials
+
 # NVM setup in zsh
-source /usr/share/nvm/init-nvm.sh --no-use
-# if [ -s "$HOME/.nvm/nvm.sh" ]; then
-#   export NVM_DIR="$HOME/.nvm"
-#   [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
-#   declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
-#   function __init_nvm() {
-#     for i in "${__node_commands[@]}"; do unalias $i; done
-#     . "$NVM_DIR"/nvm.sh
-#     unset __node_commands
-#     unset -f __init_nvm
-#   }
-#   for i in "${__node_commands[@]}"; do alias $i='__init_nvm && '$i; done
-# fi
+# source /usr/share/nvm/init-nvm.sh --no-use
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
