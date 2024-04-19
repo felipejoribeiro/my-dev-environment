@@ -113,9 +113,6 @@ function gnutils {
   done;
 }
 
-uatoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/vault vault
-
 export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
 
 # aditional credentials
