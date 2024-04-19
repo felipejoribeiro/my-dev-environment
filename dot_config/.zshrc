@@ -74,6 +74,12 @@ export TERM='xterm-256color'
 export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 
+# SSH
+if [[ "$(uname)" != "Darwin" ]]; then
+  export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+  export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/gcr/ssh
+fi
+
 # android studio path
 if [[ "$(uname)" == "Darwin" ]]; then
   export ANDROID_SDK_ROOT=$HOME/library/Android/sdk
@@ -107,13 +113,15 @@ function gnutils {
   done;
 }
 
-autoload -U +X bashcompinit && bashcompinit
+uatoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/vault vault
 
 export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
 
 # aditional credentials
-source ~/.zshrc.credentials
+if [ -f ~/.zshrc.credentials ]; then
+  source ~/.zshrc.credentials
+fi
 
 # NVM setup in zsh
 # source /usr/share/nvm/init-nvm.sh --no-use
