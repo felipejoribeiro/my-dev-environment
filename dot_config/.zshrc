@@ -97,6 +97,7 @@ alias vim='nvim'
 alias SET='export'
 alias ls='eza'
 alias newsed='export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"'
+alias inkscape='sudo -u $USER inkscape'
 
 # gnu utils for macos
 function gnutils {
