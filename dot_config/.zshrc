@@ -87,7 +87,6 @@ if [[ "$(uname)" == "Darwin" ]]; then
 else
   export ANDROID_SDK_ROOT=$HOME/.Android/Sdk
   export ANDROID_HOME=$HOME/.Android/Sdk
-  export ANDROID_HOME=/opt/android-sdk
 fi
 
 export PATH=$PATH:$ANDROID_HOME/emulator
@@ -112,8 +111,8 @@ function gnutils {
   done;
 }
 
-uatoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/bin/vault vault
+#uatoload -U +X bashcompinit && bashcompinit
+# complete -o nospace -C /usr/bin/vault vault
 
 export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
 
@@ -129,4 +128,4 @@ fi
 if [[ "$(uname)" != "Darwin" ]]; then
   source /usr/share/nvm/init-nvm.sh --no-use
 fi
-nvm use default --silent
+nvm use default --silent -no-use
