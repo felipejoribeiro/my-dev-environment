@@ -102,6 +102,7 @@ alias vim='nvim'
 alias SET='export'
 alias ls='eza'
 alias newsed='export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"'
+alias inkscape='sudo -u $USER inkscape'
 
 # gnu utils for macos
 function gnutils {
@@ -110,9 +111,6 @@ function gnutils {
     echo "Added $bindir to PATH"
   done;
 }
-
-#uatoload -U +X bashcompinit && bashcompinit
-# complete -o nospace -C /usr/bin/vault vault
 
 export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
 
