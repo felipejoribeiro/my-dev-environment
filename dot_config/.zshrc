@@ -69,8 +69,6 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#2f2f2f,fg=#fff'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=none,fg=#fff'
 
 # Preferred configurations for local and remote sessions
-# export TERMINAL='kitty'
-export TERM='xterm-256color'
 export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 
@@ -101,8 +99,15 @@ alias ran='ranger --choosedir="$HOME/.rangerdir"; cd $( cat $HOME/.rangerdir );c
 alias vim='nvim'
 alias SET='export'
 alias ls='eza'
+alias l='eza -l --icons --git -a'
+alias lt='eza --tree --level=2 --long --icons --git'
 alias newsed='export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"'
 alias inkscape='sudo -u $USER inkscape'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias ......='cd ../../../../..'
 
 # gnu utils for macos
 function gnutils {

@@ -4,7 +4,8 @@
 
 # terminal emulator
 alt + Return
-  alacritty
+  wezterm
+  # alacritty
 	# kitty
 
 # Wacom toogle screen
@@ -64,6 +65,10 @@ super + ctrl + Escape
 # Turn of the system
 super + shift + Return
 	shutdown now
+
+# Suspend the system
+super + shift + s
+	systemctl suspend
 
 #
 # bspwm hotkeys
