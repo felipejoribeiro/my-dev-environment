@@ -14,7 +14,7 @@ export PATH=$HOME/.dotnet/tools:$PATH
 export ZSH="$HOME/.oh-my-zsh"
 
 # Your theme
-ZSH_THEME="gozilla"
+ZSH_THEME="af-magic"
 
 # Uncomment the following line to enable command auto-correction.
 ENABLE_CORRECTION="false"
@@ -69,6 +69,8 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#2f2f2f,fg=#fff'
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND='bg=none,fg=#fff'
 
 # Preferred configurations for local and remote sessions
+# export TERMINAL='kitty'
+# export TERM='xterm-256color'
 export EDITOR='nvim'
 export SUDO_EDITOR='nvim'
 
@@ -103,6 +105,8 @@ alias l='eza -l --icons --git -a'
 alias lt='eza --tree --level=2 --long --icons --git'
 alias newsed='export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"'
 alias inkscape='sudo -u $USER inkscape'
+alias dust='ssh feliperibeiro.ufu@34.29.124.243'
+alias gosisser='ssh ubuntu@iot.snackin.co'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
@@ -124,11 +128,20 @@ if [ -f ~/.zshrc.credentials ]; then
   source ~/.zshrc.credentials
 fi
 
+export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
+
+# aditional credentials
+source ~/.zshrc.credentials
+
 # NVM setup in zsh
 # source /usr/share/nvm/init-nvm.sh --no-use
 # export NVM_DIR="$HOME/.nvm"
 # [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
 if [[ "$(uname)" != "Darwin" ]]; then
   source /usr/share/nvm/init-nvm.sh --no-use
 fi
-nvm use default --silent -no-use
+
+# make node command silently
+node --version >> /dev/null
+# nvm use default --silent -no-use
