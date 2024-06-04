@@ -113,6 +113,13 @@ alias ....='cd ../../..'
 alias .....='cd ../../../..'
 alias ......='cd ../../../../..'
 
+if [[ "$(uname)" != "Darwin" ]]; then
+  # pyenv
+  export PYENV_ROOT="$HOME/.pyenv"
+  [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
+
 # gnu utils for macos
 function gnutils {
   for bindir in $(find /opt/homebrew/opt -type d -follow -name gnubin -print); do
