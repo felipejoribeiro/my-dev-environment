@@ -80,19 +80,43 @@ if [[ "$(uname)" != "Darwin" ]]; then
   export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/gcr/ssh
 fi
 
+# Flutter config
+export CHROME_EXECUTABLE=/usr/bin/brave
+
+# I want to use $@ for all arguments but they don't contain space for me
+function flutter-watch(){
+  tmux send-keys "flutter run $1 $2 $3 $4 --pid-file=/tmp/tf1.pid" Enter \;\
+  split-window -h \;\
+  send-keys 'npx -y nodemon -e dart -x "cat /tmp/tf1.pid | xargs kill -s USR1"' Enter \;\
+  resize-pane -y 10 \;\
+  select-pane -t 0 \;
+}
+
+function flutter-start(){
+  tmux send-keys "flutter run $1 $2 $3 $4 --pid-file=/tmp/tf1.pid" Enter \;\
+}
+
 # android studio path
 if [[ "$(uname)" == "Darwin" ]]; then
-  export ANDROID_SDK_ROOT=$HOME/library/Android/sdk
   export ANDROID_HOME=$HOME/library/Android/sdk
+  export ANDROID_SDK_ROOT=$HOME/library/Android/sdk
 else
-  export ANDROID_SDK_ROOT=$HOME/.Android/Sdk
-  export ANDROID_HOME=$HOME/.Android/Sdk
+  export ANDROID_HOME=/opt/android-sdk
+  export ANDROID_SDK_ROOT=/opt/android-sdk
+
+  # Emulator hotfix for linux
+  export ANDROID_EMULATOR_PATH=$(which emulator)
+  function emulator {
+    cd $(dirname $ANDROID_EMULATOR_PATH);
+    ./emulator "$@";
+    cd - > /dev/null;
+  }
 fi
 
+export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 
 # aliases
@@ -106,7 +130,6 @@ alias lt='eza --tree --level=2 --long --icons --git'
 alias newsed='export PATH="/opt/homebrew/opt/gnu-sed/libexec/gnubin:$PATH"'
 alias inkscape='sudo -u $USER inkscape'
 alias dust='ssh feliperibeiro.ufu@34.29.124.243'
-alias gosisser='ssh ubuntu@iot.snackin.co'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias ....='cd ../../..'
