@@ -39,5 +39,8 @@ udiskie &
 # Enable wacoom shortcuts
 wacom_buttons &
 
+# initiate nm-applet
+nm-applet &
+
 # Window manager
-exec dbus-launch bspwm
+exec bspwm
