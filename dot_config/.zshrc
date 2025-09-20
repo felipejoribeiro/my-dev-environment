@@ -3,6 +3,9 @@ if [[ "$(uname)" == "Darwin" ]]; then
   export PATH=/opt/homebrew/:$PATH
   export PATH=$HOME/.pyenv/shims:$PATH
   export PATH="$PATH:/Users/fejori/fvm/default/bin"
+else
+  export GOPATH=$HOME/.go
+  export PATH=$PATH:$GOPATH/bin
 fi
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
@@ -10,6 +13,7 @@ export PATH=$HOME/.local/share/gem/ruby/3.0.0/bin:$PATH
 export PATH=$HOME/Library/Python/3.8/bin:$PATH
 export PATH=/usr/local/include/X11:$PATH
 export PATH=$HOME/.dotnet/tools:$PATH
+export PATH="$PATH":"$HOME/.pub-cache/bin"
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -52,15 +56,16 @@ plugins=(
 	)
 
 # Some sources
+export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 source $ZSH/oh-my-zsh.sh
 
 # Credentials
 if [ -f $HOME/.credentials.sh ]; then
   source $HOME/.credentials.sh
-fi
-
-if [ -f $HOME/.cred/dustdune.sh ]; then
-  source $HOME/.cred/dustdune.sh
+  # source all files in .cred folder
+  for file in $HOME/.cred/*.sh; do
+    source $file
+  done
 fi
 
 # Rapid paste in terminal
@@ -94,6 +99,11 @@ else
 fi
 
 function flutter-watch(){
+  if [ -z "$TMUX" ]; then
+    echo "You need to be in a tmux session to use this command"
+    return
+  fi
+
   tmux send-keys "flutter run $1 $2 $3 $4 --pid-file=/tmp/tf1.pid" Enter \;\
   split-window -v \;\
   send-keys 'npx -y nodemon -e dart -x "cat /tmp/tf1.pid | xargs kill -s USR1"' Enter \;
@@ -118,9 +128,9 @@ else
   export ANDROID_SDK_ROOT=/opt/android-sdk
 
   # Emulator hotfix for linux
-  export ANDROID_EMULATOR_PATH=$(which emulator)
+  export ANDROID_EMULATOR_PATH=$ANDROID_HOME/emulator
   function emulator {
-    cd $(dirname $ANDROID_EMULATOR_PATH);
+    cd /opt/android-sdk/emulator;
     ./emulator "$@";
     cd - > /dev/null;
   }
@@ -164,14 +174,14 @@ function gnutils {
   done;
 }
 
-export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
-
 # aditional credentials
 if [ -f ~/.zshrc.credentials ]; then
   source ~/.zshrc.credentials
 fi
 
-export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
+if [[ "$(uname)" == "Darwin" ]]; then
+  export DBUS_SESSION_BUS_ADDRESS='unix:path='$DBUS_LAUNCHD_SESSION_BUS_SOCKET
+fi
 
 # aditional credentials
 source ~/.zshrc.credentials
