@@ -2,6 +2,7 @@
 if [[ "$(uname)" == "Darwin" ]]; then
   export PATH=/opt/homebrew/:$PATH
   export PATH=$HOME/.pyenv/shims:$PATH
+  export PATH="$PATH:/Users/fejori/fvm/default/bin"
 fi
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
@@ -27,6 +28,8 @@ if [[ "$(uname)" == "Darwin" ]]; then
   export LC_ALL=en_US.UTF-8
   export LANG=en_US.UTF-8
 
+  export PROJ_DIR=/opt/homebrew/opt/proj
+  export GEOS_LIBRARY_PATH=/opt/homebrew/opt/geos/lib/libgeos_c.dylib
   # nvm
   export NVM_LAZY_LOAD=true
   export NVM_DIR="$HOME/.nvm"
@@ -54,6 +57,9 @@ source $ZSH/oh-my-zsh.sh
 # Credentials
 if [ -f $HOME/.credentials.sh ]; then
   source $HOME/.credentials.sh
+fi
+
+if [ -f $HOME/.cred/dustdune.sh ]; then
   source $HOME/.cred/dustdune.sh
 fi
 
@@ -81,20 +87,27 @@ if [[ "$(uname)" != "Darwin" ]]; then
 fi
 
 # Flutter config
-export CHROME_EXECUTABLE=/usr/bin/brave
+if [[ "$(uname)" != "Darwin" ]]; then
+  export CHROME_EXECUTABLE=/usr/bin/brave
+else
+  export CHROME_EXECUTABLE=/Users/fejori/.local/bin/brave
+fi
 
-# I want to use $@ for all arguments but they don't contain space for me
 function flutter-watch(){
   tmux send-keys "flutter run $1 $2 $3 $4 --pid-file=/tmp/tf1.pid" Enter \;\
-  split-window -h \;\
-  send-keys 'npx -y nodemon -e dart -x "cat /tmp/tf1.pid | xargs kill -s USR1"' Enter \;\
-  resize-pane -y 10 \;\
-  select-pane -t 0 \;
+  split-window -v \;\
+  send-keys 'npx -y nodemon -e dart -x "cat /tmp/tf1.pid | xargs kill -s USR1"' Enter \;
 }
 
 function flutter-start(){
   tmux send-keys "flutter run $1 $2 $3 $4 --pid-file=/tmp/tf1.pid" Enter \;\
 }
+
+# java version for mac
+if [[ "$(uname)" == "Darwin" ]]; then
+  alias java-17="export JAVA_HOME=`/usr/libexec/java_home -v 17`; java -version"
+  alias java-11="export JAVA_HOME=`/usr/libexec/java_home -v 11`; java -version"
+fi
 
 # android studio path
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -173,5 +186,13 @@ if [[ "$(uname)" != "Darwin" ]]; then
 fi
 
 # make node command silently
-node --version >> /dev/null
-# nvm use default --silent -no-use
+# node --version >> /dev/null
+nvm use default --silent -no-use
+
+
+if [[ "$(uname)" == "Darwin" ]]; then
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/fejori/.dart-cli-completion/zsh-config.zsh ]] && . /Users/fejori/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+fi
